@@ -14,6 +14,19 @@ from django.conf import settings
 def landing(request): 
     return render(request,"pages/index.html")
 
+def competitionLanding(request): 
+    context = {} 
+    CompetionList = models.Competition.objects.all()
+    
+    context['CompetionList'] =  CompetionList 
+    context['score'] = CompetionList.count()
+
+
+    return render(request,"pages/application/competition/competitionLandingPage.html",context)
+
+def competitionDetails(request): 
+
+    return render(request,"pages/application/competition/competitionDetailPage.html")
 
 def dashboardHome(request) : 
     return render(request ,'pages/application/home.html')
@@ -75,11 +88,13 @@ def createCompetition(request):
         
         print(competititionInfo)
        
-        competitionName = ''.join(re.split("[ ]+", competititionInfo[0]))
+        competitionName = ''.join(re.split("[ ]+", competititionInfo[0])) + datetime.now().strftime('%H:%M:%S.%f')[:-7].replace(':','_')
 
         
-        savePath = os.path.join(settings.MEDIA_ROOT ,competitionName)
-        os.mkdir(savePath)
+        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
+        
+        savePath = os.path.join(savePath,competitionName)
+    
                 
         # save filename to db with path 
         competititionUploadFile = request.FILES['image']
@@ -88,8 +103,11 @@ def createCompetition(request):
         filename = fs.save(new_name , competititionUploadFile)
    
         imageFinalPath = os.path.join(savePath,new_name)
-                
         
+        
+        imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
+        imageFinalPath = f'/'.join(imageFinalPathSplit) 
+                
         competitition = models.Competition ( 
                         image               = imageFinalPath,
                         competitionName     = competititionInfo[0],
@@ -120,17 +138,25 @@ def competitionListing(request):
     
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
-    
+
+
     return render(request,'pages/application/competition/competitionlisting.html', context)
 
 
 def competitionDashboard(request):
+    candidate = []
+    if 'create_candidate' in request.POST : 
+        for element in request.POST :
+            candidate.append(request.POST[element])
+        print("*"*20) 
+        print(candidate)
     
-    return render(request,'pages/application/competition/competitionDashbord.html') 
-
-
-
-
+    all_candidate   = models.Candidates.objects.all() 
+    count           = all_candidate.count()
+    
+    context = {'all_candidate' : all_candidate, "count":count }
+        
+    return render(request,'pages/application/competition/competitionDashbord.html',context) 
 
 
 

@@ -53,9 +53,10 @@
                   </h2>
                 </div>
                 <!-- Product image -->
-                <figure class="figure">
-                  <img alt="Image placeholder" src=" {% static 'assets/img/theme/light/product-1.png' %}" class="img-center img-fluid">
-                </figure>
+                {% comment %} <figure class="figure">
+                  {{competition.image}}
+                  <img alt="Image placeholder" src="{% static '{{competition.image}}' %}" class="img-center img-fluid">
+                </figure> {% endcomment %}
                 <div class="card-body">
                   <!-- Price -->
                   <div class="d-flex align-items-center mt-4">
