@@ -52,11 +52,7 @@
                     <a href="#">{{competition.competitionName}}</a>
                   </h2>
                 </div>
-                <!-- Product image -->
-                {% comment %} <figure class="figure">
-                  {{competition.image}}
-                  <img alt="Image placeholder" src="{% static '{{competition.image}}' %}" class="img-center img-fluid">
-                </figure> {% endcomment %}
+               
                 <div class="card-body">
                   <!-- Price -->
                   <div class="d-flex align-items-center mt-4">
@@ -85,131 +81,22 @@
                 </div> {% endcomment %}
                 <div class="card-footer">
                   <div class="actions d-flex justify-content-between">
-                    <a href="#" class="action-item" data-toggle="modal" data-target="#modal-change-username">
-                      <i class="far fa-pen"></i>
-                    </a>
                     <a href="/apps/competitions/dashboard" class="action-item">
                       <i class="far fa-chart-pie"></i>
                     </a>
+                
   
                     <a href="#" class="action-item text-danger" data-toggle="modal" data-target="#modal-delete-account">
                       <i class="far fa-trash-alt"></i>
                     </a>
                     
-<!-- Modal -->
-<div class="modal fade" id="modal-change-username" tabindex="-1" role="dialog" aria-labelledby="modal-change-username" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <form method='POST' action=''>
-        {% csrf_token %} 
-          <div class="modal-content">
-              <div class="modal-header">
-                  <div class="modal-title d-flex align-items-center" id="modal-title-change-username">
-                      <div>
-                          <div class="icon icon-sm icon-shape icon-info rounded-circle shadow mr-3">
-                              <i class="far fa-user"></i>
-                          </div>
-                      </div>
-                      <div>
-                          <h6 class="mb-0">Change Competion Informations</h6>
-                      </div>
-                  </div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                 
-                  <div class="form-group">
-                    <label class="form-control-label">
-                      Competition name
-                    </label>
-                    <input type="text" required  name='competitionName' value='{{competition.competitionName}}'  placeholder='beauty competition' class="form-control">
-                  </div>
 
-                   <!-- Project description -->
-                   <div class="form-group">
-                    <label class="form-control-label mb-0">
-                      Competition  description
-                    </label>
-                    <small class="form-text text-muted mb-2 mt-0">
-                      This textarea will autosize while you type
-                    </small>
-                    <textarea required name = 'description' value='{{competition.description}}'  class="form-control" data-toggle="autosize" rows="2"></textarea>
                   </div>
-                  
-                  <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                          <label class="form-control-label">
-                            Start date
-                          </label>
-                          <input type="date" value='{{competition.dateToStart}}' class="form-control" name='startDate' required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                          <label class="form-control-label">
-                            End date
-                          </label>
-                          <input type="date" class="form-control"  value='{{competition.dateToEnd}}' name='endDate' required>
-                        </div>
-                    </div>
                 </div>
-                       <!-- Project members -->
-                       <div class="form-group">
-                        <label class="form-control-label">
-                         Competions Categories
-                        </label>
-                        <input type="text" required   value='{{competition.category}}' name='category' placeholder='University' class="form-control">
-                      </div>
-       <!-- Project privacy -->
-       <div class="form-group">
-        <label class="form-control-label">
-          Competition privacy
-        </label>
-        <div class="row">
-          <div class="col-4">
-            <div class="custom-control custom-checkbox">
-              <input type="radio" required class="custom-control-input"  value="Private" name="project-privacy" id="radio-project-1">
-              <label class="custom-control-label form-control-label text-muted" for="radio-project-1">Private</label>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="custom-control custom-checkbox">
-              <input type="radio" required class="custom-control-input" value="Team" name="project-privacy" id="radio-project-2">
-              <label class="custom-control-label form-control-label text-muted" for="radio-project-2">Team</label>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="custom-control custom-checkbox">
-              <input type="radio" required value='' class="custom-control-input" name="project-privacy" value="Public" id="radio-project-3" checked>
-              <label class="custom-control-label form-control-label text-muted" for="radio-project-3">Public</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <label class="form-control-label">
-          Competition Logo
-        </label>
-        <input type="file" required name="image" id="file-2" class="custom-input-file custom-input-file--2" data-multiple-caption="{count} files selected"  />
-       <label for="file-2">
-           <i class="fa fa-upload"></i>
-           <span>Choose a file…</span>
-       </label>
-   </div>
-
               </div>
-              <div class="modal-footer">
-                  <button type="button" value='{{competition.competitionId}}' name='update' class="btn btn-sm btn-secondary" data-dismiss="modal">Change my username</button>
-              </div>
-          </div>
-      </form>
-  </div>
-</div>
-
-
+            </div>
+            {% endfor %}
+  
   <!-- Modal -->
   <div class="modal modal-danger fade" id="modal-delete-account" tabindex="-1" role="dialog" aria-labelledby="modal-delete-account" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -221,11 +108,11 @@
                     <div class="text-center">
                         <i class="far fa-exclamation-circle fa-3x opacity-8"></i>
                         <h5 class="text-white mt-4">Should we stop now?</h5>
-                        <p class="text-sm text-sm">Are you sure you want to delete "{{competition.competitionName}}"?</p>
+                        <p class="text-sm text-sm">Are you sure you want to delete ?</p>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label text-white">Enter "{{competition.competitionName}}"</label>
-                        <input id="competitionNameInput" class="form-control" type="text">
+                        <label class="form-control-label text-white">Enter The Competion Name"</label>
+                        <input id="competitionNameInput" required class="form-control" type="text">
                     </div>
                     <div class="mt-4">
                         <button type="submit" name='delete' value='{{competition.competitionId}}' class="btn btn-block btn-sm btn-white text-danger">Delete my account</button>
@@ -236,12 +123,6 @@
         </form>
     </div>
   </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-  
           </div>
         </div>
       {% endblock %}

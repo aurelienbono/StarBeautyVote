@@ -158,7 +158,6 @@
             </section>
           </div>
 
-     <!-- Features 10 -->
      <div id="features-features-10" title="features/features-10.html">
         <section class="slice slice-lg">
           <div class="container">
@@ -241,8 +240,7 @@
       </div>
 
 
-      <!-- Features 25 -->
-      <div id="features-features-25" title="features/features-25.html">
+
         <section class="slice slice-lg">
           <div class="container no-padding">
             <div class="mb-5 text-center">
@@ -251,26 +249,31 @@
                 <p class="lead lh-180">Start building fast, beautiful and modern looking websites in no time using our theme.</p>
               </div>
             </div>
-            <div class="card-deck">
-                {%for competition in CompetionList%}
-              <div class="card hover-shadow-lg">
-                <div class="card-body">
-                  <div class="delimiter-bottom pb-3 mb-4">
-                    <img alt="Image placeholder" src="{% static 'assets/img/products/product-1.png ' %}" class="svg-inject" style="height: 60px; width: auto">
-                    <h5 class="mt-4">{{competition.competitionName}}</h5>
+            <div class="row">
+              {%for competition in CompetionList%} 
+              <div class="col-md-4">
+                <div class="card hover-shadow-lg">
+                  <div class="card-body">
+                    <div class="delimiter-bottom pb-3 mb-4">
+                      <img alt="Image placeholder" src="{% static competition.image %}" class="svg-inject" style="height: 60px; width: auto">
+                      <h5 class="mt-4">{{competition.competitionName}}</h5>
+                    </div>
+                    <p class="">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                   </div>
-                  <p class="">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-                <div class="card-footer px-0 py-0 border-0 overflow-hidden">
-                  <a href="#" class="btn btn-block btn-primary rounded-0">Learn more</a>
+                  <div class="card-footer px-0 py-0 border-0 overflow-hidden">
+                    <a href="/competitionDetails/{{competition.competitionId}}" class="btn btn-block btn-primary rounded-0">Learn more</a>
+                  </div>
                 </div>
               </div>
-              {% endfor %}
+          {% endfor %} 
+
             </div>
           </div>
         </section>
-      </div>
-  
+    
+
+
+
       <br>  <br> 
     <section class="slice slice-xl bg-cover bg-size--cover" style="background-image: url({% static 'assets/img/backgrounds/img-17.jpg' %} ); background-position: center center;">
         <span class="mask bg-dark opacity-2"></span>

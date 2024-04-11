@@ -21,12 +21,16 @@ def competitionLanding(request):
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
 
-
     return render(request,"pages/application/competition/competitionLandingPage.html",context)
 
-def competitionDetails(request): 
+def competitionDetails(request,pk): 
+    
+    competitionDetails = models.Competition.objects.filter(competitionId = pk)   
+    context = {} 
+    context['competitionDetails'] =  competitionDetails 
+    context['score'] = competitionDetails.count()
 
-    return render(request,"pages/application/competition/competitionDetailPage.html")
+    return render(request,"pages/application/competition/competitionDetailPage.html",context)
 
 def dashboardHome(request) : 
     return render(request ,'pages/application/home.html')
@@ -57,6 +61,7 @@ def register(request) :
     return render(request ,'pages/application/authentication/register.html')
 
 
+
 def login(request) : 
     if request.method=="POST" : 
         email = request.POST['email']
@@ -72,6 +77,9 @@ def login(request) :
             return redirect('/auths/login')
             
     return render(request ,'pages/application/authentication/login.html')
+
+
+
 
 def modify_filename(filename,image_name):
 	# Change the filename from a.jpg to ab.jpg
@@ -92,7 +100,6 @@ def createCompetition(request):
 
         
         savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
-        
         savePath = os.path.join(savePath,competitionName)
     
                 

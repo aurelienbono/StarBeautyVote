@@ -135,14 +135,15 @@
       </div>
     </div>
   </nav>
+ 
 
-
+  {% for competition  in competitionDetails  %} 
   <div class="main-content">
     <section class="py-2 delimiter-bottom">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6">
-            <h6 class="mb-0">Macbook Pro Touch Bar</h6>
+            <h6 class="mb-0">{{competition.competitionName}}</h6>
           </div>
           <div class="col-md-6">
             <nav class="nav justify-content-md-end mb-0">
@@ -160,34 +161,40 @@
           <div class="col-lg-6">
             <div data-toggle="sticky" data-sticky-offset="30">
               <a href="" data-fancybox>
-                <img alt="Image placeholder" src="{% static 'assets/img/theme/light/shop-product-lg-2.jpg' %}" class="img-fluid">
+                <img alt="Image placeholder" src="{% static competition.image %}" class="img-fluid">
               </a>
               <div class="mt-4 text-center">
-                <a href="{% static 'assets/img/theme/light/shop-product-lg-2.jpg' %}" data-fancybox>View gallery</a>
+                <a href="{% static competition.image %}" data-fancybox>View gallery</a>
               </div>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="pl-lg-5">
               <!-- Product title -->
-              <h5 class="h4">Macbook Pro Touch Bar</h5>
-              <h6 class="text-sm">Processor 256GB Storage</h6>
+              <h5 class="h4">{{competition.competitionName}}</h5>
+              <h5 class="text-sm">   <span class="badge badge-pill badge-soft-primary">Category: {{competition.category}}</span></h5>
               <!-- Rating -->
+              <br>
               <div class="row align-items-center">
                 <div class="col-6">
-                  <span class="static-rating static-rating-sm d-block"><i class="star fas fa-star voted"></i>
-                    <i class="star fas fa-star voted"></i>
-                    <i class="star fas fa-star voted"></i>
-                    <i class="star fas fa-star voted"></i>
-                    <i class="star fas fa-star"></i></span>
+                  <li class="list-inline-item">
+                    <span class="badge badge-pill badge-soft-success">started: {{competition.dateToStart}}</span>
+                  </li>
                 </div>
                 <div class="col-6 text-right">
                   <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                      <span class="badge badge-pill badge-soft-info">ID: #548970</span>
+                      <span class="badge badge-pill badge-soft-info">End: {{competition.dateToEnd}}</span>
                     </li>
                     <li class="list-inline-item">
-                      <span class="badge badge-pill badge-soft-success">In stock</span>
+                      {% if competition.CompetitionPrivacy == "Private" %}
+                      <span class="badge badge-pill badge-soft-success">{{competition.CompetitionPrivacy}}</span>
+
+                         {% elif competition.CompetitionPrivacy == "Team" %}
+                    <span class="badge badge-pill badge-soft-primary">{{competition.CompetitionPrivacy}}</span>      
+                      {% else %}
+                      <span class="badge badge-pill badge-soft-danger">{{competition.CompetitionPrivacy}}</span>   
+                       {% endif %}
                     </li>
                   </ul>
                 </div>
@@ -196,276 +203,102 @@
               <div class="py-4 my-4 border-top border-bottom">
                 <h6 class="text-sm">Description:</h6>
                 <p class="text-sm mb-0">
-                  Wherever your ideas take you, you’ll get there faster than ever with high‑performance processors and memory, advanced graphics, blazing‑fast storage, and more.
+                  {{competition.description}}
                 </p>
               </div>
-              <dl class="row">
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Display</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">13.3-inch LED-backlit display with IPS</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Processor</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">2.3GHz dual-core Intel Core i5, Turbo Boost up to 3.6GHz</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Camera</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">720p FaceTime HD camera</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Memory</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">8 GB RAM or 16 GB RAM</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Graphics</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">Intel Iris Plus Graphics 640</span></dd>
-              </dl>
-              <!-- Size -->
-              <div class=" py-4 my-4 border-top border-bottom">
-                <!-- Processor -->
-                <h6>Processor</h6>
-                <a href="#" class="text-sm">Which processor is right for you?</a>
-                <div class="btn-group-toggle btn-group-options row mx-0 mt-3 mb-5" data-toggle="buttons">
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm active">
-                    <input type="radio" name="radio-processor" value="1" checked="">
-                    2.6GHz 6‑core 8th‑generation Intel Core i7 processor, Turbo Boost up to 4.3GHz
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm">
-                    <input type="radio" name="radio-processor" value="2">
-                    2.9GHz 6‑core 8th‑generation Intel Core i9 processor, Turbo Boost up to 4.8GHz
-                  </label>
-                </div>
-                <!-- Memory -->
-                <h6 class="mt-5">Memory</h6>
-                <a href="#" class="text-sm">How much memory is right for you?</a>
-                <div class="btn-group-toggle btn-group-options row mx-0 mt-3 mb-5" data-toggle="buttons">
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm">
-                    <input type="radio" name="radio-memory" value="1" checked="">
-                    16GB 2400MHz DDR4 memory
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm active">
-                    <input type="radio" name="radio-memory" value="2">
-                    32GB 2400MHz DDR4 memory
-                  </label>
-                </div>
-                <!-- Storage -->
-                <h6 class="mt-5">Storage</h6>
-                <a href="#" class="text-sm">How much storage is right for you?</a>
-                <div class="btn-group-toggle btn-group-options row mx-0 mt-3 mb-5" data-toggle="buttons">
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm active">
-                    <input type="radio" name="radio-storage" value="1" checked="">
-                    512GB SSD storage
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm">
-                    <input type="radio" name="radio-storage" value="2">
-                    1TB SSD storage
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm">
-                    <input type="radio" name="radio-storage" value="3">
-                    2TB SSD storage
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm">
-                    <input type="radio" name="radio-storage" value="4">
-                    4TB SSD storage
-                  </label>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-sm-6 mb-4 mb-sm-0">
-                    <span class="d-block h3 mb-0">$2,600</span>
-                    <a href="#" class="text-sm">Choose a financing option</a>
-                  </div>
-                  <div class="col-sm-6 text-sm-right">
-                    <!-- Add to cart -->
-                    <button type="button" class="btn btn-primary btn-icon">
-                      <span class="btn-inner--icon"><i class="fas fa-shopping-bag"></i></span>
-                      <span class="btn-inner--text">Add to bag</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+    
+         
             </div>
           </div>
         </div>
       </div>
     </section>
+    {% endfor %}
+
     <section class="slice slice-lg delimiter-top" id="sct-suggested-products">
       <div class="container">
-        <div class="mb-5 text-center">
-          <h3 class="h6">Suggested products<i class="fas fa-angle-down text-xs ml-3"></i></h3>
-        </div>
+        <div class="container no-padding">
+          <div class="mb-5 text-center">
+            <h3 class=" mt-4">The main features of Purpose</h3>
+            <div class="fluid-paragraph mt-3">
+              <p class="lead lh-180">Start building fast, beautiful and modern looking websites in no time using our theme.</p>
+            </div>
+          </div>
         <div class="row">
           <div class="col-lg-3 col-sm-6">
             <div class="card card-product">
-              <div class="card-image">
-                <a href="#">
-                  <img alt="Image placeholder" src="../../assets/img/theme/light/product-1.png" class="img-center img-fluid">
-                </a>
-              </div>
+              <figure class="figure">
+                <img alt="Image placeholder" src="{% static 'assets/img/theme/light/team-3-800x800.jpg' %}" class="img-center img-fluid">
+              </figure>
               <div class="card-body text-center pt-0">
-                <h6><a href="#">Home Base</a></h6>
-                <p class="text-sm">
-                  Customize your home experience with this product.
-                </p>
-                <span class="card-price">$129 USD</span>
-                <div class="product-colors mt-3">
-                  <a href="#" style="background-color: #59ad46;" data-toggle="tooltip" data-original-title="Green"></a>
-                  <a href="#" style="background-color: #04050a;" data-toggle="tooltip" data-original-title="Black"></a>
-                  <a href="#" style="background-color: #62aedd;" data-toggle="tooltip" data-original-title="Blueish"></a>
-                  <a href="#" style="background-color: #e84385;" data-toggle="tooltip" data-original-title="Pink"></a>
-                </div>
+                <br>
+                <h5 id='nameCandidate'>Home Base</h5>
+
+                <span class="card-price">
+                  1947 votes</span>
+               
               </div>
-              <div class="actions card-product-actions" data-animation-in="slideInLeft" data-animation-out="slideOutLeft">
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Add to cart">
-                  <i class="fas fa-shopping-bag"></i>
-                </button>
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Wishlist">
-                  <i class="fas fa-heart"></i>
-                </button>
+              <div class="card-footer px-0 py-0 border-0 overflow-hidden">
+                <a href="" data-toggle="modal" data-target="#modal-change-username" class="btn btn-block btn-primary rounded-0">
+                  Vote for her</a>
+              </div>
+
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card card-product">
-              <div class="card-image">
-                <a href="#">
-                  <img alt="Image placeholder" src="../../assets/img/theme/light/product-2.png" class="img-center img-fluid">
-                </a>
-              </div>
-              <div class="card-body text-center pt-0">
-                <h6><a href="#">Home Controller</a></h6>
-                <p class="text-sm">
-                  Customize your home experience with this product.
-                </p>
-                <span class="card-price">$49 USD</span>
-                <div class="product-colors mt-3">
-                  <a href="#" style="background-color: #59ad46;" data-toggle="tooltip" data-original-title="Green"></a>
-                  <a href="#" style="background-color: #04050a;" data-toggle="tooltip" data-original-title="Black"></a>
-                  <a href="#" style="background-color: #62aedd;" data-toggle="tooltip" data-original-title="Blueish"></a>
-                  <a href="#" style="background-color: #e84385;" data-toggle="tooltip" data-original-title="Pink"></a>
-                </div>
-              </div>
-              <div class="actions card-product-actions" data-animation-in="slideInLeft" data-animation-out="slideOutLeft">
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Add to cart">
-                  <i class="fas fa-shopping-bag"></i>
-                </button>
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Wishlist">
-                  <i class="fas fa-heart"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card card-product">
-              <div class="card-image">
-                <a href="#">
-                  <img alt="Image placeholder" src="../../assets/img/theme/light/product-3.png" class="img-center img-fluid">
-                </a>
-              </div>
-              <div class="card-body text-center pt-0">
-                <h6><a href="#">Adapt Earphones</a></h6>
-                <p class="text-sm">
-                  Customize your home experience with this product.
-                </p>
-                <span class="card-price">$65 USD</span>
-                <div class="product-colors mt-3">
-                  <a href="#" style="background-color: #59ad46;" data-toggle="tooltip" data-original-title="Green"></a>
-                  <a href="#" style="background-color: #04050a;" data-toggle="tooltip" data-original-title="Black"></a>
-                  <a href="#" style="background-color: #62aedd;" data-toggle="tooltip" data-original-title="Blueish"></a>
-                  <a href="#" style="background-color: #e84385;" data-toggle="tooltip" data-original-title="Pink"></a>
-                </div>
-              </div>
-              <div class="actions card-product-actions" data-animation-in="slideInLeft" data-animation-out="slideOutLeft">
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Add to cart">
-                  <i class="fas fa-shopping-bag"></i>
-                </button>
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Wishlist">
-                  <i class="fas fa-heart"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card card-product">
-              <div class="card-image">
-                <a href="#">
-                  <img alt="Image placeholder" src="../../assets/img/theme/light/product-4.png" class="img-center img-fluid">
-                </a>
-              </div>
-              <div class="card-body text-center pt-0">
-                <h6><a href="#">Smart Pixel 3</a></h6>
-                <p class="text-sm">
-                  Customize your home experience with this product.
-                </p>
-                <span class="card-price">$299 USD</span>
-                <div class="product-colors mt-3">
-                  <a href="#" style="background-color: #59ad46;" data-toggle="tooltip" data-original-title="Green"></a>
-                  <a href="#" style="background-color: #04050a;" data-toggle="tooltip" data-original-title="Black"></a>
-                  <a href="#" style="background-color: #62aedd;" data-toggle="tooltip" data-original-title="Blueish"></a>
-                  <a href="#" style="background-color: #e84385;" data-toggle="tooltip" data-original-title="Pink"></a>
-                </div>
-              </div>
-              <div class="actions card-product-actions" data-animation-in="slideInLeft" data-animation-out="slideOutLeft">
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Add to cart">
-                  <i class="fas fa-shopping-bag"></i>
-                </button>
-                <button type="button" class="action-item" data-toggle="tooltip" data-original-title="Wishlist">
-                  <i class="fas fa-heart"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
-    <section class="slice slice-xl bg-cover bg-size--cover" style="background-image: url(../../assets/img/backgrounds/img-15.jpg); background-position: center center;">
-      <span class="mask bg-dark opacity-2"></span>
-      <div class="container py-6">
-        <div class="row justify-content-center">
-          <div class="col-lg-6 col-xl-7 text-center">
-            <div class="mb-5">
-              <h1 class="text-white">Try a new experience</h1>
-              <p class="lead text-white mt-2">You get all Bootstrap components fully customized. Besides, you receive another numerous plugins out of the box and ready to use.</p>
-            </div>
-            <a href="#" class="btn btn-white btn-icon rounded-pill shadow hover-shadow-lg hover-translate-y-n3">
-              <span class="btn-inner--text">Get started</span>
-              <span class="btn-inner--icon"><i class="fas fa-angle-right"></i></span>
-            </a>
+<!-- Modal -->
+<div class="modal fade" id="modal-change-username" tabindex="-1" role="dialog" aria-labelledby="modal-change-username" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <form>
+          <div class="modal-content">
+              <div class="modal-header">
+                  <div class="modal-title d-flex align-items-center" id="modal-title-change-username">
+                      <div>
+                          <div class="icon icon-sm icon-shape icon-info rounded-circle shadow mr-3">
+                              <i class="fas fa-user"></i>
+                          </div>
+                      </div>
+                      <div>
+                          <h6 class="mb-0">
+                            Vote for</h6>
+                      </div>
+                  </div>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <figure class="figure">
+                <img alt="Image placeholder" src="{% static 'assets/img/theme/light/team-3-800x800.jpg' %}" class="img-center img-fluid">
+              </figure>
+              <div class="modal-body">
+                <select class="custom-select">
+                  <option selected>Select currency</option>
+                  <option value="fcfa">FCFA</option>
+                  <option value="euro">EUR</option>
+                  <option value="dollar">Dollar</option>
+              </select>
+                  <div class="form-group">
+                    <label class="form-control-label">
+                      Amount of votes 
+                    </label>
+                    <input type="number" required  name='amount' placeholder='Amount : Fcfa 1000 ' class="form-control">
+                  </div>
+                  <div class="px-5 pt-4 mt-4 delimiter-top text-center">
+                      <p class="text-muted text-sm">1 Vote = 100 FCFA | 4 Votes = 1 USD | 5 Votes = 1 EUR</p>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">
+                    Proceed to payment</button>
+              </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <section class="slice-sm bg-primary">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 mb-4 mb-lg-0">
-            <div class="px-4 py-3 text-lg-center">
-              <h6 class="text-sm text-white text-uppercase ls-1">Free shipping in 48/72H</h6>
-              <p class="text-white opacity-7">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 mb-4 mb-lg-0">
-            <div class="px-4 py-3 text-lg-center">
-              <h6 class="text-sm text-white text-uppercase ls-1">Free returns</h6>
-              <p class="text-white opacity-7">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="px-4 py-3 text-lg-center">
-              <h6 class="text-sm text-white text-uppercase ls-1">Secure payment</h6>
-              <ul class="list-inline mt-2">
-                <li class="list-inline-item">
-                  <img alt="Image placeholder" src="../../assets/img/icons/cards/visa.png" width="30">
-                </li>
-                <li class="list-inline-item">
-                  <img alt="Image placeholder" src="../../assets/img/icons/cards/mastercard.png" width="30">
-                </li>
-                <li class="list-inline-item">
-                  <img alt="Image placeholder" src="../../assets/img/icons/cards/maestro.png" width="30">
-                </li>
-                <li class="list-inline-item">
-                  <img alt="Image placeholder" src="../../assets/img/icons/cards/paypal.png" width="30">
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </form>
+  </div>
+</div>
   </div>
 
 
@@ -586,6 +419,7 @@
   <!-- Demo JS - remove it when starting your project -->
   <script src="{% static 'assets/js/demo.js' %} "></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
+  
   <script>
     window.dataLayer = window.dataLayer || [];
 

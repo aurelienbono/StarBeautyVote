@@ -4,8 +4,8 @@ from . import views
 urlpatterns = [
     path('',views.landing, name='landing'), 
     path('landing/',views.landing, name='landing'),
-    path('competitionLanding/',views.competitionLanding, name='landing'),
-    path('competitionDetails/',views.competitionDetails, name='landing'),
+    path('competitionLanding/',views.competitionLanding, name='competitionLanding'),
+    path('competitionDetails/<str:pk>',views.competitionDetails, name='competitionDetails'),
     path('apps/', views.dashboardHome , name='home'),
     
     path('auths/register/', views.register , name='register'),
