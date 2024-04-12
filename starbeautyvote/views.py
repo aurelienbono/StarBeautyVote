@@ -14,6 +14,94 @@ from django.conf import settings
 def landing(request): 
     return render(request,"pages/index.html")
 
+def dashboardHome(request) : 
+    return render(request ,'pages/application/home.html')
+
+
+
+
+def modify_filename(filename,image_name):
+	# Change the filename from a.jpg to ab.jpg
+	new_filename = image_name + os.path.splitext(filename)[1]
+	return new_filename
+
+def createCompetition(request): 
+    if request.method == 'POST' : 
+        competititionInfo = [ ] 
+        
+        for element in request.POST  : 
+            competititionInfo.append(request.POST[element])
+        competititionInfo = competititionInfo[1:]
+        
+        print(competititionInfo)
+       
+        competitionName = ''.join(re.split("[ ]+", competititionInfo[0])) + datetime.datetime.now().strftime('%d-%m-%Y').replace('-','_')
+
+        
+        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
+        savePath = os.path.join(savePath,competitionName)
+    
+                
+        # save filename to db with path 
+        competititionUploadFile = request.FILES['image']
+        fs = FileSystemStorage(location=savePath)
+        new_name = modify_filename(competititionUploadFile.name ,'competitionLogo' )
+        filename = fs.save(new_name , competititionUploadFile)
+   
+        imageFinalPath = os.path.join(savePath,new_name)
+        
+        
+        imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
+        imageFinalPath = f'/'.join(imageFinalPathSplit) 
+                
+        competitition = models.Competition ( 
+                        image               = imageFinalPath,
+                        competitionName     = competititionInfo[0],
+                        dateToStart         = competititionInfo[2],
+                        dateToEnd           = competititionInfo[3],
+                        description         = competititionInfo[1],
+                        category            = competititionInfo[4],
+                        CompetitionPrivacy  = competititionInfo[5],
+                        registration_fee    = competititionInfo[6]
+                                           
+                    )
+        competitition.save()
+        
+        return redirect('/apps/competitions/listing')
+    return render(request , 'pages/application/competition/createcompetition.html')
+
+
+
+def competitionListing(request):
+    
+    if 'delete' in request.POST : 
+        pk = request.POST.get('delete') 
+        competition = models.Competition.objects.get(competitionId = pk )   
+        print(competition , pk)
+        competition.delete()
+    elif 'update' in request.POST :
+        pass 
+    
+    context = {} 
+    CompetionList = models.Competition.objects.all()
+    
+    context['CompetionList'] =  CompetionList 
+    context['score'] = CompetionList.count()
+
+
+    return render(request,'pages/application/competition/competitionlisting.html', context)
+
+
+def competitionDashboard(request):
+   
+    all_candidate   = models.Candidates.objects.all() 
+    count           = all_candidate.count()
+    
+    context = {'all_candidate' : all_candidate, "count":count }
+        
+    return render(request,'pages/application/competition/competitionDashbord.html',context) 
+
+
 def competitionLanding(request): 
     context = {} 
     CompetionList = models.Competition.objects.all()
@@ -32,8 +120,11 @@ def competitionDetails(request,pk):
 
     return render(request,"pages/application/competition/competitionDetailPage.html",context)
 
-def dashboardHome(request) : 
-    return render(request ,'pages/application/home.html')
+
+
+
+
+
 
 
 def register(request) : 
@@ -81,90 +172,50 @@ def login(request) :
 
 
 
-def modify_filename(filename,image_name):
-	# Change the filename from a.jpg to ab.jpg
-	new_filename = image_name + os.path.splitext(filename)[1]
-	return new_filename
+def candidate_register(request) : 
+    if request.method=="POST" : 
+        candidateInfo = [] 
+        
+        for element in request.POST : 
+            candidateInfo.append(request.POST[element])
+        candidateInfo = candidateInfo[1:]
+        print(candidateInfo)
+        
+        candidateName = ''.join(re.split("[ ]+", candidateInfo[0])) +  datetime.datetime.now().strftime('%d-%m-%Y').replace('-','_')
 
-def createCompetition(request): 
-    if request.method == 'POST' : 
-        competititionInfo = [ ] 
-        
-        for element in request.POST  : 
-            competititionInfo.append(request.POST[element])
-        competititionInfo = competititionInfo[1:]
-        
-        print(competititionInfo)
-       
-        competitionName = ''.join(re.split("[ ]+", competititionInfo[0])) + datetime.now().strftime('%H:%M:%S.%f')[:-7].replace(':','_')
 
-        
         savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
-        savePath = os.path.join(savePath,competitionName)
+        savePath = os.path.join(savePath,candidateName)
     
                 
         # save filename to db with path 
-        competititionUploadFile = request.FILES['image']
+        candidateUploadFile = request.FILES['image']
         fs = FileSystemStorage(location=savePath)
-        new_name = modify_filename(competititionUploadFile.name ,'logo' )
-        filename = fs.save(new_name , competititionUploadFile)
+        new_name = modify_filename(candidateUploadFile.name ,'CandidateFullImage' )
+        filename = fs.save(new_name , candidateUploadFile)
    
         imageFinalPath = os.path.join(savePath,new_name)
         
+        print(candidateInfo,imageFinalPath)
         
-        imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
-        imageFinalPath = f'/'.join(imageFinalPathSplit) 
-                
-        competitition = models.Competition ( 
-                        image               = imageFinalPath,
-                        competitionName     = competititionInfo[0],
-                        dateToStart         = competititionInfo[2],
-                        dateToEnd           = competititionInfo[3],
-                        description         = competititionInfo[1],
-                        category            = competititionInfo[4],
-                        CompetitionPrivacy  = competititionInfo[5],
-                                           
-                    )
-        competitition.save()
+        # candidate = models.Candidate( 
+        #             fullName           = candidateInfo[0].str.capitalize() , 
+        #             email              = candidateInfo[1], 
+        #             age                = candidateInfo[2],
+        #             numberPhone        = candidateInfo[3],
+        #             academic_level     = candidateInfo[4],
+        #             profession         = candidateInfo[5],
+        #             country            = candidateInfo[6],
+        #             city               = candidateInfo[7],
+        #             city_of_origin     = candidateInfo[8],
+        #             dataOfRegistration = datetime.now(),
+        #             image              = imageFinalPath, 
+        #             registration_fee   = 'None'
+        #             )
         
-        return redirect('/apps/competitions/listing')
-    return render(request , 'pages/application/competition/createcompetition.html')
-
-def competitionListing(request):
+        # candidate.save()
     
-    if 'delete' in request.POST : 
-        pk = request.POST.get('delete') 
-        competition = models.Competition.objects.get(competitionId = pk )   
-        print(competition , pk)
-        competition.delete()
-    elif 'update' in request.POST :
-        pass 
-    
-    context = {} 
-    CompetionList = models.Competition.objects.all()
-    
-    context['CompetionList'] =  CompetionList 
-    context['score'] = CompetionList.count()
-
-
-    return render(request,'pages/application/competition/competitionlisting.html', context)
-
-
-def competitionDashboard(request):
-    candidate = []
-    if 'create_candidate' in request.POST : 
-        for element in request.POST :
-            candidate.append(request.POST[element])
-        print("*"*20) 
-        print(candidate)
-    
-    all_candidate   = models.Candidates.objects.all() 
-    count           = all_candidate.count()
-    
-    context = {'all_candidate' : all_candidate, "count":count }
-        
-    return render(request,'pages/application/competition/competitionDashbord.html',context) 
-
+    return render(request, 'pages/application/authentication/candidate/register.html')
 
 
 

@@ -13,6 +13,7 @@ urlpatterns = [
     path('auths/reset/', views.reset , name='reset'),
     path('auths/recoverPassword/', views.recoverPassword , name='recoverPassword'),
     
+    path('auths/candi/register/', views.candidate_register , name='candidateRegister'),
     
     path('apps/competitions/create', views.createCompetition , name='createCompetition'),
     path('apps/competitions/listing', views.competitionListing , name='competitionListing'),

@@ -21,20 +21,23 @@ class Competition(models.Model):
     description          = models.TextField()
     category             = models.CharField(max_length=50)
     CompetitionPrivacy   = models.CharField(max_length=20)
+    registration_fee     = models.IntegerField()
     
 
 class Candidates(models.Model) : 
     candidatesId        = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     fullName            = models.CharField(max_length=50) 
-    age                 = models.IntegerField()
     email               = models.EmailField(max_length=50,unique=True)
+    age                 = models.IntegerField()
     numberPhone         = models.CharField(max_length=15)
+    academic_level      = models.CharField(max_length=50)
+    profession          = models.CharField(max_length=50)   
+    country             = models.CharField(max_length=15)
     city                = models.CharField(max_length=15)
-    taille              = models.DecimalField(max_digits = 5, decimal_places = 2)
-    poids               = models.DecimalField(max_digits = 5, decimal_places = 2)
-    Photographies       = models.ImageField()
-    etude               = models.CharField(max_length=50)
-    profession          = models.CharField(max_length=50)
-    description         = models.TextField()
+    city_of_origin      = models.CharField(max_length=15)
     dataOfRegistration  = models.DateField(auto_now=True)
+    image               = models.ImageField()
+    registration_fee    = models.CharField(max_length=10)
+    
+
 

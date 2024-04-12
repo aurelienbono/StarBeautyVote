@@ -27,9 +27,14 @@ urlpatterns = [
     path('auths/register/', include('starbeautyvote.urls')), 
     path('auths/login/', include('starbeautyvote.urls')), 
     path('auths/reset/', include('starbeautyvote.urls')),
+    
+    path('auths/candi/register/', include('starbeautyvote.urls')), 
+    
     path('auths/recoverPassword/', include('starbeautyvote.urls')),
     path('apps/competitions/create', include('starbeautyvote.urls')), 
     path('apps/competitions/listing', include('starbeautyvote.urls')), 
     path('apps/competitions/dashboard', include('starbeautyvote.urls')), 
+    
+    
     
 ]
