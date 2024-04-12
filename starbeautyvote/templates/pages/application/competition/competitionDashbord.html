@@ -20,7 +20,7 @@
               <div class="d-inline-block">
                 <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white"> Statis of {{competitionDetails.competitionName}}</h5>
               </div>
-              <!-- Additional info -->
+              <!-- Additional  info -->
             </div>
            
             <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
@@ -41,12 +41,12 @@
                     </div>
                     <div class="modal-body">
                       <div class="form-group">
-                        <input type="text" value="http://127.0.0.1:8000/auths/candi/register/{{CompetitionId}}/{{registration_fee}}" class="form-control form-control-muted" placeholder="Muted input">
+                        <input type="text" value="http://127.0.0.1:8000/auths/candi/register/{{competitionDetails.competitionId}}/{{competitionDetails.registration_fee}}" class="form-control form-control-muted" placeholder="Muted input">
                     </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary"> <a style="color:white" href="/auths/candi/register/{{CompetitionId}}/{{registration_fee}}">Copy&Share Link </a> 
+                      <button type="button" class="btn btn-primary"> <a style="color:white" href="/auths/candi/register/{{competitionDetails.competitionId}}/{{competitionDetails.registration_fee}}">Copy&Share Link </a> 
                       </button>
                     </div>
                   </div>
@@ -127,7 +127,9 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        
+       <div class="row">
+        {% for candidate in all_candidate  %}
           <div class="col-lg-3 col-sm-6">
             <div class="card hover-shadow-lg">
               <div class="card-header">
@@ -171,309 +173,9 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-2.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">Ramotion</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">18</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=warning data-dataset="[58, 76, 13, 59, 17, 76, 13, 13, 21, 94, 49]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-3.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">Stripe</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">8</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=info data-dataset="[42, 55, 19, 16, 84, 24, 10, 11, 93, 15, 81]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-4.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">Omnicreativora</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">30</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=danger data-dataset="[25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-5.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">JCD</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">30</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=success data-dataset="[51, 61, 45, 66, 48, 40, 68, 83, 27, 78, 48]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-6.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">Outcrowd</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">30</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=primary data-dataset="[94, 34, 96, 74, 36, 97, 15, 26, 54, 97, 23]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-7.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">Fireart</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">30</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=primary data-dataset="[64, 56, 61, 42, 42, 63, 18, 96, 19, 36, 87]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-            <div class="card hover-shadow-lg">
-              <div class="card-header">
-                <div class="d-flex align-items-center">
-                  <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-8.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
-                  </div>
-                  <div class="avatar-content ml-3">
-                    <h6 class="mb-0">UI8</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="border-bottom pb-4">
-                  <div class="row align-items-center">
-                    <div class="col-6">
-                      <h6 class="mb-0">30</h6>
-                      <span class="text-sm text-muted">Products</span>
-                    </div>
-                    <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=info data-dataset="[98, 25, 62, 42, 94, 65, 21, 85, 76, 86, 41]"></div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
-                  </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
 
-        </div>
+          {% endfor %}
+        </div> 
         <!-- Load more -->
         <div class="mt-4 text-center">
           <a href="#" class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load more ...</a>

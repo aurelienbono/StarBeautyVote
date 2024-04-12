@@ -121,7 +121,7 @@ def createCompetition(request):
 def competitionDashboard(request,pk):
    
     #get all candidate of this competition
-    all_candidate   = models.Candidates.objects.all() 
+    all_candidate   = models.Candidates.objects.filter(id_competition = pk).values()
     count           = all_candidate.count()
     
     
@@ -196,6 +196,9 @@ def login(request) :
         userInfo = models.Promoter.objects.filter(email=str(email)).values().first()
         userPassword = userInfo['password']
         
+        # seva sessionInformation 
+        request.session['userId'] = userInfo['promoterId']
+        
         if userInfo and  userPassword == password : 
             return redirect('/apps/competitions/create')
         else : 
@@ -233,9 +236,13 @@ def candidate_register(request,pk,price) :
         
         print(candidateInfo,imageFinalPath, request.POST['competition_id'])
         
-        candidate = models.Candidate( 
+        # Fetch Promoter instance
+        id_competition = candidateInfo[9]
+        competition_instance = models.Competition.objects.get(competitionId=id_competition)
+        
+        candidate = models.Candidates( 
                     candidatesId        = generate_random_string(),  
-                    fullName           = candidateInfo[0].str.capitalize() , 
+                    fullName           = candidateInfo[0].capitalize() , 
                     email              = candidateInfo[1], 
                     age                = candidateInfo[2],
                     numberPhone        = candidateInfo[3],
@@ -246,14 +253,14 @@ def candidate_register(request,pk,price) :
                     city_of_origin     = candidateInfo[8],
                     dataOfRegistration = datetime.now(),
                     image              = imageFinalPath, 
-                    registration_fee   = 'None', 
-                    id_competition     = candidateInfo[9],
+                    registration_fee_status   = 'None', 
+                    id_competition     = competition_instance,
                     )
         
         candidate.save()
         
         # redirect to candidate DashBoard
-        return redirect('/apps/competitions/dashboard')
+        return redirect('/apps/')
     
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
 
