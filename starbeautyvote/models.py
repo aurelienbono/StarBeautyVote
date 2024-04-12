@@ -2,8 +2,8 @@ from django.db import models
 import uuid
 # Create your models here.
 
-class User(models.Model)  : 
-    userId      = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+class Promoter(models.Model)  : 
+    promoterId      = models.CharField(primary_key=True,max_length=50, unique=True)
     fullName    = models.CharField(max_length=50)
     email       = models.EmailField(max_length=50,unique=True)
     numberPhone = models.CharField(max_length=15)
@@ -13,7 +13,7 @@ class User(models.Model)  :
 
         
 class Competition(models.Model): 
-    competitionId        = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    competitionId        = models.CharField(primary_key=True,max_length=50, unique=True)
     image                = models.ImageField()
     competitionName      = models.CharField(max_length=50)
     dateToStart          = models.DateField()
@@ -22,10 +22,11 @@ class Competition(models.Model):
     category             = models.CharField(max_length=50)
     CompetitionPrivacy   = models.CharField(max_length=20)
     registration_fee     = models.IntegerField()
+    id_promoter          = models.ForeignKey(Promoter, on_delete=models.CASCADE)
     
 
 class Candidates(models.Model) : 
-    candidatesId                = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    candidatesId                = models.CharField(primary_key=True,max_length=50, unique=True)
     fullName                    = models.CharField(max_length=50) 
     email                       = models.EmailField(max_length=50,unique=True)
     age                         = models.IntegerField()

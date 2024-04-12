@@ -8,8 +8,30 @@ import os
 import re 
 from django.conf import settings
 
+import secrets
+
+
+
 # Create your views here.
 
+
+def modify_filename(filename,image_name):
+	# Change the filename from a.jpg to ab.jpg
+	new_filename = image_name + os.path.splitext(filename)[1]
+	return new_filename
+
+def generate_random_string(length=16):
+  """
+  Generates a random alphanumeric string of specified length.
+
+  Args:
+      length (int, optional): The desired length of the random string. Defaults to 10.
+
+  Returns:
+      str: A random alphanumeric string.
+  """
+  chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  return ''.join(secrets.choice(chars) for _ in range(length))
 
 def landing(request): 
     return render(request,"pages/index.html")
@@ -35,10 +57,7 @@ def dashboardHome(request) :
 
 
 
-def modify_filename(filename,image_name):
-	# Change the filename from a.jpg to ab.jpg
-	new_filename = image_name + os.path.splitext(filename)[1]
-	return new_filename
+
 
 def createCompetition(request): 
     if request.method == 'POST' : 
@@ -68,8 +87,13 @@ def createCompetition(request):
         
         imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
         imageFinalPath = f'/'.join(imageFinalPathSplit) 
+        
+        # Fetch Promoter instance
+        promoter_id = competititionInfo[7]
+        promoter_instance = models.Promoter.objects.get(promoterId=promoter_id)
                 
         competitition = models.Competition ( 
+                        competitionId        = generate_random_string(),                   
                         image               = imageFinalPath,
                         competitionName     = competititionInfo[0],
                         dateToStart         = competititionInfo[2],
@@ -77,13 +101,19 @@ def createCompetition(request):
                         description         = competititionInfo[1],
                         category            = competititionInfo[4],
                         CompetitionPrivacy  = competititionInfo[5],
-                        registration_fee    = competititionInfo[6]
+                        registration_fee    = competititionInfo[6], 
+                        id_promoter         = promoter_instance, 
                                            
                     )
         competitition.save()
         
         return redirect('/apps/')
-    return render(request , 'pages/application/competition/createcompetition.html')
+
+    context = {} 
+    promoterId = request.session.get('userId')
+    context['promoterId'] = promoterId
+
+    return render(request , 'pages/application/competition/createcompetition.html',context)
 
 
 
@@ -97,15 +127,11 @@ def competitionDashboard(request,pk):
     
     context = {'all_candidate' : all_candidate, "count":count }
     
-    context['CompetitionId'] = request.session.get('userId')
+    context['userId'] = request.session.get('userId')
+    # # 
+    # # get registration_fee of this competition
+    competitionDetails             =  models.Competition.objects.filter(competitionId = pk).values().first()
     
-    # get registration_fee of this competition
-    competitionDetails             =  models.Competition.objects.filter(competitionId = context['CompetitionId']).values().first()
-
-    registration_fee             =  models.Competition.objects.filter(competitionId = context['CompetitionId']).values('registration_fee').first()
-    
-    
-    context['registration_fee']  =  registration_fee
     context['competitionDetails']  =  competitionDetails
         
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
@@ -131,11 +157,6 @@ def competitionDetails(request,pk):
 
 
 
-
-
-
-
-
 def register(request) : 
     if request.method=="POST" : 
         userInfo = [] 
@@ -146,7 +167,8 @@ def register(request) :
         print(userInfo)
         
         
-        user = models.User( 
+        user = models.Promoter( 
+                    promoterId        = generate_random_string(),  
                     fullName =userInfo[0].capitalize() , 
                     email=userInfo[1], 
                     numberPhone=userInfo[2],
@@ -158,7 +180,7 @@ def register(request) :
         user.save()
         
         # #seva sessionInformation 
-        # request.session['userId'] = str(user.userId)
+        request.session['userId'] = user.promoterId
         
         
         return redirect('/auths/login/')
@@ -171,7 +193,7 @@ def login(request) :
         email = request.POST['email']
         password = request.POST['password']
         
-        userInfo = models.User.objects.filter(email=str(email)).values().first()
+        userInfo = models.Promoter.objects.filter(email=str(email)).values().first()
         userPassword = userInfo['password']
         
         if userInfo and  userPassword == password : 
@@ -212,6 +234,7 @@ def candidate_register(request,pk,price) :
         print(candidateInfo,imageFinalPath, request.POST['competition_id'])
         
         candidate = models.Candidate( 
+                    candidatesId        = generate_random_string(),  
                     fullName           = candidateInfo[0].str.capitalize() , 
                     email              = candidateInfo[1], 
                     age                = candidateInfo[2],
