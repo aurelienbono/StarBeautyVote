@@ -32,7 +32,6 @@ urlpatterns = [
     
     path('auths/recoverPassword/', include('starbeautyvote.urls')),
     path('apps/competitions/create', include('starbeautyvote.urls')), 
-    path('apps/competitions/listing', include('starbeautyvote.urls')), 
     path('apps/competitions/dashboard', include('starbeautyvote.urls')), 
     
     

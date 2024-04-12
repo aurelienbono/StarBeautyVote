@@ -15,7 +15,22 @@ def landing(request):
     return render(request,"pages/index.html")
 
 def dashboardHome(request) : 
-    return render(request ,'pages/application/home.html')
+    
+    if 'delete' in request.POST : 
+        pk = request.POST.get('delete') 
+        competition = models.Competition.objects.get(competitionId = pk )   
+        print(competition , pk)
+        competition.delete()
+    elif 'update' in request.POST :
+        pass 
+    
+    context = {} 
+    CompetionList = models.Competition.objects.all()
+    
+    context['CompetionList'] =  CompetionList 
+    context['score'] = CompetionList.count()
+
+    return render(request ,'pages/application/home.html',context)
 
 
 
@@ -35,7 +50,7 @@ def createCompetition(request):
         
         print(competititionInfo)
        
-        competitionName = ''.join(re.split("[ ]+", competititionInfo[0])) + datetime.datetime.now().strftime('%d-%m-%Y').replace('-','_')
+        competitionName = ''.join(re.split("[ ]+", competititionInfo[0])) + datetime.now().strftime('%d-%m-%Y').replace('-','_')
 
         
         savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
@@ -67,37 +82,31 @@ def createCompetition(request):
                     )
         competitition.save()
         
-        return redirect('/apps/competitions/listing')
+        return redirect('/apps/')
     return render(request , 'pages/application/competition/createcompetition.html')
 
 
 
-def competitionListing(request):
-    
-    if 'delete' in request.POST : 
-        pk = request.POST.get('delete') 
-        competition = models.Competition.objects.get(competitionId = pk )   
-        print(competition , pk)
-        competition.delete()
-    elif 'update' in request.POST :
-        pass 
-    
-    context = {} 
-    CompetionList = models.Competition.objects.all()
-    
-    context['CompetionList'] =  CompetionList 
-    context['score'] = CompetionList.count()
 
-
-    return render(request,'pages/application/competition/competitionlisting.html', context)
-
-
-def competitionDashboard(request):
+def competitionDashboard(request,pk):
    
+    #get all candidate of this competition
     all_candidate   = models.Candidates.objects.all() 
     count           = all_candidate.count()
     
+    
     context = {'all_candidate' : all_candidate, "count":count }
+    
+    context['CompetitionId'] = request.session.get('userId')
+    
+    # get registration_fee of this competition
+    competitionDetails             =  models.Competition.objects.filter(competitionId = context['CompetitionId']).values().first()
+
+    registration_fee             =  models.Competition.objects.filter(competitionId = context['CompetitionId']).values('registration_fee').first()
+    
+    
+    context['registration_fee']  =  registration_fee
+    context['competitionDetails']  =  competitionDetails
         
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
 
@@ -138,7 +147,7 @@ def register(request) :
         
         
         user = models.User( 
-                    fullName =userInfo[0].str.capitalize() , 
+                    fullName =userInfo[0].capitalize() , 
                     email=userInfo[1], 
                     numberPhone=userInfo[2],
                     position=userInfo[3],
@@ -147,6 +156,10 @@ def register(request) :
                     )
         
         user.save()
+        
+        # #seva sessionInformation 
+        # request.session['userId'] = str(user.userId)
+        
         
         return redirect('/auths/login/')
     return render(request ,'pages/application/authentication/register.html')
@@ -162,7 +175,7 @@ def login(request) :
         userPassword = userInfo['password']
         
         if userInfo and  userPassword == password : 
-            return redirect('/apps/')
+            return redirect('/apps/competitions/create')
         else : 
             messages.error(request, 'Invalid username or password!')
             return redirect('/auths/login')
@@ -172,7 +185,7 @@ def login(request) :
 
 
 
-def candidate_register(request) : 
+def candidate_register(request,pk,price) : 
     if request.method=="POST" : 
         candidateInfo = [] 
         
@@ -181,7 +194,7 @@ def candidate_register(request) :
         candidateInfo = candidateInfo[1:]
         print(candidateInfo)
         
-        candidateName = ''.join(re.split("[ ]+", candidateInfo[0])) +  datetime.datetime.now().strftime('%d-%m-%Y').replace('-','_')
+        candidateName = ''.join(re.split("[ ]+", candidateInfo[0])) +  datetime.now().strftime('%d-%m-%Y').replace('-','_')
 
 
         savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
@@ -196,26 +209,30 @@ def candidate_register(request) :
    
         imageFinalPath = os.path.join(savePath,new_name)
         
-        print(candidateInfo,imageFinalPath)
+        print(candidateInfo,imageFinalPath, request.POST['competition_id'])
         
-        # candidate = models.Candidate( 
-        #             fullName           = candidateInfo[0].str.capitalize() , 
-        #             email              = candidateInfo[1], 
-        #             age                = candidateInfo[2],
-        #             numberPhone        = candidateInfo[3],
-        #             academic_level     = candidateInfo[4],
-        #             profession         = candidateInfo[5],
-        #             country            = candidateInfo[6],
-        #             city               = candidateInfo[7],
-        #             city_of_origin     = candidateInfo[8],
-        #             dataOfRegistration = datetime.now(),
-        #             image              = imageFinalPath, 
-        #             registration_fee   = 'None'
-        #             )
+        candidate = models.Candidate( 
+                    fullName           = candidateInfo[0].str.capitalize() , 
+                    email              = candidateInfo[1], 
+                    age                = candidateInfo[2],
+                    numberPhone        = candidateInfo[3],
+                    academic_level     = candidateInfo[4],
+                    profession         = candidateInfo[5],
+                    country            = candidateInfo[6],
+                    city               = candidateInfo[7],
+                    city_of_origin     = candidateInfo[8],
+                    dataOfRegistration = datetime.now(),
+                    image              = imageFinalPath, 
+                    registration_fee   = 'None', 
+                    id_competition     = candidateInfo[9],
+                    )
         
-        # candidate.save()
+        candidate.save()
+        
+        # redirect to candidate DashBoard
+        return redirect('/apps/competitions/dashboard')
     
-    return render(request, 'pages/application/authentication/candidate/register.html')
+    return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
 
 
 

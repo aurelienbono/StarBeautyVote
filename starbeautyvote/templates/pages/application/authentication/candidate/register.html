@@ -28,7 +28,7 @@
                             </span>
                         </div>
                         <div class="alert-content">
-                            The registration fee is 10,000 fcfa and is payable online.
+                            The registration fee is {{registration_fee}} fcfa and is payable online.
                        </div>
                        
            
@@ -40,6 +40,7 @@
                   <span class="clearfix"></span>
                   <form role="form" method="POST" action=""  enctype="multipart/form-data">
                     {% csrf_token %} 
+                    {{competition_id}}
                     <div class="form-group">
                         <label class="form-control-label">Full Name</label>
                         <div class="input-group input-group-merge">
@@ -122,6 +123,8 @@
                           <input type="text" name='city_of_origin' required class="form-control" id="input-email" placeholder="Center">
                         </div>
                       </div>
+                      <input type="text" name='competition_id' hidden value='{{competition_id}}' required class="form-control" id="input-email">
+
                       <div class="mt-4">
                         <label class="form-control-label">
                             An entire photo of you 

@@ -25,19 +25,20 @@ class Competition(models.Model):
     
 
 class Candidates(models.Model) : 
-    candidatesId        = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    fullName            = models.CharField(max_length=50) 
-    email               = models.EmailField(max_length=50,unique=True)
-    age                 = models.IntegerField()
-    numberPhone         = models.CharField(max_length=15)
-    academic_level      = models.CharField(max_length=50)
-    profession          = models.CharField(max_length=50)   
-    country             = models.CharField(max_length=15)
-    city                = models.CharField(max_length=15)
-    city_of_origin      = models.CharField(max_length=15)
-    dataOfRegistration  = models.DateField(auto_now=True)
-    image               = models.ImageField()
-    registration_fee    = models.CharField(max_length=10)
-    
+    candidatesId                = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    fullName                    = models.CharField(max_length=50) 
+    email                       = models.EmailField(max_length=50,unique=True)
+    age                         = models.IntegerField()
+    numberPhone                 = models.CharField(max_length=15)
+    academic_level              = models.CharField(max_length=50)
+    profession                  = models.CharField(max_length=50)   
+    country                     = models.CharField(max_length=15, default='Cameroon')
+    city                        = models.CharField(max_length=15)
+    city_of_origin              = models.CharField(max_length=100, default='Douala')
+    dataOfRegistration          = models.DateField(auto_now=True)
+    image                       = models.ImageField()
+    registration_fee_status     = models.CharField(max_length=20)
+    id_competition              = models.ForeignKey(Competition , on_delete=models.CASCADE)
+     
 
 
