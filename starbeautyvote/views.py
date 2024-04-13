@@ -47,7 +47,7 @@ def dashboardHome(request) :
         pass 
     
     context = {} 
-    CompetionList = models.Competition.objects.all()
+    CompetionList = models.Competition.objects.filter(id_promoter=request.session.get('userId') ).values()
     
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
@@ -72,8 +72,7 @@ def createCompetition(request):
         competitionName = ''.join(re.split("[ ]+", competititionInfo[0])) + datetime.now().strftime('%d-%m-%Y').replace('-','_')
 
         
-        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
-        savePath = os.path.join(savePath,competitionName)
+        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',competitionName)
     
                 
         # save filename to db with path 
@@ -195,6 +194,7 @@ def login(request) :
         
         userInfo = models.Promoter.objects.filter(email=str(email)).values().first()
         userPassword = userInfo['password']
+        print(userInfo)
         
         # seva sessionInformation 
         request.session['userId'] = userInfo['promoterId']
@@ -217,13 +217,13 @@ def candidate_register(request,pk,price) :
         for element in request.POST : 
             candidateInfo.append(request.POST[element])
         candidateInfo = candidateInfo[1:]
-        print(candidateInfo)
+        
+        media_path = models.Competition.objects.filter(competitionId=pk).values('image').first()
         
         candidateName = ''.join(re.split("[ ]+", candidateInfo[0])) +  datetime.now().strftime('%d-%m-%Y').replace('-','_')
 
 
-        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media')
-        savePath = os.path.join(savePath,candidateName)
+        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',media_path['image'].split('/')[1],candidateName )
     
                 
         # save filename to db with path 
@@ -234,11 +234,10 @@ def candidate_register(request,pk,price) :
    
         imageFinalPath = os.path.join(savePath,new_name)
         
-        print(candidateInfo,imageFinalPath, request.POST['competition_id'])
+        
         
         # Fetch Promoter instance
-        id_competition = candidateInfo[9]
-        competition_instance = models.Competition.objects.get(competitionId=id_competition)
+        competition_instance = models.Competition.objects.get(competitionId=candidateInfo[9])
         
         candidate = models.Candidates( 
                     candidatesId        = generate_random_string(),  
