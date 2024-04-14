@@ -135,12 +135,19 @@
               <div class="card-header">
                 <div class="d-flex align-items-center">
                   <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-1.png" class="avatar  rounded-circle">
-                    <span class="avatar-child avatar-badge bg-info"></span>
+                    <img alt="Image placeholder" src="{% static "candidate.image" %}" class="avatar  rounded-circle">
+                  {% if candidate.registration_fee_status == 'None '%} 
+                  <span class="avatar-child avatar-badge bg-danger"></span>
+
+                  {% else %}
+                  <span class="avatar-child avatar-badge bg-info"></span>
+
+                  {% endif %}
+                  
                   </div>
                   <div class="avatar-content ml-3">
-                    <h6 class="mb-0">InVision</h6>
-                    <span class="text-sm text-muted"><i class="far fa-calendar mr-2"></i>4 Aug, 18</span>
+                    <h6 class="mb-0">{{candidate.fullName}}</h6>
+                    <span class="text-sm text-muted"><i class="far fa-user mr-2"></i>{{candidate.age}} Ans</span>
                   </div>
                 </div>
               </div>
@@ -148,20 +155,17 @@
                 <div class="border-bottom pb-4">
                   <div class="row align-items-center">
                     <div class="col-6">
-                      <h6 class="mb-0">11</h6>
-                      <span class="text-sm text-muted">Products</span>
+                      <h6 class="mb-0">{{candidate.academic_level}}</h6>
+                      <span class="text-sm text-muted">{{candidate.profession}}</span>
                     </div>
                     <div class="col-6">
-                      <h6 class="mb-0">$4.700,80</h6>
-                      <span class="text-sm text-muted">Sales</span>
+                      <h6 class="mb-0">{{candidate.city}}</h6>
+                      <span class="text-sm text-muted">{{candidate.country}}</span>
                     </div>
                   </div>
                 </div>
-                <div class="w-100 pt-3">
-                  <div class="spark-chart" data-toggle="spark-chart" data-color=primary data-dataset="[47, 94, 24, 18, 26, 65, 31, 47, 10, 44, 45]"></div>
-                </div>
               </div>
-              <div class="card-footer">
+              {% comment %} <div class="card-footer">
                 <div class="actions d-flex justify-content-between">
                   <a href="#" class="action-item">
                     <span class="btn-inner--icon">Projects</span>
@@ -170,15 +174,20 @@
                     <span class="btn-inner--icon">See profile</span>
                   </a>
                 </div>
-              </div>
+              </div> {% endcomment %}
             </div>
           </div>
 
           {% endfor %}
         </div> 
         <!-- Load more -->
+        {% if count_candidate > 16 %} 
         <div class="mt-4 text-center">
-          <a href="#" class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load more ...</a>
+          
+          <a href="#" class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3"> {{count_candidate}}Load more ...</a>
         </div>
+        {% else %} 
+        
+        {% endif %}
       </div>
     {% endblock %}

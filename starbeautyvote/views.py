@@ -7,7 +7,7 @@ from django.core.files.storage import FileSystemStorage
 import os 
 import re 
 from django.conf import settings
-
+import shutil
 import secrets
 
 
@@ -41,8 +41,19 @@ def dashboardHome(request) :
     if 'delete' in request.POST : 
         pk = request.POST.get('delete') 
         competition = models.Competition.objects.get(competitionId = pk )   
-        print(competition , pk)
+        
+        folderCompetition = models.Competition.objects.filter(competitionId = pk ).values('image').first()
+
+        folderCompetition = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',folderCompetition['image'].split('/')[1])
+        
+        
+        all_candidate_of_this_competitition = models.Candidates.objects.get(id_competition = pk)
+        
+        shutil.rmtree(folderCompetition)
+        all_candidate_of_this_competitition.delete()
         competition.delete()
+        
+        
     elif 'update' in request.POST :
         pass 
     
@@ -124,7 +135,7 @@ def competitionDashboard(request,pk):
     count           = all_candidate.count()
     
     
-    context = {'all_candidate' : all_candidate, "count":count }
+    context = {'all_candidate' : all_candidate, "count_candidate":count }
     
     context['userId'] = request.session.get('userId')
     # # 
@@ -200,7 +211,11 @@ def login(request) :
         request.session['userId'] = userInfo['promoterId']
         
         if userInfo and  userPassword == password : 
-            return redirect('/apps/competitions/create')
+            isHasCompetition = models.Competition.objects.filter(id_promoter = userInfo['promoterId'] ).values().first()
+            if isHasCompetition  : 
+                return redirect('/apps/') 
+            else : 
+                return redirect('/apps/competitions/create')
         else : 
             messages.error(request, 'Invalid username or password!')
             return redirect('/auths/login')
@@ -234,7 +249,10 @@ def candidate_register(request,pk,price) :
    
         imageFinalPath = os.path.join(savePath,new_name)
         
+        imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
+        imageFinalPath_ = f'/'.join(imageFinalPathSplit) 
         
+        print(imageFinalPath_)
         
         # Fetch Promoter instance
         competition_instance = models.Competition.objects.get(competitionId=candidateInfo[9])
