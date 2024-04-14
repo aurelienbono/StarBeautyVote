@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import models
 from datetime import datetime
-from django.shortcuts import redirect
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 import os 
@@ -36,6 +35,7 @@ def generate_random_string(length=16):
 def landing(request): 
     return render(request,"pages/index.html")
 
+
 def dashboardHome(request) : 
     
     if 'delete' in request.POST : 
@@ -64,7 +64,6 @@ def dashboardHome(request) :
     context['score'] = CompetionList.count()
 
     return render(request ,'pages/application/home.html',context)
-
 
 
 
@@ -127,7 +126,6 @@ def createCompetition(request):
 
 
 
-
 def competitionDashboard(request,pk):
    
     #get all candidate of this competition
@@ -155,6 +153,7 @@ def competitionLanding(request):
     context['score'] = CompetionList.count()
 
     return render(request,"pages/application/competition/competitionLandingPage.html",context)
+
 
 def competitionDetails(request,pk): 
     
