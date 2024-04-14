@@ -23,7 +23,7 @@ This is a web application built with HTML, CSS, Bootstrap, and Django framework.
 
 
 ## Installation
-1. Clone the repository: `git clonehttps://github.com/aurelienbono/StarBeautyVote`
+1. Clone the repository: `git clone https://github.com/aurelienbono/StarBeautyVote`
 2. Navigate to the project directory: `cd StarBeautyVote`
 3. Install dependencies: `pip install -r requirements.txt`
 4. Run migrations: `python manage.py migrate`
