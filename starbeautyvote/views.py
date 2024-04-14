@@ -224,7 +224,6 @@ def login(request) :
 
 
 
-
 def candidate_register(request,pk,price) : 
     if request.method=="POST" : 
         candidateInfo = [] 
@@ -236,7 +235,6 @@ def candidate_register(request,pk,price) :
         media_path = models.Competition.objects.filter(competitionId=pk).values('image').first()
         
         candidateName = ''.join(re.split("[ ]+", candidateInfo[0])) +  datetime.now().strftime('%d-%m-%Y').replace('-','_')
-
 
         savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',media_path['image'].split('/')[1],candidateName )
     
@@ -250,9 +248,9 @@ def candidate_register(request,pk,price) :
         imageFinalPath = os.path.join(savePath,new_name)
         
         imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
-        imageFinalPath_ = f'/'.join(imageFinalPathSplit) 
+        imageFinalPath = f'/'.join(imageFinalPathSplit) 
         
-        print(imageFinalPath_)
+        
         
         # Fetch Promoter instance
         competition_instance = models.Competition.objects.get(competitionId=candidateInfo[9])
