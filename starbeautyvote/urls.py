@@ -14,8 +14,11 @@ urlpatterns = [
     path('auths/recoverPassword/', views.recoverPassword , name='recoverPassword'),
     
     path('auths/candi/register/<str:pk>/<int:price>/', views.candidate_register , name='candidateRegister'),
+    path('apps/candi/profile', views.condidateProfile , name='condidateProfile'),
     
     path('apps/competitions/create', views.createCompetition , name='createCompetition'),
     path('apps/competitions/dashboard/<str:pk>/', views.competitionDashboard , name='competitionDashboard'),
+    path('apps/competitions/candi/<str:pk>/', views.competitionCandidateProfile , name='competitionCandidateProfile'),
+ 
     
 ]
