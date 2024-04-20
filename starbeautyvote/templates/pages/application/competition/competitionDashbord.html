@@ -165,20 +165,51 @@
                   </div>
                 </div>
               </div>
-              {% comment %} <div class="card-footer">
+              <div class="card-footer">
                 <div class="actions d-flex justify-content-between">
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">Projects</span>
+                  <a href="/apps/competitions/candi/{{candidate.candidatesId}}" class="action-item">
+                    <i class="far fa-chart-pie"></i> See profile
                   </a>
-                  <a href="#" class="action-item">
-                    <span class="btn-inner--icon">See profile</span>
+
+                  <a href="#" class="action-item text-danger" data-toggle="modal" data-target="#modal-delete-account">
+                    <i class="far fa-trash-alt"></i> Delete
                   </a>
                 </div>
-              </div> {% endcomment %}
+              </div>
+         
+            </div>
+            
+          </div>
+
+           <!-- Modal -->
+           <div class="modal modal-danger fade" id="modal-delete-account" tabindex="-1" role="dialog" aria-labelledby="modal-delete-account" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <form class="form-danger" method="post" action="">
+                  {% csrf_token %} 
+                    <div class="modal-content">
+                        <div class="modal-body">
+                          
+                            <div class="text-center">
+                                <i class="far fa-exclamation-circle fa-3x opacity-8"></i>
+                                <h5 class="text-white mt-4">Should we stop now?</h5>
+                                <p class="text-sm text-sm">Are you sure you want to delete ?</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label text-white">Enter The Candidate Name"</label>
+                                <input id="competitionNameInput" required class="form-control" type="text">
+                            </div>
+                            <div class="mt-4">
+                                <button type="submit" name='delete' value='{{candidate.candidatesId}}' class="btn btn-block btn-sm btn-white text-danger">Delete The account</button>
+                                <button type="button" class="btn btn-block btn-sm btn-link text-light mt-4" data-dismiss="modal">Not this time</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
           </div>
 
           {% endfor %}
+          
         </div> 
         <!-- Load more -->
         {% if count_candidate > 16 %} 

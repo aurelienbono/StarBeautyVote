@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import models
 from datetime import datetime
-from django.shortcuts import redirect
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 import os 
@@ -36,6 +35,7 @@ def generate_random_string(length=16):
 def landing(request): 
     return render(request,"pages/index.html")
 
+
 def dashboardHome(request) : 
     
     if 'delete' in request.POST : 
@@ -64,7 +64,6 @@ def dashboardHome(request) :
     context['score'] = CompetionList.count()
 
     return render(request ,'pages/application/home.html',context)
-
 
 
 
@@ -127,9 +126,20 @@ def createCompetition(request):
 
 
 
-
 def competitionDashboard(request,pk):
-   
+    if 'delete' in  request.POST : 
+        pk_candidate = request.POST.get('delete') 
+        candidate = models.Candidates.objects.get(candidatesId = pk_candidate )   
+        
+        folderCandidate = models.Candidates.objects.filter(candidatesId = pk_candidate).values('image').first()
+
+        folderCandidate = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',folderCandidate['image'].split('/')[1],folderCandidate['image'].split('/')[2])
+        
+        print(candidate, folderCandidate)
+        
+        shutil.rmtree(folderCandidate)
+        candidate.delete()
+        
     #get all candidate of this competition
     all_candidate   = models.Candidates.objects.filter(id_competition = pk).values()
     count           = all_candidate.count()
@@ -156,6 +166,7 @@ def competitionLanding(request):
 
     return render(request,"pages/application/competition/competitionLandingPage.html",context)
 
+
 def competitionDetails(request,pk): 
     
     competitionDetails = models.Competition.objects.filter(competitionId = pk)   
@@ -164,6 +175,16 @@ def competitionDetails(request,pk):
     context['score'] = competitionDetails.count()
 
     return render(request,"pages/application/competition/competitionDetailPage.html",context)
+
+
+def competitionCandidateProfile(request,pk): 
+        
+    candidateDetails = models.Candidates.objects.filter(candidatesId = pk)   
+    context = {} 
+    context['candidateDetails'] =  candidateDetails 
+    context['score'] = candidateDetails.count()
+    
+    return render(request, "pages/application/competition/candidateProfile.html",context)
 
 
 
@@ -275,10 +296,15 @@ def candidate_register(request,pk,price) :
         candidate.save()
         
         # redirect to candidate DashBoard
-        return redirect('/apps/')
+        return redirect('/apps/candi/profile/')
     
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
 
+
+
+def condidateProfile(request): 
+    
+    return render(request, "pages/application/candidate/profile.html")
 
 
 def recoverPassword(request) : 
