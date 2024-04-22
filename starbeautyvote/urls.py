@@ -20,5 +20,10 @@ urlpatterns = [
     path('apps/competitions/dashboard/<str:pk>/', views.competitionDashboard , name='competitionDashboard'),
     path('apps/competitions/candi/<str:pk>/', views.competitionCandidateProfile , name='competitionCandidateProfile'),
  
+    path('apps/pricing/', views.pricing , name='pricing'),
+    path('apps/accountBuilding/', views.accountBuilding , name='accountBuilding'),
+    path('apps/parameters/', views.parameters , name='settings'),
+
+    
     
 ]

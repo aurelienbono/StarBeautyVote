@@ -296,7 +296,7 @@ def candidate_register(request,pk,price) :
         candidate.save()
         
         # redirect to candidate DashBoard
-        return redirect('/apps/candi/profile/')
+        return redirect('/apps/candi/profile')
     
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
 
@@ -313,4 +313,15 @@ def recoverPassword(request) :
 
 
 def reset(request) : 
-        return render(request ,'pages/application/authentication/reset.html')
+    return render(request ,'pages/application/authentication/reset.html')
+    
+
+def pricing(request): 
+    return render(request,'pages/application/account/pricing.html' )
+
+
+def accountBuilding(request): 
+    return render(request,'pages/application/account/accountBilling.html' )
+
+def parameters(request): 
+    return render(request,'pages/application/account/settings.html' )
