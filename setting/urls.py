@@ -45,6 +45,10 @@ urlpatterns = [
     path('apps/competitions/create', include('starbeautyvote.urls')), 
     path('apps/competitions/dashboard', include('starbeautyvote.urls')),
     
+    path('apps/pricing/', include('starbeautyvote.urls')),
+    path('apps/accountBuilding/', include('starbeautyvote.urls')),
+    path('apps/parameters/', include('starbeautyvote.urls')),
+    
 
     
 ]
