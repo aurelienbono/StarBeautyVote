@@ -39,6 +39,8 @@ class Candidates(models.Model) :
     dataOfRegistration          = models.DateField(auto_now=True)
     image                       = models.ImageField()
     registration_fee_status     = models.CharField(max_length=20)
+    description                 = models.TextField()
+    password                    = models.CharField(max_length=24)
     id_competition              = models.ForeignKey(Competition , on_delete=models.CASCADE)
      
 

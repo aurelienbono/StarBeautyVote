@@ -164,17 +164,19 @@ def competitionLanding(request):
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
 
-    return render(request,"pages/application/competition/competitionLandingPage.html",context)
+    return render(request,"pages/pages/competitionLandingPage.html",context)
 
 
 def competitionDetails(request,pk): 
     
     competitionDetails = models.Competition.objects.filter(competitionId = pk)   
+    candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
     context = {} 
     context['competitionDetails'] =  competitionDetails 
     context['score'] = competitionDetails.count()
+    context['candidateDetails'] =  candidateDetails 
 
-    return render(request,"pages/application/competition/competitionDetailPage.html",context)
+    return render(request,"pages/pages/competitionDetailPage.html",context)
 
 
 def competitionCandidateProfile(request,pk): 
@@ -252,7 +254,7 @@ def candidate_register(request,pk,price) :
         for element in request.POST : 
             candidateInfo.append(request.POST[element])
         candidateInfo = candidateInfo[1:]
-        
+                
         media_path = models.Competition.objects.filter(competitionId=pk).values('image').first()
         
         candidateName = ''.join(re.split("[ ]+", candidateInfo[0])) +  datetime.now().strftime('%d-%m-%Y').replace('-','_')
@@ -260,7 +262,7 @@ def candidate_register(request,pk,price) :
         savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',media_path['image'].split('/')[1],candidateName )
     
                 
-        # save filename to db with path 
+        # # save filename to db with path 
         candidateUploadFile = request.FILES['image']
         fs = FileSystemStorage(location=savePath)
         new_name = modify_filename(candidateUploadFile.name ,'CandidateFullImage' )
@@ -273,20 +275,22 @@ def candidate_register(request,pk,price) :
         
         
         
-        # Fetch Promoter instance
-        competition_instance = models.Competition.objects.get(competitionId=candidateInfo[9])
+        #Fetch Promoter instance
+        competition_instance = models.Competition.objects.get(competitionId=candidateInfo[10])
         
         candidate = models.Candidates( 
                     candidatesId        = generate_random_string(),  
                     fullName           = candidateInfo[0].capitalize() , 
                     email              = candidateInfo[1], 
-                    age                = candidateInfo[2],
-                    numberPhone        = candidateInfo[3],
-                    academic_level     = candidateInfo[4],
-                    profession         = candidateInfo[5],
-                    country            = candidateInfo[6],
-                    city               = candidateInfo[7],
-                    city_of_origin     = candidateInfo[8],
+                    description        = candidateInfo[2],
+                    age                = candidateInfo[3],
+                    numberPhone        = candidateInfo[4],
+                    academic_level     = candidateInfo[5],
+                    profession         = candidateInfo[6],
+                    country            = candidateInfo[7],
+                    city               = candidateInfo[8],
+                    city_of_origin     = candidateInfo[9],
+                    password           = candidateInfo[11],
                     dataOfRegistration = datetime.now(),
                     image              = imageFinalPath, 
                     registration_fee_status   = 'None', 
