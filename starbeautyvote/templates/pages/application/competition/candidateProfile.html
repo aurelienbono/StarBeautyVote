@@ -18,7 +18,7 @@
           <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
             <!-- Page title + Go Back button -->
             <div class="d-inline-block">
-              <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Product</h5>
+              <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Candidate</h5>
             </div>
             <!-- Additional info -->
           </div>
@@ -50,13 +50,15 @@
           </div>
         </div>
       </div>
+
+      {% for  candidate in  candidateDetails %} 
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
             <div class="card-body">
               <!-- Product title -->
-              <h5 class="h4">Macbook Pro Touch Bar</h5>
-              <h6 class="text-sm">Processor 256GB Storage</h6>
+              <h5 class="h4">{{candidate.fullName}}</h5>
+              <h6 class="text-sm">Candidate</h6>
               <!-- Rating -->
               <div class="row align-items-center">
                 <div class="col-sm-6">
@@ -69,11 +71,9 @@
                 <div class="col-sm-6 text-sm-right">
                   <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                      <span class="badge badge-pill badge-soft-info">ID: #548970</span>
+                      <span class="badge badge-pill badge-soft-info">ID: #{{candidate.candidatesId}}</span>
                     </li>
-                    <li class="list-inline-item">
-                      <span class="badge badge-pill badge-soft-success">In stock</span>
-                    </li>
+
                   </ul>
                 </div>
               </div>
@@ -81,20 +81,30 @@
               <div class="py-4 my-4 border-top border-bottom">
                 <h6 class="text-sm">Description:</h6>
                 <p class="text-sm mb-0">
-                  Wherever your ideas take you, you’ll get there faster than ever with high‑performance processors and memory, advanced graphics, blazing‑fast storage, and more.
+                  {{candidate.description}}
                 </p>
               </div>
               <dl class="row">
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Display</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">13.3-inch LED-backlit display with IPS</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Processor</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">2.3GHz dual-core Intel Core i5, Turbo Boost up to 3.6GHz</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Camera</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">720p FaceTime HD camera</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Memory</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">8 GB RAM or 16 GB RAM</span></dd>
-                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Graphics</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">Intel Iris Plus Graphics 640</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">E-Mall</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.email}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Age</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.age}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Phone</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">+{{candidate.numberPhone}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Level</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.academic_level}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Profession</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.profession}}</span></dd>
+
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">country</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">+{{candidate.country}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">city</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.city}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">city_of_origin</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.city_of_origin}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Registration</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.dataOfRegistration}}</span></dd>
+
               </dl>
               <div class="pt-4 mt-4 border-top">
                 <!-- Processor -->
@@ -135,14 +145,7 @@
                     <input type="radio" name="radio-storage" value="2">
                     1TB SSD storage
                   </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm">
-                    <input type="radio" name="radio-storage" value="3">
-                    2TB SSD storage
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm">
-                    <input type="radio" name="radio-storage" value="4">
-                    4TB SSD storage
-                  </label>
+           
                 </div>
               </div>
             </div>
@@ -169,28 +172,28 @@
           <!-- Product images -->
           <div class="card">
             <div class="card-body">
-              <a href="../../assets/img/theme/light/shop-product-lg-2.jpg" data-fancybox="product">
-                <img alt="Image placeholder" src="../../assets/img/theme/light/shop-product-lg-2.jpg" class="img-fluid">
+              <a href="{% static candidate.image %}" data-fancybox="product">
+                <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
               </a>
               <div class="row mt-4">
                 <div class="col-4">
                   <div class="p-3 border rounded">
-                    <a href="../../assets/img/theme/light/shop-product-lg-1.jpg" class="stretched-link" data-fancybox="product">
-                      <img alt="Image placeholder" src="../../assets/img/theme/light/shop-product-lg-1.jpg" class="img-fluid">
+                    <a href="{% static candidate.image %}" class="stretched-link" data-fancybox="product">
+                      <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
                     </a>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="p-3 border rounded">
-                    <a href="../../assets/img/theme/light/shop-product-lg-2.jpg" class="stretched-link" data-fancybox="product">
-                      <img alt="Image placeholder" src="../../assets/img/theme/light/shop-product-lg-2.jpg" class="img-fluid">
+                    <a href="{% static candidate.image %}" class="stretched-link" data-fancybox="product">
+                      <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
                     </a>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="p-3 border rounded">
-                    <a href="../../assets/img/theme/light/shop-product-lg-3.jpg" class="stretched-link" data-fancybox="product">
-                      <img alt="Image placeholder" src="../../assets/img/theme/light/shop-product-lg-3.jpg" class="img-fluid">
+                    <a href="{% static candidate.image %}" class="stretched-link" data-fancybox="product">
+                      <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
                     </a>
                   </div>
                 </div>
@@ -303,5 +306,6 @@
           </div>
         </div>
       </div>
+      {% endfor %}
     </div>
     {% endblock %}
