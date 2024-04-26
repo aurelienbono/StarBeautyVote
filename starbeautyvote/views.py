@@ -66,9 +66,6 @@ def dashboardHome(request) :
     return render(request ,'pages/application/home.html',context)
 
 
-
-
-
 def createCompetition(request): 
     if request.method == 'POST' : 
         competititionInfo = [ ] 
@@ -246,7 +243,6 @@ def login(request) :
     return render(request ,'pages/application/authentication/login.html')
 
 
-
 def candidate_register(request,pk,price) : 
     if request.method=="POST" : 
         candidateInfo = [] 
@@ -303,6 +299,28 @@ def candidate_register(request,pk,price) :
         return redirect('/apps/candi/profile')
     
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
+
+
+def checkoutPayment(request,pk):
+     
+    return render(request,"pages/pages/payments/checkoutPayment.html")
+
+
+def errorPayment(request,pk): 
+    return render(request,"pages/pages/payments/errorPayment.html")
+
+
+def succesPayment(request,pk): 
+    return render(request,"pages/pages/payments/successPayment.html")
+
+
+
+
+
+
+
+
+
 
 
 

@@ -24,6 +24,13 @@ urlpatterns = [
     path('apps/accountBuilding/', views.accountBuilding , name='accountBuilding'),
     path('apps/parameters/', views.parameters , name='settings'),
 
+
+    path('pages/checkoutPayment/candi/<str:pk>/', views.checkoutPayment , name='checkoutPayment'),
+    path('pages/errorPayment/candi/', views.errorPayment , name='errorPayment'),
+    path('pages/succestPayment/candi/', views.succesPayment , name='succestPayment'),
+
+
+
     
     
 ]

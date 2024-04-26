@@ -45,9 +45,15 @@ urlpatterns = [
     path('apps/competitions/create', include('starbeautyvote.urls')), 
     path('apps/competitions/dashboard', include('starbeautyvote.urls')),
     
+    #Account 
     path('apps/pricing/', include('starbeautyvote.urls')),
     path('apps/accountBuilding/', include('starbeautyvote.urls')),
     path('apps/parameters/', include('starbeautyvote.urls')),
+    
+    #Payment
+    path('pages/checkoutPayment/candi/<str:pk>/', include('starbeautyvote.urls')),
+    path('pages/checkoutPayment/candi/', include('starbeautyvote.urls')),
+    path('ages/succestPayment/candi/', include('starbeautyvote.urls')),
     
 
     

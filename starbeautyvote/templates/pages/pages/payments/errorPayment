@@ -1,0 +1,11 @@
+
+{% extends "../../../base/home/base.html" %}
+{% load static %}
+
+{% block title %} error Payment {% endblock %}
+{% block content %}
+
+
+
+
+{% endblock %}

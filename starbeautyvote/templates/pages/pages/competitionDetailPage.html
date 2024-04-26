@@ -93,84 +93,32 @@
             </div>
           </div>
           
-          {% for candidate in  candidateDetails %}
           <div class="row">
+            {% for candidate in candidateDetails %}
             <div class="col-lg-3 col-sm-6">
               <div class="card card-product">
                 <figure class="figure">
-                  <img alt="Image placeholder" src="{% static  candidate.image %}" width="800px"  height="800px" class="img-center img-fluid">
+                  <img alt="Image placeholder" src="{% static candidate.image %}"  class="img-center img-fluid candidate-image">
                 </figure>
                 <div class="card-body text-center pt-0">
                   <br>
-                  <h5 id='nameCandidate'>{{candidate.fullName}}</h5>
-  
-                  <span class="card-price">
-                    0 votes</span>
-                 
+                  <h5 class="candidate-name">{{ candidate.fullName }}</h5>
+                  <span class="card-price">0 votes</span>
                 </div>
                 <div class="card-footer px-0 py-0 border-0 overflow-hidden">
-                  <a href="" data-toggle="modal" data-target="#modal-change-username" class="btn btn-block btn-primary rounded-0">
-                    Vote for her</a>
-                </div>
-  
+                  <a href="/pages/checkoutPayment/candi/{{ candidate.candidatesId }}" class="btn btn-block btn-primary rounded-0 vote-button">
+                    Vote for her
+                  </a>
                 </div>
               </div>
             </div>
-  
+            {% endfor %}
           </div>
-          {% endfor %}
+          
    
       </div>
     </section>
-<!-- Modal -->
-<div class="modal fade" id="modal-change-username" tabindex="-1" role="dialog" aria-labelledby="modal-change-username" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <form>
-          <div class="modal-content">
-              <div class="modal-header">
-                  <div class="modal-title d-flex align-items-center" id="modal-title-change-username">
-                      <div>
-                          <div class="icon icon-sm icon-shape icon-info rounded-circle shadow mr-3">
-                              <i class="fas fa-user"></i>
-                          </div>
-                      </div>
-                      <div>
-                          <h6 class="mb-0">
-                            Vote for</h6>
-                      </div>
-                  </div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <figure class="figure">
-                <img alt="Image placeholder" src="{% static 'assets/img/theme/light/team-3-800x800.jpg' %}" class="img-center img-fluid">
-              </figure>
-              <div class="modal-body">
-                <select class="custom-select">
-                  <option selected>Select currency</option>
-                  <option value="fcfa">FCFA</option>
-                  <option value="euro">EUR</option>
-                  <option value="dollar">Dollar</option>
-              </select>
-                  <div class="form-group">
-                    <label class="form-control-label">
-                      Amount of votes 
-                    </label>
-                    <input type="number" required  name='amount' placeholder='Amount : Fcfa 1000 ' class="form-control">
-                  </div>
-                  <div class="px-5 pt-4 mt-4 delimiter-top text-center">
-                      <p class="text-muted text-sm">1 Vote = 100 FCFA | 4 Votes = 1 USD | 5 Votes = 1 EUR</p>
-                  </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">
-                    Proceed to payment</button>
-              </div>
-          </div>
-      </form>
-  </div>
-</div>
+
   </div>
 
 
@@ -244,4 +192,11 @@
           </div>
         </div>
       </section>
+      <style>
+        .candidate-image {
+          width: 300px;
+          height: 310px;
+          object-fit: cover;
+        }
+      </style>
       {% endblock %}
