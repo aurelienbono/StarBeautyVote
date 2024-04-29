@@ -9,93 +9,70 @@
     <!-- Content -->
     
     {% block content %}
-      <!-- Page content -->
-    <!-- Page content -->
-    <div class="page-content">
-      <!-- Page title -->
-      <div class="page-title">
-        <div class="row justify-content-between align-items-center">
-          <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
-            <!-- Page title + Go Back button -->
-            <div class="d-inline-block">
-              <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Candidate</h5>
+   <!-- Page content -->
+      <div class="page-content">
+        <!-- Page title -->
+        {% for  candidate in  candidateDetails %} 
+        <div class="page-title">
+          <div class="row justify-content-between align-items-center">
+            <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+              <!-- Page title + Go Back button -->
+              <div class="d-inline-block">
+                <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Invoice   #{{candidate.candidatesId}}</h5>
+              </div>
+              <!-- Additional info -->
             </div>
-            <!-- Additional info -->
-          </div>
-          <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Status: Shipped
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <h6 class="dropdown-header">Set order status</h6>
-                <a class="dropdown-item" href="#">
-                  <i class="far fa-shopping-bag text-primary"></i>Placed
+            <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
+              <div class="actions actions-dark d-inline-block">
+                <a href="#" class="action-item ml-md-4">
+                  <i class="far fa-file-export mr-2"></i>Export
                 </a>
-                <a class="dropdown-item" href="#">
-                  <i class="far fa-clipboard-check text-primary"></i>Confirmed
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="far fa-box text-primary"></i>Packed
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="far fa-shipping-fast text-primary"></i>Shipped
-                </a>
-                <div class="dropdown-divider" role="presentation"></div>
-                <a class="dropdown-item" href="#">
-                  <i class="far fa-check text-primary"></i>Delivered
+                <a href="#" class="action-item ml-3">
+                  <i class="far fa-cog mr-2"></i>Settings
                 </a>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {% for  candidate in  candidateDetails %} 
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <!-- Product title -->
-              <h5 class="h4">{{candidate.fullName}}</h5>
-              <h6 class="text-sm">Candidate</h6>
-              <!-- Rating -->
-              <div class="row align-items-center">
-                <div class="col-sm-6">
-                  <span class="static-rating static-rating-sm d-block"><i class="star far fa-star voted"></i>
-                    <i class="star far fa-star voted"></i>
-                    <i class="star far fa-star voted"></i>
-                    <i class="star far fa-star voted"></i>
-                    <i class="star far fa-star"></i></span>
-                </div>
-                <div class="col-sm-6 text-sm-right">
-                  <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                      <span class="badge badge-pill badge-soft-info">ID: #{{candidate.candidatesId}}</span>
-                    </li>
-
-                  </ul>
-                </div>
-              </div>
-              <!-- Description -->
-              <div class="py-4 my-4 border-top border-bottom">
-                <h6 class="text-sm">Description:</h6>
-                <p class="text-sm mb-0">
-                  {{candidate.description}}
-                </p>
-              </div>
-              <dl class="row">
+        <!-- Listing -->
+        <div class="card card-body p-md-5">
+          <div class="row align-items-center mb-5">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <img src="{% static candidate.image %}" class=" rounded-circle xx" alt="" height="100" width="100">
+            </div>
+            <div class="col-sm-6 text-sm-right">
+              <h6 class="d-inline-block m-0 d-print-none">Status</h6>
+              <span class="badge badge-pill badge-success ml-3">Paid</span>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col-lg-6 col-md-8">
+              <h6 class="">Hello, I'm {{candidate.fullName}}!</h6>
+              <p class="text-sm">
+                {{candidate.description}}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <h5>Candidate data</h5>
+              <dl class="row mt-4 align-items-center">
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">E-Mall</span></dt>
                 <dd class="col-sm-9"><span class="text-sm">{{candidate.email}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">Age</span></dt>
                 <dd class="col-sm-9"><span class="text-sm">{{candidate.age}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">Phone</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">+{{candidate.numberPhone}}</span></dd>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.numberPhone}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">Level</span></dt>
                 <dd class="col-sm-9"><span class="text-sm">{{candidate.academic_level}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">Profession</span></dt>
                 <dd class="col-sm-9"><span class="text-sm">{{candidate.profession}}</span></dd>
 
+              </dl>
+            </div>
+            <div class="col-12 col-md-6">
+              <h5>Invoice data</h5>
+              <dl class="row mt-4 align-items-center">
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">country</span></dt>
                 <dd class="col-sm-9"><span class="text-sm">+{{candidate.country}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">city</span></dt>
@@ -106,206 +83,92 @@
                 <dd class="col-sm-9"><span class="text-sm">{{candidate.dataOfRegistration}}</span></dd>
 
               </dl>
-              <div class="pt-4 mt-4 border-top">
-                <!-- Processor -->
-                <h6>Processor</h6>
-                <a href="#" class="text-sm">Which processor is right for you?</a>
-                <div class="btn-group-toggle btn-group-options row mx-0 mt-3 mb-5" data-toggle="buttons">
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm active">
-                    <input type="radio" name="radio-processor" value="1" checked="">
-                    2.6GHz 6‑core 8th‑generation Intel Core i7 processor, Turbo Boost up to 4.3GHz
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm">
-                    <input type="radio" name="radio-processor" value="2">
-                    2.9GHz 6‑core 8th‑generation Intel Core i9 processor, Turbo Boost up to 4.8GHz
-                  </label>
-                </div>
-                <!-- Memory -->
-                <h6 class="mt-5">Memory</h6>
-                <a href="#" class="text-sm">How much memory is right for you?</a>
-                <div class="btn-group-toggle btn-group-options row mx-0 mt-3 mb-5" data-toggle="buttons">
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm">
-                    <input type="radio" name="radio-memory" value="1" checked="">
-                    16GB 2400MHz DDR4 memory
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 mr-0 text-left text-sm active">
-                    <input type="radio" name="radio-memory" value="2">
-                    32GB 2400MHz DDR4 memory
-                  </label>
-                </div>
-                <!-- Storage -->
-                <h6 class="mt-5">Storage</h6>
-                <a href="#" class="text-sm">How much storage is right for you?</a>
-                <div class="btn-group-toggle btn-group-options row mx-0 mt-3" data-toggle="buttons">
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm active">
-                    <input type="radio" name="radio-storage" value="1" checked="">
-                    512GB SSD storage
-                  </label>
-                  <label class="btn btn-lg btn-neutral col-12 mb-2 text-left text-sm">
-                    <input type="radio" name="radio-storage" value="2">
-                    1TB SSD storage
-                  </label>
-           
+            </div>
+          </div>
+          {% endfor %}
+          <div class="row">
+            <div class="col-12">
+              <h5>Candidate Votes</h5>
+              <!-- Table -->
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th class="px-0 bg-transparent border-top-0">Description</th>
+                      <th class="px-0 bg-transparent border-top-0">Hours</th>
+                      <th class="px-0 bg-transparent border-top-0 text-right">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Custom theme development</span>
+                      </td>
+                      <td class="px-0">
+                        125
+                      </td>
+                      <td class="px-0 text-right">
+                        $6,250
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Logo design</span>
+                      </td>
+                      <td class="px-0">
+                        15
+                      </td>
+                      <td class="px-0 text-right">
+                        $750
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Custom theme development</span>
+                      </td>
+                      <td class="px-0">
+                        125
+                      </td>
+                      <td class="px-0 text-right">
+                        $6,250
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Logo design</span>
+                      </td>
+                      <td class="px-0">
+                        15
+                      </td>
+                      <td class="px-0 text-right">
+                        $750
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card my-5 bg-secondary">
+                <div class="card-body">
+                  <div class="row justify-content-between align-items-center">
+                    <div class="col-md-6 order-md-2 mb-4 mb-md-0">
+                      <div class="d-flex align-items-center justify-content-md-end">
+                        <span class="h6 text-muted d-inline-block mr-3 mb-0">Total value:</span>
+                        <span class="h4 mb-0">$450.85 USD</span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 order-md-1">
+                      <button type="button" class="btn btn-sm btn-primary">Download</button>
+                      <a href="#" class="btn btn-sm btn-link text-dark font-weight-bold">Print invoice</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-sm-6 mb-4 mb-sm-0">
-                  <span class="d-block h3 mb-0">$2,600</span>
-                  <a href="#" class="text-sm">Choose a financing option</a>
-                </div>
-                <div class="col-sm-6 text-sm-right">
-                  <!-- Add to cart -->
-                  <button type="button" class="btn btn-primary btn-icon">
-                    <span class="btn-inner--icon"><i class="far fa-shopping-bag"></i></span>
-                    <span class="btn-inner--text">Add to bag</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Product images -->
-          <div class="card">
-            <div class="card-body">
-              <a href="{% static candidate.image %}" data-fancybox="product">
-                <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
-              </a>
-              <div class="row mt-4">
-                <div class="col-4">
-                  <div class="p-3 border rounded">
-                    <a href="{% static candidate.image %}" class="stretched-link" data-fancybox="product">
-                      <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
-                    </a>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="p-3 border rounded">
-                    <a href="{% static candidate.image %}" class="stretched-link" data-fancybox="product">
-                      <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
-                    </a>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="p-3 border rounded">
-                    <a href="{% static candidate.image %}" class="stretched-link" data-fancybox="product">
-                      <img alt="Image placeholder" src="{% static candidate.image %}" class="img-fluid">
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Stocks -->
-          <div class="card">
-            <div class="card-header border-0">
-              <h6 class="mb-0">Stocks</h6>
-            </div>
-            <!-- Stocks table -->
-            <div class="table-responsive">
-              <table class="table align-items-center">
-                <thead>
-                  <tr>
-                    <th scope="col" class="sort" data-sort="name">Store</th>
-                    <th scope="col" class="sort" data-sort="status">Stock</th>
-                  </tr>
-                </thead>
-                <tbody class="list">
-                  <tr>
-                    <th scope="row">
-                      <i class="far fa-store mr-2"></i>
-                      <span class="name mb-0 text-sm">Birmingham</span>,
-                      <a href="#">The Summit</a>
-                    </th>
-                    <td class="stock">
-                      <div class="d-flex align-items-center">
-                        <span class="completion mr-2">370</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <i class="far fa-store mr-2"></i>
-                      <span class="name mb-0 text-sm">Huntsville</span>,
-                      <a href="#">Bridge Street</a>
-                    </th>
-                    <td class="stock">
-                      <div class="d-flex align-items-center">
-                        <span class="completion mr-2">103</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <i class="far fa-store mr-2"></i>
-                      <span class="name mb-0 text-sm">Chicago</span>,
-                      <a href="#">Lincoln Park</a>
-                    </th>
-                    <td class="stock">
-                      <div class="d-flex align-items-center">
-                        <span class="completion mr-2">370</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <i class="far fa-store mr-2"></i>
-                      <span class="name mb-0 text-sm">Deer Park</span>,
-                      <a href="#">Deer Park</a>
-                    </th>
-                    <td class="stock">
-                      <div class="d-flex align-items-center">
-                        <span class="completion mr-2">250</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <i class="far fa-store mr-2"></i>
-                      <span class="name mb-0 text-sm">Charlotte</span>,
-                      <a href="#">Northlake Mall</a>
-                    </th>
-                    <td class="stock">
-                      <div class="d-flex align-items-center">
-                        <span class="completion mr-2">30</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+
       </div>
-      {% endfor %}
-    </div>
-    {% endblock %}
+
+
+      {% endblock %}
