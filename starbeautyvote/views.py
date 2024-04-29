@@ -36,6 +36,11 @@ def landing(request):
     return render(request,"pages/index.html")
 
 
+
+
+
+## DASHBOARD 
+
 def dashboardHome(request) : 
     
     if 'delete' in request.POST : 
@@ -171,27 +176,6 @@ def competitionDashboard(request,pk):
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
 
 
-def competitionLanding(request): 
-    context = {} 
-    CompetionList = models.Competition.objects.all()
-    
-    context['CompetionList'] =  CompetionList 
-    context['score'] = CompetionList.count()
-
-    return render(request,"pages/pages/competitionLandingPage.html",context)
-
-
-def competitionDetails(request,pk): 
-    
-    competitionDetails = models.Competition.objects.filter(competitionId = pk)   
-    candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
-    context = {} 
-    context['competitionDetails'] =  competitionDetails 
-    context['score'] = candidateDetails.count()
-    context['candidateDetails'] =  candidateDetails 
-
-    return render(request,"pages/pages/competitionDetailPage.html",context)
-
 
 def competitionCandidateProfile(request,pk): 
         
@@ -203,6 +187,13 @@ def competitionCandidateProfile(request,pk):
     return render(request, "pages/application/competition/candidateProfile.html",context)
 
 
+
+def condidateProfile(request): 
+    
+    return render(request, "pages/application/candidate/profile.html")
+
+
+## AUTHENTIFICATION 
 
 def register(request) : 
     if request.method=="POST" : 
@@ -312,6 +303,18 @@ def candidate_register(request,pk,price) :
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
 
 
+def recoverPassword(request) : 
+    
+    return render(request ,'pages/application/authentication/recover.html')
+
+
+def reset(request) : 
+    return render(request ,'pages/application/authentication/reset.html')
+    
+
+
+## PAYMENT 
+
 def checkoutPayment(request,pk):
      
     return render(request,"pages/pages/payments/checkoutPayment.html")
@@ -324,24 +327,6 @@ def errorPayment(request,pk):
 def succesPayment(request,pk): 
     return render(request,"pages/pages/payments/successPayment.html")
 
-
-
-
-
-
-def condidateProfile(request): 
-    
-    return render(request, "pages/application/candidate/profile.html")
-
-
-def recoverPassword(request) : 
-    
-    return render(request ,'pages/application/authentication/recover.html')
-
-
-def reset(request) : 
-    return render(request ,'pages/application/authentication/reset.html')
-    
 
 def pricing(request): 
     context = {} 
@@ -358,6 +343,8 @@ def accountBuilding(request):
     
     return render(request,'pages/application/account/accountBilling.html',context )
 
+## SETTINGS
+
 def parameters(request):
     context = {} 
     context['userId'] = request.session.get('userId')
@@ -365,3 +352,54 @@ def parameters(request):
     
     
     return render(request,'pages/application/account/settings.html',context )
+
+
+# PAGES 
+
+
+def competitionLanding(request): 
+    context = {} 
+    CompetionList = models.Competition.objects.all()
+    
+    context['CompetionList'] =  CompetionList 
+    context['score'] = CompetionList.count()
+
+    return render(request,"pages/pages/competitionLandingPage.html",context)
+
+
+def competitionDetails(request,pk): 
+    
+    competitionDetails = models.Competition.objects.filter(competitionId = pk)   
+    candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
+    context = {} 
+    context['competitionDetails'] =  competitionDetails 
+    context['score'] = candidateDetails.count()
+    context['candidateDetails'] =  candidateDetails 
+
+    return render(request,"pages/pages/competitionDetailPage.html",context)
+
+
+
+
+
+def contact(request): 
+    return render(request,"pages/pages/contact.html" )
+
+
+def blogs(request): 
+    return render(request,"pages/pages/blog.html" )
+
+def detailsBlogs(request,pk): 
+    return render(request,"pages/pages/blogArticle.html" )
+
+def faq(request): 
+    return render(request,"pages/pages/faq.html" )
+
+def services(request): 
+    return render(request,"pages/pages/services.html" )
+
+def support(request): 
+    return render(request,"pages/pages/support.html" )
+
+def pricing(request): 
+    return render(request,"pages/pages/pricing.html" )

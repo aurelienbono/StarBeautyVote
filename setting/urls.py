@@ -19,15 +19,22 @@ from django.urls import path, include
 
 urlpatterns = [
     
-    #app 
+    #pages 
     
     path('admin/', admin.site.urls),
     path('', include('starbeautyvote.urls')), 
-    path('landing/', include('starbeautyvote.urls')),  
+    path('landing/', include('starbeautyvote.urls')),
+    path('contact/', include('starbeautyvote.urls')), 
+    path('blogs/', include('starbeautyvote.urls')), 
+    path('faq/', include('starbeautyvote.urls')), 
+    path('services/', include('starbeautyvote.urls')), 
+    path('support/', include('starbeautyvote.urls')), 
+    path('pricing/', include('starbeautyvote.urls')), 
+    path('detailsBlogs/<str:pk>/', include('starbeautyvote.urls')),   
     path('competitionLanding/', include('starbeautyvote.urls')),
     path('competitionDetails/', include('starbeautyvote.urls')),
     
-    # promoter 
+    # dashboard 
     path('apps/', include('starbeautyvote.urls')), 
     path('auths/register/', include('starbeautyvote.urls')), 
     path('auths/login/', include('starbeautyvote.urls')), 
