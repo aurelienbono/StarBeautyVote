@@ -60,8 +60,15 @@ def dashboardHome(request) :
     context = {} 
     CompetionList = models.Competition.objects.filter(id_promoter=request.session.get('userId') ).values()
     
+    
+    
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    
+  
 
     return render(request ,'pages/application/home.html',context)
 
@@ -118,6 +125,11 @@ def createCompetition(request):
     context = {} 
     promoterId = request.session.get('userId')
     context['promoterId'] = promoterId
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    
+  
 
     return render(request , 'pages/application/competition/createcompetition.html',context)
 
@@ -144,12 +156,17 @@ def competitionDashboard(request,pk):
     
     context = {'all_candidate' : all_candidate, "count_candidate":count }
     
-    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+
     # # 
     # # get registration_fee of this competition
     competitionDetails             =  models.Competition.objects.filter(competitionId = pk).values().first()
     
     context['competitionDetails']  =  competitionDetails
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    
         
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
 
@@ -194,7 +211,6 @@ def register(request) :
         for element in request.POST : 
             userInfo.append(request.POST[element])
         userInfo = userInfo[1:]
-        print(userInfo)
         
         
         user = models.Promoter( 
@@ -208,11 +224,6 @@ def register(request) :
                     )
         
         user.save()
-        
-        # #seva sessionInformation 
-        request.session['userId'] = user.promoterId
-        
-        
         return redirect('/auths/login/')
     return render(request ,'pages/application/authentication/register.html')
 
@@ -225,14 +236,14 @@ def login(request) :
         
         userInfo = models.Promoter.objects.filter(email=str(email)).values().first()
         userPassword = userInfo['password']
-        print(userInfo)
         
-        # seva sessionInformation 
-        request.session['userId'] = userInfo['promoterId']
         
         if userInfo and  userPassword == password : 
             isHasCompetition = models.Competition.objects.filter(id_promoter = userInfo['promoterId'] ).values().first()
             if isHasCompetition  : 
+                      
+                request.session['userId']  = userInfo['promoterId']
+                request.session['fullName'] = userInfo['fullName']
                 return redirect('/apps/') 
             else : 
                 return redirect('/apps/competitions/create')
@@ -339,11 +350,24 @@ def reset(request) :
     
 
 def pricing(request): 
-    return render(request,'pages/application/account/pricing.html' )
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    return render(request,'pages/application/account/pricing.html',context )
 
 
 def accountBuilding(request): 
-    return render(request,'pages/application/account/accountBilling.html' )
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    return render(request,'pages/application/account/accountBilling.html',context )
 
-def parameters(request): 
-    return render(request,'pages/application/account/settings.html' )
+def parameters(request):
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    
+    return render(request,'pages/application/account/settings.html',context )

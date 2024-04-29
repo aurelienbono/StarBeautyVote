@@ -303,28 +303,28 @@
                   <img alt="Image placeholder" src="{% static 'assets/img/theme/light/team-4-800x800.jpg' %}">
                 </span>
                 <div class="ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                  <span class="mb-0 text-sm  font-weight-bold">{{fullName}}</span>
                 </div>
               </div>
             </a>
             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right dropdown-menu-arrow">
-              <h6 class="dropdown-header px-0">Hi, John!</h6>
+              <h6 class="dropdown-header px-0">Hi, {{fullName}}!</h6>
               <a href="#!" class="dropdown-item">
                 <i class="far fa-user"></i>
                 <span>My profile</span>
               </a>
-              <a href="#!" class="dropdown-item">
+              <a href="/apps/parameters/" class="dropdown-item">
                 <i class="far fa-cog"></i>
                 <span>Settings</span>
               </a>
-              <a href="#!" class="dropdown-item">
+              <a href="/apps/accountBuilding/" class="dropdown-item">
                 <i class="far fa-credit-card"></i>
                 <span>Billing</span>
               </a>
-              <a href="#!" class="dropdown-item">
+              {% comment %} <a href="#!" class="dropdown-item">
                 <i class="far fa-tasks"></i>
                 <span>Activity</span>
-              </a>
+              </a> {% endcomment %}
               <div class="dropdown-divider"></div>
               <a href="#!" class="dropdown-item">
                 <i class="far fa-sign-out-alt"></i>

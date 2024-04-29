@@ -3,12 +3,12 @@ import uuid
 # Create your models here.
 
 class Promoter(models.Model)  : 
-    promoterId      = models.CharField(primary_key=True,max_length=50, unique=True)
-    fullName    = models.CharField(max_length=50)
-    email       = models.EmailField(max_length=50,unique=True)
-    numberPhone = models.CharField(max_length=15)
-    password    = models.CharField(max_length=24)
-    position    = models.CharField(max_length=25)
+    promoterId         = models.CharField(primary_key=True,max_length=50, unique=True)
+    fullName           = models.CharField(max_length=50)
+    email              = models.EmailField(max_length=50,unique=True)
+    numberPhone        = models.CharField(max_length=15)
+    password           = models.CharField(max_length=24)
+    position           = models.CharField(max_length=25)
     dataOfRegistration = models.DateField(auto_now=True)
 
         
@@ -45,3 +45,12 @@ class Candidates(models.Model) :
      
 
 
+class Votes(models.Model) : 
+    voteId                      = models.CharField(primary_key=True,max_length=50, unique=True)
+    id_competition              = models.ForeignKey(Competition , on_delete=models.CASCADE)
+    id_candidates               = models.ForeignKey(Candidates , on_delete=models.CASCADE)
+    nameVoter                   = models.CharField(max_length=50)
+    priceVoter                  = models.CharField(max_length=50)
+    dataOfVoting                = models.DateField(auto_now=True)
+    
+    
