@@ -4,9 +4,13 @@
 {% load static %}
 
 
-  {% block title %} Competions Details {% endblock %}
-   {% block content %}
-
+      <!-- Page content -->
+      {% block title %} Create Competions {% endblock %}
+    <!-- Content -->
+    
+    {% block content %}
+      <!-- Page content -->
+      <!-- Page content -->
       <div class="page-content">
         <!-- Page title -->
         <div class="page-title">
@@ -122,6 +126,8 @@
               </div>
             </div>
           </div>
+        </div>
+        
        <div class="row">
         {% for candidate in all_candidate  %}
           <div class="col-lg-3 col-sm-6">
@@ -129,7 +135,7 @@
               <div class="card-header">
                 <div class="d-flex align-items-center">
                   <div class="avatar-parent-child">
-                    <img alt="Image placeholder" src="{% static candidate.image %}" class="avatar  rounded-circle">
+                    <img alt="Image placeholder" src="{% static candidate.image %}"  class="avatar  rounded-circle ">
                   {% if candidate.registration_fee_status == 'None '%} 
                   <span class="avatar-child avatar-badge bg-danger"></span>
 

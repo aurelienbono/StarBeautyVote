@@ -187,7 +187,7 @@ def competitionDetails(request,pk):
     candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
     context = {} 
     context['competitionDetails'] =  competitionDetails 
-    context['score'] = competitionDetails.count()
+    context['score'] = candidateDetails.count()
     context['candidateDetails'] =  candidateDetails 
 
     return render(request,"pages/pages/competitionDetailPage.html",context)
@@ -323,12 +323,6 @@ def errorPayment(request,pk):
 
 def succesPayment(request,pk): 
     return render(request,"pages/pages/payments/successPayment.html")
-
-
-
-
-
-
 
 
 

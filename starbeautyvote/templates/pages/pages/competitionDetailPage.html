@@ -93,6 +93,7 @@
             </div>
           </div>
           
+          {% if score != 0  %}
           <div class="row">
             {% for candidate in candidateDetails %}
             <div class="col-lg-3 col-sm-6">
@@ -114,6 +115,14 @@
             </div>
             {% endfor %}
           </div>
+     
+        
+          {% else %}  
+         <p class="h4 lh-150">
+       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta.
+      </p>
+             
+          {% endif %}
           
    
       </div>
