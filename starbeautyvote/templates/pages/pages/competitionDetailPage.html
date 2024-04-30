@@ -107,9 +107,12 @@
                   <span class="card-price">0 votes</span>
                 </div>
                 <div class="card-footer px-0 py-0 border-0 overflow-hidden">
-                  <a href="/pages/checkoutPayment/candi/{{ candidate.candidatesId }}" class="btn btn-block btn-primary rounded-0 vote-button">
+                  {% comment %} <a href="/pages/checkoutPayment/candi/{{ candidate.candidatesId }}" class="btn btn-block btn-primary rounded-0 vote-button">
                     Vote for her
-                  </a>
+                  </a> {% endcomment %}
+                  <button type="button" class="btn btn-block btn-primary rounded-0 vote-button" data-toggle="modal" data-target="#modal_success">
+                    Vote for her
+                </button>
                 </div>
               </div>
             </div>
@@ -131,6 +134,46 @@
   </div>
 
 
+<!-- Modal -->
+<div class="modal modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title h6" id="modal_title_6">Vote For</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="py-3 text-center">
+                  <a href="#" class="avatar  rounded-circle avatar-lg">
+                    <img alt="Image placeholder" src="{% static "assets/img/theme/light/team-1-800x800.jpg" %}">
+                </a>
+                
+                  <h5 class="heading h4 mt-4">Let's get started</h5>
+                  <p>
+                    1 Vote = 100 FCFA | 4 Votes = 1 USD | 5 Votes = 1 EUR
+                  </p>
+                  <div class="card">
+                    <div class="card-header py-4" id="heading-2-1">
+                        <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
+                        <span class="numberOfVote">  Price : 0 FCFA </span>
+                        </h6>
+                    </div>
+                  </div>
+            
+                  <div class="form-group">
+                    <input type="number" class="form-control" placeholder="Enter number of votes">
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+      </div>
+  </div>
+</div>
  
       <br>  <br> 
     <section class="slice slice-xl bg-cover bg-size--cover" style="background-image: url({% static 'assets/img/backgrounds/img-17.jpg' %} ); background-position: center center;">
@@ -208,4 +251,6 @@
           object-fit: cover;
         }
       </style>
+      <script src="{% static 'assets/js/scripts.js' %} "></script>
+
       {% endblock %}
