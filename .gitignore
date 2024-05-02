@@ -1,3 +1,4 @@
 db.sqlite3
-starbeautyvote/migrations
+.gitignore
+starbeautyvote/migrations/
 starbeautyvote/static/media
