@@ -15,3 +15,20 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
+
+  $(document).ready(function(){
+    $(".vote-button").click(function(){
+      var candidateId = $(this).data('candidate-id');
+      var candidateName = $("#userContentName"+candidateId).text();
+      var candidateImage = $("#userContentImage"+candidateId).attr('src');
+      
+      $("#modal_candidate_name").text(candidateName);
+      $("#modal_candidate_image").attr('src', candidateImage);
+
+      $(".form-group input").val("");
+
+      $(".numberOfVote").text("Price : 0 FCFA");
+
+
+    });
+  });

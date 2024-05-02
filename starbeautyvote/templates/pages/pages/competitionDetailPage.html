@@ -5,6 +5,8 @@
 {% block title %} competitionDetails {% endblock %}
 {% block content %}
 
+{% comment %} <script src="{% static "assets/js/jquery.min.js" %}"></script> {% endcomment %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
   {% for competition  in competitionDetails  %} 
@@ -82,7 +84,6 @@
       </div>
     </section>
     {% endfor %}
-
     <section class="slice slice-lg delimiter-top" id="sct-suggested-products">
       <div class="container">
         <div class="container no-padding">
@@ -99,27 +100,24 @@
             <div class="col-lg-3 col-sm-6">
               <div class="card card-product">
                 <figure class="figure">
-                  <img alt="Image placeholder" src="{% static candidate.image %}"  class="img-center img-fluid candidate-image">
+                  <img alt="Image placeholder" src="{% static candidate.image %}"  class="img-center img-fluid candidate-image" id="userContentImage{{ candidate.candidatesId }}">
                 </figure>
                 <div class="card-body text-center pt-0">
                   <br>
-                  <h5 class="candidate-name">{{ candidate.fullName }}</h5>
+                  <h5 class="candidate-name" id="userContentName{{ candidate.candidatesId }}">{{ candidate.fullName }}</h5>
                   <span class="card-price">0 votes</span>
                 </div>
                 <div class="card-footer px-0 py-0 border-0 overflow-hidden">
-                  {% comment %} <a href="/pages/checkoutPayment/candi/{{ candidate.candidatesId }}" class="btn btn-block btn-primary rounded-0 vote-button">
+                  <button type="button" class="btn btn-block btn-primary rounded-0 vote-button" data-toggle="modal" data-target="#modal_success" data-candidate-id="{{ candidate.candidatesId }}">
                     Vote for her
-                  </a> {% endcomment %}
-                  <button type="button" class="btn btn-block btn-primary rounded-0 vote-button" data-toggle="modal" data-target="#modal_success">
-                    Vote for her
-                </button>
+                  </button>
                 </div>
               </div>
             </div>
             {% endfor %}
           </div>
-     
-        
+         
+          
           {% else %}  
          <p class="h4 lh-150">
        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta.
@@ -127,9 +125,10 @@
              
           {% endif %}
           
-   
+        </div>
       </div>
     </section>
+    
 
   </div>
 
@@ -147,17 +146,17 @@
           <div class="modal-body">
               <div class="py-3 text-center">
                   <a href="#" class="avatar  rounded-circle avatar-lg">
-                    <img alt="Image placeholder" src="{% static "assets/img/theme/light/team-1-800x800.jpg" %}">
+                    <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='2e' height='70'>
                 </a>
                 
-                  <h5 class="heading h4 mt-4">Let's get started</h5>
+                  <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
                   <p>
                     1 Vote = 100 FCFA | 4 Votes = 1 USD | 5 Votes = 1 EUR
                   </p>
                   <div class="card">
                     <div class="card-header py-4" id="heading-2-1">
                         <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
-                        <span class="numberOfVote">  Price : 0 FCFA </span>
+                        <span class="numberOfVote">  Price : 0 FCFA</span> </span>
                         </h6>
                     </div>
                   </div>
@@ -169,11 +168,12 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary">Proceed to payment</button>
           </div>
       </div>
   </div>
-</div>
+  </div>
+
  
       <br>  <br> 
     <section class="slice slice-xl bg-cover bg-size--cover" style="background-image: url({% static 'assets/img/backgrounds/img-17.jpg' %} ); background-position: center center;">
