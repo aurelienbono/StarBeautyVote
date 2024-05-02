@@ -1,0 +1,215 @@
+
+{% extends "../../base/home/base.html" %}
+{% load static %}
+
+{% block title %} CompetitionLandingPage  {% endblock %}
+{% block content %}
+        <!-- Main content -->
+        <!-- Call to action 1 -->
+        <div id="call-to-action-call-to-action-1" title="call-to-action/call-to-action-1.html">
+            <section class="slice slice-lg bg-cover bg-size--cover overflow-hidden" data-spotlight style="background-image: url({% static 'assets/img/backgrounds/img-9.jpg' %}); padding-top: 350px; padding-bottom: 200px;">
+              <span class="mask bg-gradient-primary opacity-5"></span>
+              <div class="shape-container" data-shape-position="top" data-shape-orientation="inverse" style="height: 350px;">
+                <img alt="Image placeholder" src="assets/img/svg/shapes/wave-1.svg" class="svg-inject">
+              </div>
+              <div class="container">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-lg-7 text-center">
+                    <h3 class="h1 text-white">You are one step away.</h3>
+                    <p class="lead text-white">Start building fast, beautiful and modern looking websites in no time using reviewed by the Bootstrap Creators.</p>
+                    <div class="mt-5">
+                      <a href="https://themes.getbootstrap.com/product/purpose-website-ui-kit/" class="btn btn-lg btn-white rounded-pill">Purchase now</a>
+                      <a href="#" class="btn btn-lg btn-link text-light">Learn more</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+
+        <section class="slice slice-lg">
+          <div class="container">
+            <div class="mb-5 text-center">
+              <h3 class=" mt-4">Reasons to work with us</h3>
+              <div class="fluid-paragraph mt-3">
+                <p class="lead lh-180">Always looking for better ways to do things, innovate and help people achieve their goals.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card hover-shadow-lg hover-scale-110">
+                  <div class="card-body py-4">
+                    <div class="d-flex align-items-start">
+                      <div class="icon text-primary rounded-circle">
+                        <i class="fas fa-terminal"></i>
+                      </div>
+                      <div class="icon-text pl-4">
+                        <h5 class="ma-0 ">Customizable with a few clicks</h5>
+                        <p class="mb-0">Purpose is a great free UI package based on
+                          Bootstrap 4 that includes the most important components and features.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card hover-shadow-lg hover-scale-110">
+                  <div class="card-body py-4">
+                    <div class="d-flex align-items-start">
+                      <div class="icon text-primary rounded-circle">
+                        <i class="fas fa-expand"></i>
+                      </div>
+                      <div class="icon-text pl-4">
+                        <h5 class="ma-0 ">Fully responsive on any device</h5>
+                        <p class="mb-0">Purpose is a great free UI package
+                          based on Bootstrap 4 that includes the most important components and features.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card hover-shadow-lg hover-scale-110">
+                  <div class="card-body py-4">
+                    <div class="d-flex align-items-start">
+                      <div class="icon text-primary rounded-circle">
+                        <i class="fas fa-star"></i>
+                      </div>
+                      <div class="icon-text pl-4">
+                        <h5 class="ma-0 ">Brining new features constantly</h5>
+                        <p class="mb-0">Purpose is a great free UI package based on
+                          Bootstrap 4 that includes the most important components and features.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card hover-shadow-lg hover-scale-110">
+                  <div class="card-body py-4">
+                    <div class="d-flex align-items-start">
+                      <div class="icon text-primary rounded-circle">
+                        <i class="fas fa-smile-wink"></i>
+                      </div>
+                      <div class="icon-text pl-4">
+                        <h5 class="ma-0 ">Built around your suggestions</h5>
+                        <p class="mb-0">Purpose is a great free UI package based on
+                          Bootstrap 4 that includes the most important components and features.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        <section class="slice slice-lg">
+          <div class="container no-padding">
+            <div class="mb-5 text-center">
+              <h3 class=" mt-4">The main features of Purpose</h3>
+              <div class="fluid-paragraph mt-3">
+                <p class="lead lh-180">Start building fast, beautiful and modern looking websites in no time using our theme.</p>
+              </div>
+            </div>
+            <div class="row">
+              {%for competition in CompetionList%} 
+              <div class="col-md-4">
+                <div class="card hover-shadow-lg">
+                  <div class="card-body">
+                    <div class="delimiter-bottom pb-3 mb-4">
+                      <img alt="Image placeholder" src="{% static competition.image %}" class="svg-inject" style="height: 60px; width: auto">
+                      <h5 class="mt-4">{{competition.competitionName}}</h5>
+                    </div>
+                    <p class="">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  </div>
+                  <div class="card-footer px-0 py-0 border-0 overflow-hidden">
+                    <a href="/competitionDetails/{{competition.competitionId}}" class="btn btn-block btn-primary rounded-0">Learn more</a>
+                  </div>
+                </div>
+              </div>
+          {% endfor %} 
+
+            </div>
+          </div>
+        </section>
+    
+
+
+
+      <br>  <br> 
+    <section class="slice slice-xl bg-cover bg-size--cover" style="background-image: url({% static 'assets/img/backgrounds/img-17.jpg' %} ); background-position: center center;">
+        <span class="mask bg-dark opacity-2"></span>
+        <div class="container py-6">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-6 text-center">
+              <div class="mb-5">
+                <h1 class="text-white">Always on time</h1>
+                <p class="lead text-white mt-2">You get all Bootstrap components fully customized. Besides, you receive another numerous plugins out of the box and ready to use.</p>
+              </div>
+              <form>
+                <div class="form-group mb-0">
+                  <div class="input-group input-group-lg input-group-merge rounded-pill bg-white">
+                    <input type="email" class="form-control form-control-flush" name="email" placeholder="Enter your email address" aria-label="Enter your email address">
+                    <div class="input-group-append">
+                      <button class="btn btn-white text-dark" type="button">
+                        <span class="far fa-paper-plane"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slice-sm bg-primary">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+              <div class="px-4 py-3 text-lg-center">
+                <h6 class="text-sm text-white text-uppercase ls-1">Free shipping in 48/72H</h6>
+                <p class="text-white opacity-7">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0">
+              <div class="px-4 py-3 text-lg-center">
+                <h6 class="text-sm text-white text-uppercase ls-1">Free returns</h6>
+                <p class="text-white opacity-7">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="px-4 py-3 text-lg-center">
+                <h6 class="text-sm text-white text-uppercase ls-1">Secure payment</h6>
+                <ul class="list-inline mt-2">
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/visa.png' %}" width="30">
+                  </li>
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/mastercard.png' %}" width="30">
+                  </li>
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/skrill.png' %}" width="30">
+                  </li>
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/paypal-256x160.png' %}" width="30">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {% endblock %}

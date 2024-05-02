@@ -1,0 +1,256 @@
+
+{% extends "../../base/home/base.html" %}
+{% load static %}
+
+{% block title %} competitionDetails {% endblock %}
+{% block content %}
+
+
+
+  {% for competition  in competitionDetails  %} 
+  <div class="main-content">
+    <section class="py-2 delimiter-bottom">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h6 class="mb-0">{{competition.competitionName}}</h6>
+          </div>
+          <div class="col-md-6">
+            <nav class="nav justify-content-md-end mb-0">
+              <a href="#" class="nav-link text-sm pl-0">Overview</a>
+              <a href="#" class="nav-link text-sm">Tech specs</a>
+              <a href="#" class="nav-link text-sm pr-0">Setup &amp; Tips</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="slice">
+      <div class="container">
+        <div class="row row-grid">
+          <div class="col-lg-6">
+            <div data-toggle="sticky" data-sticky-offset="30">
+              <a href="" data-fancybox>
+                <img alt="Image placeholder" src="{% static competition.image %}" class="img-fluid">
+              </a>
+
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="pl-lg-5">
+              <!-- Product title -->
+              <h5 class="h4">{{competition.competitionName}}</h5>
+              <h5 class="text-sm">   <span class="badge badge-pill badge-soft-primary">Category: {{competition.category}}</span></h5>
+              <!-- Rating -->
+              <br>
+              <div class="row align-items-center">
+                <div class="col-6">
+                  <li class="list-inline-item">
+                    <span class="badge badge-pill badge-soft-success">started: {{competition.dateToStart}}</span>
+                  </li>
+                </div>
+                <div class="col-6 text-right">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                      <span class="badge badge-pill badge-soft-info">End: {{competition.dateToEnd}}</span>
+                    </li>
+                    <li class="list-inline-item">
+                      {% if competition.CompetitionPrivacy == "Private" %}
+                      <span class="badge badge-pill badge-soft-success">{{competition.CompetitionPrivacy}}</span>
+
+                         {% elif competition.CompetitionPrivacy == "Team" %}
+                    <span class="badge badge-pill badge-soft-primary">{{competition.CompetitionPrivacy}}</span>      
+                      {% else %}
+                      <span class="badge badge-pill badge-soft-danger">{{competition.CompetitionPrivacy}}</span>   
+                       {% endif %}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Description -->
+              <div class="py-4 my-4 border-top border-bottom">
+                <h6 class="text-sm">Description:</h6>
+                <p class="text-sm mb-0">
+                  {{competition.description}}
+                </p>
+              </div>
+    
+         
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+
+    <section class="slice slice-lg delimiter-top" id="sct-suggested-products">
+      <div class="container">
+        <div class="container no-padding">
+          <div class="mb-5 text-center">
+            <h3 class=" mt-4">The main features of Purpose</h3>
+            <div class="fluid-paragraph mt-3">
+              <p class="lead lh-180">Start building fast, beautiful and modern looking websites in no time using our theme.</p>
+            </div>
+          </div>
+          
+          {% if score != 0  %}
+          <div class="row">
+            {% for candidate in candidateDetails %}
+            <div class="col-lg-3 col-sm-6">
+              <div class="card card-product">
+                <figure class="figure">
+                  <img alt="Image placeholder" src="{% static candidate.image %}"  class="img-center img-fluid candidate-image">
+                </figure>
+                <div class="card-body text-center pt-0">
+                  <br>
+                  <h5 class="candidate-name">{{ candidate.fullName }}</h5>
+                  <span class="card-price">0 votes</span>
+                </div>
+                <div class="card-footer px-0 py-0 border-0 overflow-hidden">
+                  {% comment %} <a href="/pages/checkoutPayment/candi/{{ candidate.candidatesId }}" class="btn btn-block btn-primary rounded-0 vote-button">
+                    Vote for her
+                  </a> {% endcomment %}
+                  <button type="button" class="btn btn-block btn-primary rounded-0 vote-button" data-toggle="modal" data-target="#modal_success">
+                    Vote for her
+                </button>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+     
+        
+          {% else %}  
+         <p class="h4 lh-150">
+       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta.
+      </p>
+             
+          {% endif %}
+          
+   
+      </div>
+    </section>
+
+  </div>
+
+
+<!-- Modal -->
+<div class="modal modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title h6" id="modal_title_6">Vote For</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="py-3 text-center">
+                  <a href="#" class="avatar  rounded-circle avatar-lg">
+                    <img alt="Image placeholder" src="{% static "assets/img/theme/light/team-1-800x800.jpg" %}">
+                </a>
+                
+                  <h5 class="heading h4 mt-4">Let's get started</h5>
+                  <p>
+                    1 Vote = 100 FCFA | 4 Votes = 1 USD | 5 Votes = 1 EUR
+                  </p>
+                  <div class="card">
+                    <div class="card-header py-4" id="heading-2-1">
+                        <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
+                        <span class="numberOfVote">  Price : 0 FCFA </span>
+                        </h6>
+                    </div>
+                  </div>
+            
+                  <div class="form-group">
+                    <input type="number" class="form-control" placeholder="Enter number of votes">
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+      </div>
+  </div>
+</div>
+ 
+      <br>  <br> 
+    <section class="slice slice-xl bg-cover bg-size--cover" style="background-image: url({% static 'assets/img/backgrounds/img-17.jpg' %} ); background-position: center center;">
+        <span class="mask bg-dark opacity-2"></span>
+        <div class="container py-6">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-6 text-center">
+              <div class="mb-5">
+                <h1 class="text-white">Always on time</h1>
+                <p class="lead text-white mt-2">You get all Bootstrap components fully customized. Besides, you receive another numerous plugins out of the box and ready to use.</p>
+              </div>
+              <form>
+                <div class="form-group mb-0">
+                  <div class="input-group input-group-lg input-group-merge rounded-pill bg-white">
+                    <input type="email" class="form-control form-control-flush" name="email" placeholder="Enter your email address" aria-label="Enter your email address">
+                    <div class="input-group-append">
+                      <button class="btn btn-white text-dark" type="button">
+                        <span class="far fa-paper-plane"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slice-sm bg-primary">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+              <div class="px-4 py-3 text-lg-center">
+                <h6 class="text-sm text-white text-uppercase ls-1">Free shipping in 48/72H</h6>
+                <p class="text-white opacity-7">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0">
+              <div class="px-4 py-3 text-lg-center">
+                <h6 class="text-sm text-white text-uppercase ls-1">Free returns</h6>
+                <p class="text-white opacity-7">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="px-4 py-3 text-lg-center">
+                <h6 class="text-sm text-white text-uppercase ls-1">Secure payment</h6>
+                <ul class="list-inline mt-2">
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/visa.png' %}" width="30">
+                  </li>
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/mastercard.png' %}" width="30">
+                  </li>
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/skrill.png' %}" width="30">
+                  </li>
+                  <li class="list-inline-item">
+                    <img alt="Image placeholder" src="{% static 'assets/img/icons/cards/paypal-256x160.png' %}" width="30">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <style>
+        .candidate-image {
+          width: 300px;
+          height: 310px;
+          object-fit: cover;
+        }
+      </style>
+      <script src="{% static 'assets/js/scripts.js' %} "></script>
+
+      {% endblock %}

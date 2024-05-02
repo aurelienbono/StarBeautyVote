@@ -1,0 +1,174 @@
+
+{% extends "../../../base/base.html" %}
+
+{% load static %}
+
+
+      <!-- Page content -->
+      {% block title %} candidate-Profile{% endblock %}
+    <!-- Content -->
+    
+    {% block content %}
+   <!-- Page content -->
+      <div class="page-content">
+        <!-- Page title -->
+        {% for  candidate in  candidateDetails %} 
+        <div class="page-title">
+          <div class="row justify-content-between align-items-center">
+            <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+              <!-- Page title + Go Back button -->
+              <div class="d-inline-block">
+                <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Invoice   #{{candidate.candidatesId}}</h5>
+              </div>
+              <!-- Additional info -->
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
+              <div class="actions actions-dark d-inline-block">
+                <a href="#" class="action-item ml-md-4">
+                  <i class="far fa-file-export mr-2"></i>Export
+                </a>
+                <a href="#" class="action-item ml-3">
+                  <i class="far fa-cog mr-2"></i>Settings
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Listing -->
+        <div class="card card-body p-md-5">
+          <div class="row align-items-center mb-5">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <img src="{% static candidate.image %}" class=" rounded-circle xx" alt="" height="100" width="100">
+            </div>
+            <div class="col-sm-6 text-sm-right">
+              <h6 class="d-inline-block m-0 d-print-none">Status</h6>
+              <span class="badge badge-pill badge-success ml-3">Paid</span>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col-lg-6 col-md-8">
+              <h6 class="">Hello, I'm {{candidate.fullName}}!</h6>
+              <p class="text-sm">
+                {{candidate.description}}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <h5>Candidate data</h5>
+              <dl class="row mt-4 align-items-center">
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">E-Mall</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.email}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Age</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.age}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Phone</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.numberPhone}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Level</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.academic_level}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Profession</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.profession}}</span></dd>
+
+              </dl>
+            </div>
+            <div class="col-12 col-md-6">
+              <h5>Invoice data</h5>
+              <dl class="row mt-4 align-items-center">
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">country</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">+{{candidate.country}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">city</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.city}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">city_of_origin</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.city_of_origin}}</span></dd>
+                <dt class="col-sm-3"><span class="h6 text-sm mb-0">Registration</span></dt>
+                <dd class="col-sm-9"><span class="text-sm">{{candidate.dataOfRegistration}}</span></dd>
+
+              </dl>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="row">
+            <div class="col-12">
+              <h5>Candidate Votes</h5>
+              <!-- Table -->
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th class="px-0 bg-transparent border-top-0">Description</th>
+                      <th class="px-0 bg-transparent border-top-0">Hours</th>
+                      <th class="px-0 bg-transparent border-top-0 text-right">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Custom theme development</span>
+                      </td>
+                      <td class="px-0">
+                        125
+                      </td>
+                      <td class="px-0 text-right">
+                        $6,250
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Logo design</span>
+                      </td>
+                      <td class="px-0">
+                        15
+                      </td>
+                      <td class="px-0 text-right">
+                        $750
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Custom theme development</span>
+                      </td>
+                      <td class="px-0">
+                        125
+                      </td>
+                      <td class="px-0 text-right">
+                        $6,250
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-0">
+                        <span class="h6 text-sm">Logo design</span>
+                      </td>
+                      <td class="px-0">
+                        15
+                      </td>
+                      <td class="px-0 text-right">
+                        $750
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card my-5 bg-secondary">
+                <div class="card-body">
+                  <div class="row justify-content-between align-items-center">
+                    <div class="col-md-6 order-md-2 mb-4 mb-md-0">
+                      <div class="d-flex align-items-center justify-content-md-end">
+                        <span class="h6 text-muted d-inline-block mr-3 mb-0">Total value:</span>
+                        <span class="h4 mb-0">$450.85 USD</span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 order-md-1">
+                      <button type="button" class="btn btn-sm btn-primary">Download</button>
+                      <a href="#" class="btn btn-sm btn-link text-dark font-weight-bold">Print invoice</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      {% endblock %}

@@ -1,0 +1,170 @@
+
+{% extends "../../base/home/base.html" %}
+{% load static %}
+
+{% block title %} Contact {% endblock %}
+{% block content %}
+
+
+<div class="main-content">
+  <section class="section-half-rounded" data-offset-top="#header-main">
+    <div class="section-inner bg-section-secondary"></div>
+    <!-- Hero container -->
+    <div class="container pt-6 py-lg-8 d-flex align-items-center position-relative zindex-100">
+      <div class="col">
+        <div class="row row-grid align-items-center">
+          <div class="col-lg-6 text-center text-lg-left">
+            <div>
+              <h1>Have a project in mind?</h1>
+              <p class="lead mt-4">We put all the experience and know-how in this product so we can offer you the best product we have ever built.</p>
+              <a href="#sct_contact_form" class="btn btn-soft-info rounded-pill btn-icon hover-translate-y-n3 mt-4 scroll-me">
+                <span class="btn-inner--icon"><i class="fas fa-pencil-alt"></i></span>
+                <span class="btn-inner--text">Write a message</span>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5 ml-auto">
+            <img alt="Image placeholder" src="../../assets/img/theme/light/img-1-1000x900.jpg" class="img-fluid rounded shadow-lg hover-scale-110">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slice slice-lg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card text-center hover-translate-y-n10 hover-shadow-lg">
+            <div class="px-5 pb-5">
+              <div class="py-5">
+                <div class="icon text-warning">
+                  <i class="fas fa-shapes"></i>
+                </div>
+              </div>
+              <h5 class="">Sales department</h5>
+              <p class=" mt-2 mb-0">Lorem ipsum dolor sit amet consectetur adipiscing eiusmod.</p>
+              <div class="mt-4">
+                <a href="#" class="link-underline-warning">sales@example.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card text-center hover-translate-y-n10 hover-shadow-lg">
+            <div class="px-5 pb-5">
+              <div class="py-5">
+                <div class="icon text-success">
+                  <i class="fas fa-users-cog"></i>
+                </div>
+              </div>
+              <h5 class="">Technical support</h5>
+              <p class=" mt-2 mb-0">Lorem ipsum dolor sit amet consectetur adipiscing eiusmod.</p>
+              <div class="mt-4">
+                <a href="#" class="link-underline-success">support@example.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card text-center hover-translate-y-n10 hover-shadow-lg">
+            <div class="px-5 pb-5">
+              <div class="py-5">
+                <div class="icon text-danger">
+                  <i class="fas fa-pencil-ruler"></i>
+                </div>
+              </div>
+              <h5 class="">Custom projects</h5>
+              <p class=" mt-2 mb-0">Lorem ipsum dolor sit amet consectetur adipiscing eiusmod.</p>
+              <div class="mt-4">
+                <a href="#" class="link-underline-danger">project@example.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="overflow-hidden">
+    <div class="container-fluid">
+      <div class="row row-grid justify-content-end align-items-center">
+        <div class="col-xl-4 col-lg-5 pr-lg-5">
+          <h3>150 Southeast Pidgeon Meadow<br>Claflin Terrace, 305458</h3>
+          <p class="lead my-4">E: <a href="#">support@webpixels.io</a><br>T: 0755.222.333</p>
+          <p>Purpose is a complete responsive HTML5 Template based on Bootstrap 4 made for Agency, Startup, Business, Finance, Consulting, Real Estate, Recruitment, Travel website and not only.</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="mr-n3">
+            <div id="map-custom" class="map-canvas rounded-left" data-lat="37.7767964" data-lng="-122.4187928" style="height: 600px;" data-color="#6e00ff"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slice slice-lg" id="sct_contact_form">
+    <div class="container">
+      <div class="mb-5 text-center">
+        <span class="badge badge-soft-info badge-pill badge-lg">
+          Contact
+        </span>
+        <h3 class=" mt-4">Send us a message</h3>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-control-label">First name</label>
+                  <input class="form-control" type="text" placeholder="First name">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-control-label">Last name</label>
+                  <input class="form-control" type="text" placeholder="Last name">
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-control-label">Email</label>
+                  <input class="form-control" type="email" placeholder="email@example.com">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-control-label">Phone</label>
+                  <input class="form-control" type="text" placeholder="+40-745-234-567">
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-control-label">Subject</label>
+                  <input class="form-control" type="text" placeholder="Custom project">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-control-label">Message</label>
+                  <textarea class="form-control" data-toggle="autosize" placeholder="Tell us a few words ..." rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mt-4">
+              <button type="button" class="btn btn-dark rounded-pill">Send your message</button>
+              <span class="d-block mt-4 text-sm">We'll get back to you in 24-48 h.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+{% endblock %}
