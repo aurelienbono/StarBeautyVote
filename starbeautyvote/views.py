@@ -8,6 +8,7 @@ import re
 from django.conf import settings
 import shutil
 import secrets
+from .payments import Payments as pay
 
 
 
