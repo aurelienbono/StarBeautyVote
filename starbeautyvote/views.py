@@ -8,7 +8,7 @@ import re
 from django.conf import settings
 import shutil
 import secrets
-from .payments import Payments as pay
+from .payments import Payments
 
 
 
@@ -370,6 +370,30 @@ def competitionLanding(request):
 
 def competitionDetails(request,pk): 
     
+    if "initialPayment" in request.POST : 
+        votes_number = request.POST.get('votes')
+        candidate_id  = request.POST.get('candidate_id')
+        name  = request.POST.get('candidate_id')
+        phone  = request.POST.get('candidate_id')
+        competitionId = pk
+        
+        # amount = VotesCalculte.price_by_vote(votes_number)
+        
+        response , reference = Payments.initialisePayment(2000)
+        
+        print("---------USER INFORMATION  ----------")
+
+        print(votes_number,candidate_id,competitionId)
+        print(request.POST)
+        print("---------CALL API RESPONSE ----------")
+        print(response ,reference )
+        
+        response_result = Payments.completePayment(reference)
+        # print("---------CALL API RESPONSE COMPLETE PAYMENT ----------")
+        # print(response_result )
+        
+    
+        
     competitionDetails = models.Competition.objects.filter(competitionId = pk)   
     candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
     context = {} 
@@ -378,9 +402,6 @@ def competitionDetails(request,pk):
     context['candidateDetails'] =  candidateDetails 
 
     return render(request,"pages/pages/competitionDetailPage.html",context)
-
-
-
 
 
 def contact(request): 

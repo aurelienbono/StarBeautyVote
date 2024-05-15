@@ -4,11 +4,7 @@ import secrets
 
 api_key = "pk_test.IKq08Kk8qF6hPviQikHy8Mgpn3cxz8mWwhSkyCw0djMVRdj0dVdwiRYvcIvIlllTlQd2c03Lb4MWMldEBtfZyh6JeqNwmH6r96WB1VCiuNUrXaX2Opb6PSXq00AX8"
 
-class Payments: 
-    def __init__(self) -> None:
-        pass
-    
-    def generate_random_string(self,length=16):
+def generate_random_string(length=16):
         """
         Generates a random alphanumeric string of specified length.
 
@@ -20,9 +16,14 @@ class Payments:
         """
         chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         return ''.join(secrets.choice(chars) for _ in range(length))
+
+
+class Payments: 
+    def __init__(self) -> None:
+        pass
     
     
-    def authentication(self) : 
+    def authentication() : 
         url = 'https://api.notchpay.co'
         headers = {
             'Authorization': api_key
@@ -30,56 +31,53 @@ class Payments:
 
         response = requests.get(url, headers=headers)
 
-        print(response.text)
         return response 
     
     
-    def initialisePayment(self) : 
-        reference = self.generate_random_string()
+    # def initialisePayment(amount, phone) : 
+    def initialisePayment(amount) : 
+
+        reference = generate_random_string()
         url = 'https://api.notchpay.co/payments/initialize'
         headers = {
             'Authorization':api_key,
             'Accept': 'application/json'
         }
         data = {
-            'email': 'bonombelleaurelien@outloo.com',
+            'email': 'bonombelleaurelien@outlook.com',
             'currency': 'XAF',
-            'amount': '20000',
+            'amount': f"{amount}",
             'phone': '697783493',
             'reference': reference,
-            'description': 'Payment description'
+            'description': 'Candidate Vote Election'
         }
 
         response = requests.post(url, headers=headers, data=data)
-
-        print(response.json())
         
         response = response.json()
         return response , response["transaction"]["reference"]
     
     
     
-    def completePayment(self): 
-        url = 'https://api.notchpay.co/payments/trx.test_QIjvmGd3TbP0rrO3kOHv5I9t'
+    def completePayment(reference=0, phone=0): 
+        url = 'https://api.notchpay.co/payments/trx.test_jhO8CPcJIbT7pJqSgVSlG8Zl'
         headers = {
             'Authorization':api_key,
-            # 'Accept': 'application/json', 
-            'content-type': 'application/json'
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json'
         }
         data = {
             "channel": "cm.orange",
             "data" : {
-            "phone": "+237697783493"
-        }
+            # "phone": f"{phone}" for production 
+            "phone": "237656019261" #for sandbox
+        },
         }
         response = requests.post(url, headers=headers, data=data)
-
-        print(response.json())
         
         return response
         
 
 
-pays = Payments()
-# _, reference = pays.initialisePayment()
-pays.completePayment()
+# pays = Payments()
+# pays.completePayment()
