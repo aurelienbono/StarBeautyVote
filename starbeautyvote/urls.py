@@ -32,9 +32,9 @@ urlpatterns = [
     path('apps/parameters/', views.parameters , name='settings'),
 
 
-    path('pages/checkoutPayment/candi/<str:pk>/', views.checkoutPayment , name='checkoutPayment'),
-    path('pages/errorPayment/candi/', views.errorPayment , name='errorPayment'),
-    path('pages/succestPayment/candi/', views.succesPayment , name='succestPayment'),
+    path('checkoutpayment/candi/<str:pk>/', views.checkoutPayment , name='checkoutPayment'),
+    path('errorpayment/candi/', views.errorPayment , name='errorPayment'),
+    path('successpayment/candi/', views.successPayment , name='successPayment'),
 
 
 

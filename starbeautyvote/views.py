@@ -9,36 +9,14 @@ from django.conf import settings
 import shutil
 import secrets
 from .payments import Payments
+from .custum import Starbeautyvote 
 
 
 
 # Create your views here.
 
-
-def modify_filename(filename,image_name):
-	# Change the filename from a.jpg to ab.jpg
-	new_filename = image_name + os.path.splitext(filename)[1]
-	return new_filename
-
-def generate_random_string(length=16):
-  """
-  Generates a random alphanumeric string of specified length.
-
-  Args:
-      length (int, optional): The desired length of the random string. Defaults to 10.
-
-  Returns:
-      str: A random alphanumeric string.
-  """
-  chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-  return ''.join(secrets.choice(chars) for _ in range(length))
-
 def landing(request): 
     return render(request,"pages/index.html")
-
-
-
-
 
 ## DASHBOARD 
 
@@ -98,7 +76,7 @@ def createCompetition(request):
         # save filename to db with path 
         competititionUploadFile = request.FILES['image']
         fs = FileSystemStorage(location=savePath)
-        new_name = modify_filename(competititionUploadFile.name ,'competitionLogo' )
+        new_name = Starbeautyvote.modify_filename(competititionUploadFile.name ,'competitionLogo' )
         filename = fs.save(new_name , competititionUploadFile)
    
         imageFinalPath = os.path.join(savePath,new_name)
@@ -112,7 +90,7 @@ def createCompetition(request):
         promoter_instance = models.Promoter.objects.get(promoterId=promoter_id)
                 
         competitition = models.Competition ( 
-                        competitionId        = generate_random_string(),                   
+                        competitionId        = Starbeautyvote.generate_random_string(),                   
                         image               = imageFinalPath,
                         competitionName     = competititionInfo[0],
                         dateToStart         = competititionInfo[2],
@@ -206,7 +184,7 @@ def register(request) :
         
         
         user = models.Promoter( 
-                    promoterId        = generate_random_string(),  
+                    promoterId        = Starbeautyvote.generate_random_string(),  
                     fullName =userInfo[0].capitalize() , 
                     email=userInfo[1], 
                     numberPhone=userInfo[2],
@@ -264,7 +242,7 @@ def candidate_register(request,pk,price) :
         # # save filename to db with path 
         candidateUploadFile = request.FILES['image']
         fs = FileSystemStorage(location=savePath)
-        new_name = modify_filename(candidateUploadFile.name ,'CandidateFullImage' )
+        new_name = Starbeautyvote.modify_filename(candidateUploadFile.name ,'CandidateFullImage' )
         filename = fs.save(new_name , candidateUploadFile)
    
         imageFinalPath = os.path.join(savePath,new_name)
@@ -278,7 +256,7 @@ def candidate_register(request,pk,price) :
         competition_instance = models.Competition.objects.get(competitionId=candidateInfo[10])
         
         candidate = models.Candidates( 
-                    candidatesId        = generate_random_string(),  
+                    candidatesId        = Starbeautyvote.generate_random_string(),  
                     fullName           = candidateInfo[0].capitalize() , 
                     email              = candidateInfo[1], 
                     description        = candidateInfo[2],
@@ -314,35 +292,6 @@ def reset(request) :
     
 
 
-## PAYMENT 
-
-def checkoutPayment(request,pk):
-     
-    return render(request,"pages/pages/payments/checkoutPayment.html")
-
-
-def errorPayment(request,pk): 
-    return render(request,"pages/pages/payments/errorPayment.html")
-
-
-def succesPayment(request,pk): 
-    return render(request,"pages/pages/payments/successPayment.html")
-
-
-def pricing(request): 
-    context = {} 
-    context['userId'] = request.session.get('userId')
-    context['fullName'] = request.session.get('fullName')
-    
-    return render(request,'pages/application/account/pricing.html',context )
-
-
-def accountBuilding(request): 
-    context = {} 
-    context['userId'] = request.session.get('userId')
-    context['fullName'] = request.session.get('fullName')
-    
-    return render(request,'pages/application/account/accountBilling.html',context )
 
 ## SETTINGS
 
@@ -371,26 +320,27 @@ def competitionLanding(request):
 def competitionDetails(request,pk): 
     
     if "initialPayment" in request.POST : 
-        votes_number = request.POST.get('votes')
+        votesNumber  = request.POST.get('votes')
         candidate_id  = request.POST.get('candidate_id')
         name  = request.POST.get('candidate_id')
         phone  = request.POST.get('candidate_id')
         competitionId = pk
         
-        # amount = VotesCalculte.price_by_vote(votes_number)
+        priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
         
-        response , reference = Payments.initialisePayment(2000)
+        response , reference = Payments.initialisePayment(priceAmout)
         
         print("---------USER INFORMATION  ----------")
 
-        print(votes_number,candidate_id,competitionId)
-        print(request.POST)
+        print(priceAmout,candidate_id,competitionId)
         print("---------CALL API RESPONSE ----------")
         print(response ,reference )
         
         response_result = Payments.completePayment(reference)
-        # print("---------CALL API RESPONSE COMPLETE PAYMENT ----------")
-        # print(response_result )
+        print("---------CALL API RESPONSE COMPLETE PAYMENT ----------")
+        print(response_result )
+        
+        return redirect('/successpayment/candi/')
         
     
         
@@ -402,6 +352,39 @@ def competitionDetails(request,pk):
     context['candidateDetails'] =  candidateDetails 
 
     return render(request,"pages/pages/competitionDetailPage.html",context)
+
+
+
+## PAYMENT 
+
+def checkoutPayment(request,pk):
+     
+    return render(request,"pages/pages/payments/checkoutPayment.html")
+
+
+def errorPayment(request): 
+    return render(request,"pages/pages/payments/errorPayment.html")
+
+
+def successPayment(request): 
+    return render(request,"pages/pages/payments/successPayment.html")
+
+
+def pricing(request): 
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    return render(request,'pages/application/account/pricing.html',context )
+
+
+def accountBuilding(request): 
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    
+    return render(request,'pages/application/account/accountBilling.html',context )
+
 
 
 def contact(request): 
