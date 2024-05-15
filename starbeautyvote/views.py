@@ -328,6 +328,7 @@ def competitionDetails(request,pk):
         
         priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
         
+        print(priceAmout)
         response , reference = Payments.initialisePayment(priceAmout)
         
         print("---------USER INFORMATION  ----------")

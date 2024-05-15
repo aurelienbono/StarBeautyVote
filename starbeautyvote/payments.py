@@ -1,10 +1,13 @@
 import requests
 import json
 from .custum import Starbeautyvote 
+import os
+from dotenv import load_dotenv
 
-api_key = "pk_test.IKq08Kk8qF6hPviQikHy8Mgpn3cxz8mWwhSkyCw0djMVRdj0dVdwiRYvcIvIlllTlQd2c03Lb4MWMldEBtfZyh6JeqNwmH6r96WB1VCiuNUrXaX2Opb6PSXq00AX8"
 
-    
+load_dotenv()
+api_key = os.getenv("API_PAYMENT_KEY")
+
 class Payments: 
     def __init__(self) -> None:
         pass
@@ -24,6 +27,7 @@ class Payments:
     
     def initialisePayment(amout) : 
         reference = Starbeautyvote.generate_random_string()
+        print(reference)
         url = 'https://api.notchpay.co/payments/initialize'
         headers = {
             'Authorization':api_key,

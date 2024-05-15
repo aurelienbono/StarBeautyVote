@@ -25,7 +25,7 @@ class Starbeautyvote :
 
     def voteNumberToFinalAmount(votes) : 
         #   5 Vote = 400 FCFA  | 4 Votes = 1 USD | 5 Votes = 1 EUR
-        votes = 10
+        votes = int(votes)
         numberOfTranches = votes // 5
         resteOfVote = votes % 5
         finalAmout = (numberOfTranches * 4 * 100) + (resteOfVote * 100)
