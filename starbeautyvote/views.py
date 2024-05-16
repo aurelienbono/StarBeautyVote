@@ -194,6 +194,7 @@ def register(request) :
                     )
         
         user.save()
+
         return redirect('/auths/login/')
     return render(request ,'pages/application/authentication/register.html')
 
@@ -216,6 +217,8 @@ def login(request) :
                 request.session['fullName'] = userInfo['fullName']
                 return redirect('/apps/') 
             else : 
+                request.session['userId']  = userInfo['promoterId']
+                request.session['fullName'] = userInfo['fullName']
                 return redirect('/apps/competitions/create')
         else : 
             messages.error(request, 'Invalid username or password!')
