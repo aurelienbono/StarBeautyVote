@@ -50,7 +50,14 @@ class Votes(models.Model) :
     id_competition              = models.ForeignKey(Competition , on_delete=models.CASCADE)
     id_candidates               = models.ForeignKey(Candidates , on_delete=models.CASCADE)
     nameVoter                   = models.CharField(max_length=50)
+    numberPhoneVoter            = models.CharField(max_length=15)
+    numberOfVote                = models.IntegerField()
     priceVoter                  = models.CharField(max_length=50)
     dataOfVoting                = models.DateField(auto_now=True)
+    status                      = models.CharField(max_length=50)    
+
+
+class VoteTransaction(models.Model): 
+    pass
     
     

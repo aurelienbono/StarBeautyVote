@@ -322,24 +322,58 @@ def competitionDetails(request,pk):
     if "initialPayment" in request.POST : 
         votesNumber  = request.POST.get('votes')
         candidate_id  = request.POST.get('candidate_id')
-        name  = request.POST.get('candidate_id')
-        phone  = request.POST.get('candidate_id')
-        competitionId = pk
+        name  = request.POST.get('name')
+        phone  = request.POST.get('phone')
         
+        
+        votes = models.Votes ( 
+                      )
+        votes.save()
         priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
         
-        print(priceAmout)
-        response , reference = Payments.initialisePayment(priceAmout)
+        try : 
+            response , reference = Payments.initialisePayment(priceAmout)
+      
+        except Exception as  exceptionInitPayment : 
+            print(exceptionInitPayment)
+            return redirect('/errorpayment/candi/')
         
-        print("---------USER INFORMATION  ----------")
+        try : 
+            response_result = Payments.completePayment(reference)
+      
+        except Exception as  exceptionCompletePayment : 
+            print(exceptionCompletePayment)
+            
+            votes = models.Votes ( 
+                                voteId = Starbeautyvote.generate_random_string(), 
+                                id_competition = pk, 
+                                id_candidates =candidate_id , 
+                                nameVoter =name , 
+                                numberPhoneVoter =phone , 
+                                numberOfVote =votesNumber , 
+                                priceVoter = priceAmout, 
+                                dataOfVoting = datetime.now(),
+                                status = 'UnSuccess', 
+                                
+                        )
+            votes.save()
+            return redirect('/errorpayment/candi/', idCompetition = pk)
 
-        print(priceAmout,candidate_id,competitionId)
-        print("---------CALL API RESPONSE ----------")
-        print(response ,reference )
+        print(response_result)
         
-        response_result = Payments.completePayment(reference)
-        print("---------CALL API RESPONSE COMPLETE PAYMENT ----------")
-        print(response_result )
+        votes = models.Votes ( 
+                                voteId = Starbeautyvote.generate_random_string(), 
+                                id_competition = pk, 
+                                id_candidates =candidate_id , 
+                                nameVoter =name , 
+                                numberPhoneVoter =phone , 
+                                numberOfVote =votesNumber , 
+                                priceVoter = priceAmout, 
+                                dataOfVoting = datetime.now(),
+                                status = 'UnSuccess', 
+                                
+                        )
+        votes.save()
         
         return redirect('/successpayment/candi/')
         

@@ -2,9 +2,32 @@
 {% extends "../../../base/home/base.html" %}
 {% load static %}
 
-{% block title %} error Payment {% endblock %}
+{% block title %} Error Payment {% endblock %}
 {% block content %}
-
+<div class="min-vh-100 h-100vh py-5 d-flex align-items-center bg-gradient-primary">
+    <div class="bg-absolute-cover vh-100 overflow-hidden d-none d-md-block">
+  
+    </div>
+    <div class="container position-relative zindex-100">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-lg-6 px-5 px-lg-0">
+          <h6 class="display-1 mb-3 font-weight-600 text-white">Payment Error</h6>
+          <p class="lead text-lg text-white mb-5">
+            Sorry, the page you are looking for could not be found.
+          </p>
+          <a href="/competitionLanding/" class="btn btn-white btn-icon rounded-pill hover-translate-y-n3">
+            <span class="btn-inner--icon"><i class="far fa-home"></i></span>
+            <span class="btn-inner--text">Return home</span>
+          </a>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+          <figure class="w-100">
+            <img alt="Image placeholder" src="{% static "assets/img/svg/illustrations/design-thinking.svg" %}" class="svg-inject opacity-8 img-fluid" style="height: 500px;">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
