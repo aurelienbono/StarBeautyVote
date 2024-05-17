@@ -180,8 +180,21 @@ def competitionCandidateProfile(request,pk):
 
 
 def condidateProfile(request): 
+    context = {}
+    context['fullName'] = request.session.get('fullName')[0]
+    context['image'] = request.session.get('image')[0]
+    context['idCandidate'] = request.session.get("idCandidate")[0]
     
-    return render(request, "pages/application/candidate/profile.html")
+    # get information about sur le candidate
+    candidateDetails  = models.Candidates.objects.filter(candidatesId = context['idCandidate'] ).values().first()
+    context['total_price'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_price=Sum('priceVoter'))['total_price']
+    context['total_votes'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+
+
+
+    context['candidateDetails'] = candidateDetails
+
+    return render(request, "pages/application/candidate/profile.html", context)
 
 
 ## AUTHENTIFICATION 
@@ -268,9 +281,9 @@ def candidate_register(request,pk,price) :
         
         #Fetch Promoter instance
         competition_instance = models.Competition.objects.get(competitionId=candidateInfo[10])
-        
+        id_candidate = Starbeautyvote.generate_random_string()
         candidate = models.Candidates( 
-                    candidatesId        = Starbeautyvote.generate_random_string(),  
+                    candidatesId        = id_candidate,  
                     fullName           = candidateInfo[0].capitalize() , 
                     email              = candidateInfo[1], 
                     description        = candidateInfo[2],
@@ -290,6 +303,11 @@ def candidate_register(request,pk,price) :
         
         candidate.save()
         
+        request.session['fullName'] =  candidateInfo[0].capitalize() , 
+        request.session['image']    = imageFinalPath , 
+        request.session['idCandidate'] =  id_candidate , 
+        print(id_candidate)
+                
         # redirect to candidate DashBoard
         return redirect('/apps/candi/profile')
     

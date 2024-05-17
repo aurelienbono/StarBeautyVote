@@ -67,7 +67,12 @@
                 <div class="row">
                   <div class="col">
                     <h6 class="text-muted mb-1">Number Of Votes</h6>
+                    {% if total_votes %} 
                     <span class="h5 font-weight-bold mb-0">{{total_votes}}</span>
+                    {% else %} 
+                    <span class="h5 font-weight-bold mb-0"> 0</span>
+
+                    {% endif %}
                   </div>
                   <div class="col-auto">
                     <div class="icon bg-gradient-danger text-white rounded-circle icon-shape">
@@ -89,7 +94,13 @@
                 <div class="row">
                   <div class="col">
                     <h6 class="text-muted mb-1">Total Voting Awards</h6>
+                    {% if total_price %} 
                     <span class="h5 font-weight-bold mb-0">FCFA {{total_price}}</span>
+                    {% else %} 
+                    <span class="h5 font-weight-bold mb-0">FCFA 0</span>
+
+                    {% endif %}
+                  
                   </div>
                   <div class="col-auto">
                     <div class="icon bg-gradient-primary text-white rounded-circle icon-shape">
@@ -112,6 +123,7 @@
                 <div class="row">
                   <div class="col">
                     <h6 class="text-muted mb-1">Total Candidate</h6>
+                    
                     <span class="h5 font-weight-bold mb-0">{{count_candidate}}</span>
                   </div>
                   <div class="col-auto">
