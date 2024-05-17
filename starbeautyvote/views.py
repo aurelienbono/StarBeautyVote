@@ -10,6 +10,7 @@ import shutil
 import secrets
 from .payments import Payments
 from .custum import Starbeautyvote 
+from django.db.models import Count
 
 
 
@@ -211,14 +212,13 @@ def login(request) :
         
         if userInfo and  userPassword == password : 
             isHasCompetition = models.Competition.objects.filter(id_promoter = userInfo['promoterId'] ).values().first()
+            
+            request.session['userId']  = userInfo['promoterId']
+            request.session['fullName'] = userInfo['fullName']
+            
             if isHasCompetition  : 
-                      
-                request.session['userId']  = userInfo['promoterId']
-                request.session['fullName'] = userInfo['fullName']
                 return redirect('/apps/') 
             else : 
-                request.session['userId']  = userInfo['promoterId']
-                request.session['fullName'] = userInfo['fullName']
                 return redirect('/apps/competitions/create')
         else : 
             messages.error(request, 'Invalid username or password!')
@@ -328,11 +328,9 @@ def competitionDetails(request,pk):
         name  = request.POST.get('name')
         phone  = request.POST.get('phone')
         
-        
-        votes = models.Votes ( 
-                      )
-        votes.save()
         priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
+        competitionId = models.Competition.objects.get(competitionId = pk)
+        candiId       = models.Candidates.objects.get(candidatesId = candidate_id)
         
         try : 
             response , reference = Payments.initialisePayment(priceAmout)
@@ -349,11 +347,11 @@ def competitionDetails(request,pk):
             
             votes = models.Votes ( 
                                 voteId = Starbeautyvote.generate_random_string(), 
-                                id_competition = pk, 
-                                id_candidates =candidate_id , 
+                                id_competition = competitionId, 
+                                id_candidates =candiId , 
                                 nameVoter =name , 
                                 numberPhoneVoter =phone , 
-                                numberOfVote =votesNumber , 
+                                numberOfVote =int(votesNumber) , 
                                 priceVoter = priceAmout, 
                                 dataOfVoting = datetime.now(),
                                 status = 'UnSuccess', 
@@ -361,19 +359,17 @@ def competitionDetails(request,pk):
                         )
             votes.save()
             return redirect('/errorpayment/candi/', idCompetition = pk)
-
-        print(response_result)
         
         votes = models.Votes ( 
                                 voteId = Starbeautyvote.generate_random_string(), 
-                                id_competition = pk, 
-                                id_candidates =candidate_id , 
+                                id_competition = competitionId, 
+                                id_candidates =candiId , 
                                 nameVoter =name , 
                                 numberPhoneVoter =phone , 
-                                numberOfVote =votesNumber , 
+                                numberOfVote =int(votesNumber) , 
                                 priceVoter = priceAmout, 
                                 dataOfVoting = datetime.now(),
-                                status = 'UnSuccess', 
+                                status = 'Success', 
                                 
                         )
         votes.save()
@@ -384,10 +380,14 @@ def competitionDetails(request,pk):
         
     competitionDetails = models.Competition.objects.filter(competitionId = pk)   
     candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
+    candidates_with_votes = models.Candidates.objects.filter(id_competition = pk).prefetch_related('votes_set').all()
+    
+ 
     context = {} 
     context['competitionDetails'] =  competitionDetails 
     context['score'] = candidateDetails.count()
-    context['candidateDetails'] =  candidateDetails 
+    context['candidateDetails'] =  candidateDetails
+    context['candidates_with_votes'] =  candidates_with_votes 
 
     return render(request,"pages/pages/competitionDetailPage.html",context)
 

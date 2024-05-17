@@ -96,7 +96,7 @@
           
           {% if score != 0  %}
           <div class="row">
-            {% for candidate in candidateDetails %}
+            {% for candidate in candidates_with_votes %}
             <div class="col-lg-3 col-sm-6">
               <div class="card card-product">
                 <figure class="figure">
@@ -105,7 +105,14 @@
                 <div class="card-body text-center pt-0">
                   <br>
                   <h5 class="candidate-name" id="userContentName{{ candidate.candidatesId }}">{{ candidate.fullName }}</h5>
-                  <span class="card-price">0 votes</span>
+                  {% if candidate.votes_set.all %}
+                      {% for vote in candidate.votes_set.all %}
+                        <span class="card-price">{{ vote.numberOfVote }} votes</span>
+                   {% endfor %}
+                   {% else %}
+                   <span class="card-price">0 votes</span>
+               {% endif %}
+                 
                 </div>
                 <div class="card-footer px-0 py-0 border-0 overflow-hidden">
                   <button type="button" class="btn btn-block btn-primary rounded-0 vote-button" data-toggle="modal" data-target="#modal_success" data-candidate-id="{{ candidate.candidatesId }}">
@@ -132,54 +139,6 @@
 
   </div>
 
-
-{% comment %} <!-- Modal -->
-  <div class="modal modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title h6" id="modal_title_6">Vote For</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-            <form role="form" method="POST" action="">
-              {% csrf_token %} 
-              <input type="hidden" name="candidate_id" id="candidate_id_input">
-
-              <div class="py-3 text-center">
-                  <a href="#" class="avatar  rounded-circle avatar-lg">
-                    <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='2e' height='70'>
-                </a>
-                
-                  <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
-                  <p>
-                    1 Vote = 100 FCFA | 4 Votes = 1 USD | 5 Votes = 1 EUR
-                  </p>
-                  <div class="card">
-                    <div class="card-header py-4" id="heading-2-1">
-                        <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
-                        <span class="numberOfVote">  Price : 0 FCFA</span> </span>
-                        </h6>
-                    </div>
-                  </div>
-            
-                  <div class="form-group">
-
-                    <input type="number" name="votes" class="form-control" placeholder="Enter number of votes">
-                </div>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" name='initialPayment'  class="btn btn-primary">Proceed to payment</button>
-          </div>
-
-        </form>
-      </div>
-   </div>
-  </div> {% endcomment %}
 
   <!-- Modal -->
 <div class="modal modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success" aria-hidden="true">
@@ -232,7 +191,6 @@
       </div>
   </div>
 </div>
-
 
  
       <br>  <br> 
