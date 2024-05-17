@@ -219,137 +219,42 @@
                 <table class="table align-items-center">
                   <thead>
                     <tr>
-                      <th scope="col" class="sort" data-sort="name">Project</th>
-                      <th scope="col" class="sort" data-sort="budget">Tasks</th>
-                      <th scope="col" class="sort" data-sort="status">Status</th>
-                      <th scope="col" class="sort" data-sort="completion">Completion</th>
+                      <th scope="col" class="sort" data-sort="budget">voteId</th>
+                      <th scope="col" class="sort" data-sort="budget">dataOfVoting</th>
+                      <th scope="col" class="sort" data-sort="status">numberOfVote</th>
+                      <th scope="col" class="sort" data-sort="completion">priceVoter</th>
                     </tr>
                   </thead>
                   <tbody class="list">
+                    {% for info  in votes_candidate_info  %} 
+            
+                
                     <tr>
                       <th scope="row">
                         <div class="media align-items-center">
-                          <div>
-                            <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-1.png" class="avatar  rounded-circle avatar-sm">
-                          </div>
+                        
                           <div class="media-body ml-4">
-                            <a href="overview.html" class="name mb-0 h6 text-sm">Purpose Website UI</a>
+                            <a href="overview.html" class="name mb-0 h6 text-sm">{{info.voteId}}</a>
                           </div>
                         </div>
                       </th>
                       <td class="budget">
-                        1
+                        {{info.numberOfVote}}
                       </td>
                       <td>
                         <span class="badge badge-dot mr-4">
-                          <i class="bg-warning"></i>
-                          <span class="status">pending</span>
+                          <span class="status">{{info.priceVoter}}</span>
                         </span>
                       </td>
                       <td>
                         <div class="d-flex align-items-center">
-                          <span class="completion mr-2">60%</span>
+                          <span class="completion mr-2">{{info.dataOfVoting}}</span>
                           <div>
-                            <div class="progress" style="width: 100px;">
-                              <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                            </div>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <tr>
-                      <th scope="row">
-                        <div class="media align-items-center">
-                          <div>
-                            <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-2.png" class="avatar  rounded-circle avatar-sm">
-                          </div>
-                          <div class="media-body ml-4">
-                            <a href="overview.html" class="name mb-0 h6 text-sm">Website Redesign</a>
-                          </div>
-                        </div>
-                      </th>
-                      <td class="budget">
-                        2
-                      </td>
-                      <td>
-                        <span class="badge badge-dot mr-4">
-                          <i class="bg-success"></i>
-                          <span class="status">completed</span>
-                        </span>
-                      </td>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <span class="completion mr-2">100%</span>
-                          <div>
-                            <div class="progress" style="width: 100px;">
-                              <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <div class="media align-items-center">
-                          <div>
-                            <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-3.png" class="avatar  rounded-circle avatar-sm">
-                          </div>
-                          <div class="media-body ml-4">
-                            <a href="overview.html" class="name mb-0 h6 text-sm">Webpixels Website</a>
-                          </div>
-                        </div>
-                      </th>
-                      <td class="budget">
-                        3
-                      </td>
-                      <td>
-                        <span class="badge badge-dot mr-4">
-                          <i class="bg-danger"></i>
-                          <span class="status">delayed</span>
-                        </span>
-                      </td>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <span class="completion mr-2">72%</span>
-                          <div>
-                            <div class="progress" style="width: 100px;">
-                              <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <div class="media align-items-center">
-                          <div>
-                            <img alt="Image placeholder" src="../../assets/img/theme/light/brand-avatar-4.png" class="avatar  rounded-circle avatar-sm">
-                          </div>
-                          <div class="media-body ml-4">
-                            <a href="overview.html" class="name mb-0 h6 text-sm">Purpose Application UI</a>
-                          </div>
-                        </div>
-                      </th>
-                      <td class="budget">
-                        4
-                      </td>
-                      <td>
-                        <span class="badge badge-dot mr-4">
-                          <i class="bg-info"></i>
-                          <span class="status">on schedule</span>
-                        </span>
-                      </td>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <span class="completion mr-2">90%</span>
-                          <div>
-                            <div class="progress" style="width: 100px;">
-                              <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>

@@ -121,6 +121,7 @@ def createCompetition(request):
 
 
 def competitionDashboard(request,pk):
+    
     if 'delete' in  request.POST : 
         pk_candidate = request.POST.get('delete') 
         candidate = models.Candidates.objects.get(candidatesId = pk_candidate )   
@@ -190,6 +191,8 @@ def condidateProfile(request):
     context['total_price'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_price=Sum('priceVoter'))['total_price']
     context['total_votes'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
 
+
+    context['votes_candidate_info'] = models.Votes.objects.filter(id_competition=context['idCandidate'] )
 
 
     context['candidateDetails'] = candidateDetails
