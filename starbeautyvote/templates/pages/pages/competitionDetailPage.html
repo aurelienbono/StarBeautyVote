@@ -105,13 +105,14 @@
                 <div class="card-body text-center pt-0">
                   <br>
                   <h5 class="candidate-name" id="userContentName{{ candidate.candidatesId }}">{{ candidate.fullName }}</h5>
-                  {% if candidate.votes_set.all %}
+                  {% comment %} {% if candidate.votes_set.all %}
                       {% for vote in candidate.votes_set.all %}
-                        <span class="card-price">{{ vote.numberOfVote }} votes</span>
+                        <span class="card-price">{{ vote.total_votes }} votes</span>
                    {% endfor %}
                    {% else %}
                    <span class="card-price">0 votes</span>
-               {% endif %}
+               {% endif %} {% endcomment %}
+               <span class="card-price">{{ candidate.total_votes }} votes</span>
                  
                 </div>
                 <div class="card-footer px-0 py-0 border-0 overflow-hidden">

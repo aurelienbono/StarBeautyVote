@@ -95,55 +95,27 @@
                   <thead>
                     <tr>
                       <th class="px-0 bg-transparent border-top-0">Description</th>
-                      <th class="px-0 bg-transparent border-top-0">Hours</th>
-                      <th class="px-0 bg-transparent border-top-0 text-right">Cost</th>
+                      <th class="px-0 bg-transparent border-top-0">Number Voted</th>
+                      <th class="px-0 bg-transparent border-top-0 text-right">Price(FCFA)</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {% for candate in candidates_with_votes %}
                     <tr>
                       <td class="px-0">
-                        <span class="h6 text-sm">Custom theme development</span>
+                        <span class="h6 text-sm"> {{candate.voteId}}</span>
                       </td>
                       <td class="px-0">
-                        125
+                        {{candate.numberOfVote}}
                       </td>
                       <td class="px-0 text-right">
-                        $6,250
+                        {{candate.priceVoter}}
                       </td>
                     </tr>
-                    <tr>
-                      <td class="px-0">
-                        <span class="h6 text-sm">Logo design</span>
-                      </td>
-                      <td class="px-0">
-                        15
-                      </td>
-                      <td class="px-0 text-right">
-                        $750
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="px-0">
-                        <span class="h6 text-sm">Custom theme development</span>
-                      </td>
-                      <td class="px-0">
-                        125
-                      </td>
-                      <td class="px-0 text-right">
-                        $6,250
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="px-0">
-                        <span class="h6 text-sm">Logo design</span>
-                      </td>
-                      <td class="px-0">
-                        15
-                      </td>
-                      <td class="px-0 text-right">
-                        $750
-                      </td>
-                    </tr>
+                    {% endfor %}
+                
+                  
+              
                   </tbody>
                 </table>
               </div>
@@ -153,7 +125,12 @@
                     <div class="col-md-6 order-md-2 mb-4 mb-md-0">
                       <div class="d-flex align-items-center justify-content-md-end">
                         <span class="h6 text-muted d-inline-block mr-3 mb-0">Total value:</span>
-                        <span class="h4 mb-0">$450.85 USD</span>
+                     {% if total_price %} 
+                     <span class="h4 mb-0">FCFA {{total_price}} </span>
+                     {% else %} 
+                     <span class="h4 mb-0">FCFA 0 </span>
+                     {% endif %}
+                     
                       </div>
                     </div>
                     <div class="col-md-6 order-md-1">

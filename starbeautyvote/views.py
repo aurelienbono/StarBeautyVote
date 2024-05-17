@@ -10,7 +10,7 @@ import shutil
 import secrets
 from .payments import Payments
 from .custum import Starbeautyvote 
-from django.db.models import Count
+from django.db.models import Sum
 
 
 
@@ -143,7 +143,11 @@ def competitionDashboard(request,pk):
     
     context['fullName'] = request.session.get('fullName')
 
-    # # 
+    # # get all information about vote and money 
+    
+    context['total_votes'] = models.Votes.objects.filter(id_competition=pk).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+    context['total_price'] = models.Votes.objects.filter(id_competition=pk).aggregate(total_price=Sum('priceVoter'))['total_price']
+
     # # get registration_fee of this competition
     competitionDetails             =  models.Competition.objects.filter(competitionId = pk).values().first()
     
@@ -160,7 +164,14 @@ def competitionDashboard(request,pk):
 def competitionCandidateProfile(request,pk): 
         
     candidateDetails = models.Candidates.objects.filter(candidatesId = pk)   
+    
     context = {} 
+    # get information about 
+    context['candidates_with_votes'] = models.Votes.objects.filter(id_candidates = pk).values()
+    context['total_price'] = models.Votes.objects.filter(id_candidates=pk).aggregate(total_price=Sum('priceVoter'))['total_price']
+
+    
+  
     context['candidateDetails'] =  candidateDetails 
     context['score'] = candidateDetails.count()
     
@@ -381,6 +392,10 @@ def competitionDetails(request,pk):
     competitionDetails = models.Competition.objects.filter(competitionId = pk)   
     candidateDetails = models.Candidates.objects.filter(id_competition = pk) 
     candidates_with_votes = models.Candidates.objects.filter(id_competition = pk).prefetch_related('votes_set').all()
+    
+    for candidate in candidates_with_votes:
+        candidate.total_votes = candidate.votes_set.aggregate(total_votes=Sum('numberOfVote'))['total_votes'] or 0
+
     
  
     context = {} 
