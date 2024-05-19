@@ -38,7 +38,7 @@ class Candidates(models.Model) :
     city_of_origin              = models.CharField(max_length=100, default='Douala')
     dataOfRegistration          = models.DateField(auto_now=True)
     image                       = models.ImageField()
-    registration_fee_status     = models.CharField(max_length=20)
+    registration_fee_status     = models.CharField(max_length=20 , default='UnPaid')
     description                 = models.TextField()
     password                    = models.CharField(max_length=24)
     id_competition              = models.ForeignKey(Competition , on_delete=models.CASCADE)
@@ -57,7 +57,15 @@ class Votes(models.Model) :
     status                      = models.CharField(max_length=50)    
 
 
-class VoteTransaction(models.Model): 
-    pass
+class Transaction(models.Model):
+    transactionId     = models.CharField(primary_key=True,max_length=50, unique=True)
+    candidateId              = models.ForeignKey(Candidates, on_delete=models.CASCADE, related_name='payments')
+    amount            = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method    = models.CharField(max_length=20,)
+    status            = models.CharField(max_length=10, default='PENDING')
+    created_at        = models.DateTimeField(auto_now_add=True)
+    updated_at        = models.DateTimeField(auto_now=True)
+    transaction_id    = models.CharField(max_length=100, blank=True, null=True)
+    transaction_type  = models.CharField(max_length=20,)
     
     

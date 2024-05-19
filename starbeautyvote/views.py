@@ -313,6 +313,9 @@ def candidate_register(request,pk,price) :
         
         if price==0 : 
             # redirect to candidate DashBoard
+            updateCandidateRegisterFee = models.Candidates.objects.get(candidatesId =id_candidate)
+            updateCandidateRegisterFee.registration_fee_status = "Pay"
+            updateCandidateRegisterFee.save()
             return redirect('/apps/candi/profile')
         else : 
             # redirect to pay page
@@ -411,6 +414,21 @@ def competitionDetails(request,pk):
                         )
         votes.save()
         
+        transaction = models.Transaction( 
+                                              transactionId = Starbeautyvote.generate_random_string(), 
+                                              candidateId = candiId, 
+                                              amount = priceAmout, 
+                                              payment_method = 'Mobile Money' , 
+                                              status = response_result["status"], 
+                                              created_at =response["transaction"]["created_at"] , 
+                                              updated_at =response["transaction"]["updated_at"] , 
+                                              reference_id =response["transaction"]["reference"] , 
+                                              transaction_type = "VoteTransaction", 
+                                              
+                                                 )
+                
+        transaction.save()
+        
         return redirect('/successpayment/candi/')
         
     
@@ -438,8 +456,93 @@ def competitionDetails(request,pk):
 
 def checkoutPayment(request, pk, price):
     
-    if request.method =='POST' : 
-        print(request.POST)
+    if request.method == 'POST':
+        payment_mobile_money = request.POST.get('paymentMobileMoney')
+        payment_credit_card = request.POST.get('paymentCreditCard')
+        payment_paypal = request.POST.get('paymentPaypal')
+
+        selected_payments = [payment_mobile_money, payment_credit_card, payment_paypal]
+        selected_count = sum(bool(payment) for payment in selected_payments)
+
+        if selected_count > 1:
+    
+            messages.error(request, 'Please select one payment method only!')
+            redirect(f'/checkoutpayment/candi/{pk}/{price}/')
+        elif payment_mobile_money:
+            # Process mobile money payment
+            # Your code for handling mobile money
+
+            payment_price = request.POST.get('price')
+            payment_pk = pk
+            payment_mobile_money_candidate_name= request.POST.get('candidate_name')
+            payment_credit_card_candidate_phone = request.POST.get('candidate_phone')
+            
+            try : 
+                response , reference = Payments.initialisePayment(payment_price)
+      
+            except Exception as  exceptionInitPayment : 
+                print(exceptionInitPayment)
+                return redirect('/errorpayment/candi/')
+            
+            try : 
+                response_result = Payments.completePayment(reference)
+                
+                # save to transaction 
+                
+                # Update status payment inscription status 
+                
+                transaction = models.Transaction( 
+                                              transactionId = Starbeautyvote.generate_random_string(), 
+                                              candidateId = payment_pk, 
+                                              amount = payment_price, 
+                                              payment_method = 'Mobile Money' , 
+                                              status = response_result["status"], 
+                                              created_at =response["transaction"]["created_at"] , 
+                                              updated_at =response["transaction"]["updated_at"] , 
+                                              reference_id =response["transaction"]["reference"] , 
+                                              transaction_type = "VoteTransaction", 
+                                              
+                                                 )
+                
+                transaction.save()
+                
+                updateCandidateRegisterFee = models.Candidates.objects.get(candidatesId =payment_pk)
+                updateCandidateRegisterFee.registration_fee_status = "Paid"
+                updateCandidateRegisterFee.save()
+        
+            except Exception as  exceptionCompletePayment : 
+                print(exceptionCompletePayment)
+
+                return redirect('/errorpayment/candi/', idCompetition = pk)
+                        
+            return redirect('/apps/candi/profile')
+        
+        
+        elif payment_credit_card:
+
+            # Process credit card payment
+            # Your code for handling credit card 
+            payment_pk =pk
+            payment_price = request.POST.get('price')
+            payment_credit_card_cardNumber = request.POST.get('cardNumber')
+            payment_credit_card_nameCard= request.POST.get('nameCard')
+            payment_credit_card_expiry = request.POST.get('expiry')
+            payment_credit_card_cvv= request.POST.get('cvv')
+            
+            print(payment_credit_card_cardNumber,payment_credit_card_nameCard,payment_credit_card_expiry, payment_credit_card_cvv, payment_pk , payment_price )
+            
+        elif payment_paypal:
+            # Process PayPal payment
+            # Your code for handling PayPal payment
+            payment_price = request.POST.get('price')
+            payment_pk = pk
+            payment_paypal_email_paypal= request.POST.get('email_paypal')
+            
+            print(payment_paypal_email_paypal, payment_pk , payment_price)
+            
+        else:
+            pass
+        
         
     content = {}
     content['price'] = price

@@ -38,7 +38,5 @@ urlpatterns = [
     path('successpayment/candi/', views.successPayment , name='successPayment'),
 
 
-
-    
-    
+        
 ]
