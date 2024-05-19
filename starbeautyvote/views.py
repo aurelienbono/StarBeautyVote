@@ -300,7 +300,7 @@ def candidate_register(request,pk,price) :
                     password           = candidateInfo[11],
                     dataOfRegistration = datetime.now(),
                     image              = imageFinalPath, 
-                    registration_fee_status   = 'None', 
+                    registration_fee_status   = 'UnPaid', 
                     id_competition     = competition_instance,
                     )
         
@@ -489,7 +489,7 @@ def checkoutPayment(request, pk, price):
                 
                 # save to transaction 
                 
-                # Update status payment inscription status 
+               
                 
                 transaction = models.Transaction( 
                                               transactionId = Starbeautyvote.generate_random_string(), 
@@ -505,6 +505,8 @@ def checkoutPayment(request, pk, price):
                                                  )
                 
                 transaction.save()
+                
+                 # Update status payment inscription status 
                 
                 updateCandidateRegisterFee = models.Candidates.objects.get(candidatesId =payment_pk)
                 updateCandidateRegisterFee.registration_fee_status = "Paid"
