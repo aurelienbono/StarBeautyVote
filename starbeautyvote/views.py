@@ -310,9 +310,14 @@ def candidate_register(request,pk,price) :
         request.session['image']    = imageFinalPath , 
         request.session['idCandidate'] =  id_candidate , 
         print(id_candidate)
-                
-        # redirect to candidate DashBoard
-        return redirect('/apps/candi/profile')
+        
+        if price==0 : 
+            # redirect to candidate DashBoard
+            return redirect('/apps/candi/profile')
+        else : 
+            # redirect to pay page
+            return redirect(f'/checkoutpayment/candi/{pk}/{price}')
+
     
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
 
@@ -431,9 +436,15 @@ def competitionDetails(request,pk):
 
 ## PAYMENT 
 
-def checkoutPayment(request,pk):
-     
-    return render(request,"pages/pages/payments/checkoutPayment.html")
+def checkoutPayment(request, pk, price):
+    
+    if request.method =='POST' : 
+        print(request.POST)
+        
+    content = {}
+    content['price'] = price
+    content['pk'] = pk
+    return render(request,"pages/pages/payments/checkoutPayment.html", content)
 
 
 def errorPayment(request): 
