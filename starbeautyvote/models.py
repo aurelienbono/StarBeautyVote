@@ -69,3 +69,5 @@ class Transaction(models.Model):
     transaction_type  = models.CharField(max_length=20,)
     
     
+class Notification(models.Model): 
+    pass

@@ -141,8 +141,10 @@
               Home
             </a>
           </li>
-          <!-- Application menu -->
-          <li class="nav-item dropdown dropdown-animate" data-toggle="hover">
+         {% if status == 'promoter' %} 
+          
+           <!-- Application menu -->
+           <li class="nav-item dropdown dropdown-animate" data-toggle="hover">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Competion
             </a>
@@ -199,6 +201,12 @@
               Builling
           </a>
           </li>
+         
+        
+         {% else %} 
+        
+         
+         {% endif %}
 
           <li class="nav-item">
             <a class="nav-link" href="/apps/parameters/">
@@ -215,9 +223,12 @@
           <li class="nav-item">
             <a href="#" class="nav-link nav-link-icon" data-action="omnisearch-open" data-target="#omnisearch"><i class="far fa-search"></i></a>
           </li>
+          
           {% comment %} <li class="nav-item">
             <a href="#modal-chat" class="nav-link nav-link-icon" data-toggle="modal"><i class="far fa-comment-alt"></i></a>
           </li> {% endcomment %}
+
+
           <li class="nav-item dropdown dropdown-animate">
             <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg dropdown-menu-arrow p-0">
@@ -251,45 +262,7 @@
                     </div>
                   </div>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="5 hrs ago">
-                    <div>
-                      <span class="avatar bg-info text-white rounded-circle">JM</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Jason Miller <small class="float-right text-muted">5 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="2 hrs ago">
-                    <div>
-                      <span class="avatar bg-dark text-white rounded-circle">MJ</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Mike Thomson <small class="float-right text-muted">2 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="3 hrs ago">
-                    <div>
-                      <span class="avatar bg-primary text-white rounded-circle">RN</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Richard Nixon <small class="float-right text-muted">3 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
+       
               </div>
               <div class="py-3 text-center">
                 <a href="#" class="link link-sm link--style-3">View all notifications</a>

@@ -22,11 +22,24 @@
       <!-- Avatar -->
       <div>
         <a href="#" class="avatar rounded-circle avatar-xl">
-          <img alt="Image placeholder" src="{% static 'assets/img/theme/light/brand-avatar-11.png' %}" class="">
+
+          {% if status == 'promoter' %}          
+          <img alt="Image placeholder" src="{% static 'assets/img/theme/light/brand-avatar-11.png' %}"  class="">
+          {% else %} 
+          
+          <img alt="Image placeholder" src="{% static image %}" class="">
+          {% endif %}
+      
         </a>
         <div class="mt-4">
           <h5 class="mb-0 text-white">{{fullName}}</h5>
+ 
+          {% if status == 'promoter' %}
           <span class="d-block text-sm text-white opacity-8 mb-3">Promoter</span>
+          {% else %} 
+          <span class="d-block text-sm text-white opacity-8 mb-3">Candidate</span>
+          {% endif %}
+      
           <a href="#" class="btn btn-sm btn-white btn-icon rounded-pill shadow hover-translate-y-n3">
             <span class="btn-inner--icon"><i class="far fa-coins"></i></span>
             <span class="btn-inner--text">$2.300</span>

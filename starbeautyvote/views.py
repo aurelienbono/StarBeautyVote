@@ -143,6 +143,7 @@ def competitionDashboard(request,pk):
     context = {'all_candidate' : all_candidate, "count_candidate":count }
     
     context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
 
     # # get all information about vote and money 
     
@@ -185,6 +186,8 @@ def condidateProfile(request):
     context['fullName'] = request.session.get('fullName')[0]
     context['image'] = request.session.get('image')[0]
     context['idCandidate'] = request.session.get("idCandidate")[0]
+    context['status'] = request.session.get("status")    
+
     
     # get information about sur le candidate
     candidateDetails  = models.Candidates.objects.filter(candidatesId = context['idCandidate'] ).values().first()
@@ -242,6 +245,8 @@ def login(request) :
             
             request.session['userId']  = userInfo['promoterId']
             request.session['fullName'] = userInfo['fullName']
+            request.session['status'] = 'promoter'
+            
             
             if isHasCompetition  : 
                 return redirect('/apps/') 
@@ -309,7 +314,7 @@ def candidate_register(request,pk,price) :
         request.session['fullName'] =  candidateInfo[0].capitalize() , 
         request.session['image']    = imageFinalPath , 
         request.session['idCandidate'] =  id_candidate , 
-        print(id_candidate)
+        request.session['status']      = 'candidate'
         
         if price==0 : 
             # redirect to candidate DashBoard
