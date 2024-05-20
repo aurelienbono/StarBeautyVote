@@ -31,11 +31,14 @@ def dashboardHome(request) :
 
         folderCompetition = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',folderCompetition['image'].split('/')[1])
         
-        
-        all_candidate_of_this_competitition = models.Candidates.objects.get(id_competition = pk)
+        try : 
+            all_candidate_of_this_competitition = models.Candidates.objects.get(id_competition = pk)
+            all_candidate_of_this_competitition.delete()    
+        except Exception as e : 
+            pass
         
         shutil.rmtree(folderCompetition)
-        all_candidate_of_this_competitition.delete()
+        
         competition.delete()
         
         
@@ -124,6 +127,7 @@ def competitionDashboard(request,pk):
     
     if 'delete' in  request.POST : 
         pk_candidate = request.POST.get('delete') 
+        
         candidate = models.Candidates.objects.get(candidatesId = pk_candidate )   
         
         folderCandidate = models.Candidates.objects.filter(candidatesId = pk_candidate).values('image').first()
