@@ -108,7 +108,21 @@ def createCompetition(request):
                     )
         competitition.save()
         
+        # save to notification table 
+        
+        notification = models.NotificationPromoter ( 
+                                             notificationId        = Starbeautyvote.generate_random_string(),  
+                                             typeOfNotification    = 'Creation Of Competition',
+                                             description           = f"Your  created {competititionInfo[0]} with the  {competititionInfo[4]} Category ", 
+                                             created_at            = datetime.now(),
+                                             )
+        
+        notification.save()   
+        
+        
         return redirect('/apps/')
+    
+
 
     context = {} 
     promoterId = request.session.get('userId')
@@ -138,6 +152,17 @@ def competitionDashboard(request,pk):
         
         shutil.rmtree(folderCandidate)
         candidate.delete()
+        
+                # save to notification table 
+        
+        notification = models.NotificationPromoter ( 
+                                             notificationId        = Starbeautyvote.generate_random_string(),  
+                                             typeOfNotification    = 'deleting Of Competition',
+                                             description           = f"Your  Competition  Id  {pk} is deleted", 
+                                             created_at            = datetime.now(),
+                                             )
+        
+        notification.save()   
         
     #get all candidate of this competition
     all_candidate   = models.Candidates.objects.filter(id_competition = pk).values()
@@ -225,7 +250,7 @@ def register(request) :
                     numberPhone=userInfo[2],
                     position=userInfo[3],
                     password=userInfo[4],
-                    dataOfRegistration=datetime.now(),
+                    dataOfRegistration= datetime.now(),
                     )
         
         user.save()
@@ -319,6 +344,9 @@ def candidate_register(request,pk,price) :
         request.session['image']    = imageFinalPath , 
         request.session['idCandidate'] =  id_candidate , 
         request.session['status']      = 'candidate'
+        
+   
+        
         
         if price==0 : 
             # redirect to candidate DashBoard

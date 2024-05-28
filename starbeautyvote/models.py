@@ -3,26 +3,26 @@ import uuid
 # Create your models here.
 
 class Promoter(models.Model)  : 
-    promoterId         = models.CharField(primary_key=True,max_length=50, unique=True)
-    fullName           = models.CharField(max_length=50)
-    email              = models.EmailField(max_length=50,unique=True)
-    numberPhone        = models.CharField(max_length=15)
-    password           = models.CharField(max_length=24)
-    position           = models.CharField(max_length=25)
-    dataOfRegistration = models.DateField(auto_now=True)
+    promoterId             = models.CharField(primary_key=True,max_length=50, unique=True)
+    fullName               = models.CharField(max_length=50)
+    email                  = models.EmailField(max_length=50,unique=True)
+    numberPhone            = models.CharField(max_length=15)
+    password               = models.CharField(max_length=24)
+    position               = models.CharField(max_length=25)
+    dataOfRegistration     = models.DateField(auto_now=True)
 
         
 class Competition(models.Model): 
-    competitionId        = models.CharField(primary_key=True,max_length=50, unique=True)
-    image                = models.ImageField()
-    competitionName      = models.CharField(max_length=50)
-    dateToStart          = models.DateField()
-    dateToEnd            = models.DateField()
-    description          = models.TextField()
-    category             = models.CharField(max_length=50)
-    CompetitionPrivacy   = models.CharField(max_length=20)
-    registration_fee     = models.IntegerField()
-    id_promoter          = models.ForeignKey(Promoter, on_delete=models.CASCADE)
+    competitionId           = models.CharField(primary_key=True,max_length=50, unique=True)
+    image                   = models.ImageField()
+    competitionName         = models.CharField(max_length=50)
+    dateToStart             = models.DateField()
+    dateToEnd               = models.DateField()
+    description             = models.TextField()
+    category                = models.CharField(max_length=50)
+    CompetitionPrivacy      = models.CharField(max_length=20)
+    registration_fee        = models.IntegerField()
+    id_promoter             = models.ForeignKey(Promoter, on_delete=models.CASCADE)
     
 
 class Candidates(models.Model) : 
@@ -58,16 +58,28 @@ class Votes(models.Model) :
 
 
 class Transaction(models.Model):
-    transactionId     = models.CharField(primary_key=True,max_length=50, unique=True)
-    candidateId              = models.ForeignKey(Candidates, on_delete=models.CASCADE, related_name='payments')
-    amount            = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method    = models.CharField(max_length=20,)
-    status            = models.CharField(max_length=10, default='PENDING')
-    created_at        = models.DateTimeField(auto_now_add=True)
-    updated_at        = models.DateTimeField(auto_now=True)
-    transaction_id    = models.CharField(max_length=100, blank=True, null=True)
-    transaction_type  = models.CharField(max_length=20,)
+    transactionId           = models.CharField(primary_key=True,max_length=50, unique=True)
+    candidateId             = models.ForeignKey(Candidates, on_delete=models.CASCADE, related_name='payments')
+    amount                  = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method          = models.CharField(max_length=20,)
+    status                  = models.CharField(max_length=10, default='PENDING')
+    created_at              = models.DateTimeField(auto_now_add=True)
+    updated_at              = models.DateTimeField(auto_now=True)
+    transaction_id          = models.CharField(max_length=100, blank=True, null=True)
+    transaction_type        = models.CharField(max_length=20,)
     
     
-class Notification(models.Model): 
-    pass
+class NotificationPromoter(models.Model): 
+    notificationId         = models.CharField(primary_key=True,max_length=50, unique=True)
+    typeOfNotification     = models.CharField(max_length=10, default='PENDING')
+    description            = models.TextField()
+    created_at             = models.DateTimeField(auto_now_add=True)
+    promoterId             = models.ForeignKey(Promoter, on_delete=models.CASCADE)
+    
+class NotificationCandidate(models.Model): 
+    notificationId         = models.CharField(primary_key=True,max_length=50, unique=True)
+    typeOfNotification     = models.CharField(max_length=10, default='PENDING')
+    description            = models.TextField()
+    created_at             = models.DateTimeField(auto_now_add=True)
+    candidateId            = models.ForeignKey(Candidates, on_delete=models.CASCADE)
+    id_competition         = models.ForeignKey(Competition , on_delete=models.CASCADE)
