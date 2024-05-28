@@ -135,14 +135,15 @@
             </a>
           </li>
           <li class="border-top opacity-2 my-2"></li>
-          <!-- Home  -->
-          <li class="nav-item ">
-            <a class="nav-link pl-lg-0" href="/apps/">
-              Home
-            </a>
-          </li>
-         {% if status == 'candidate' %} 
-          
+      
+         {% if status == 'promoter' %} 
+
+              <!-- Home  -->
+              <li class="nav-item ">
+                <a class="nav-link pl-lg-0" href="/apps/">
+                  Home
+                </a>
+              </li>
            <!-- Application menu -->
            <li class="nav-item dropdown dropdown-animate" data-toggle="hover">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -191,10 +192,6 @@
       
           </li> {% endcomment %}
 
-          <li class="nav-item">
-            <a class="nav-link" href="/apps/pricing/">
-              Pricing
-          </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/apps/accountBuilding/">
@@ -204,7 +201,12 @@
          
         
          {% else %} 
-        
+           <!-- Home  -->
+           <li class="nav-item ">
+            <a class="nav-link pl-lg-0" href="/apps/candi/profile">
+              Home
+            </a>
+          </li>
          
          {% endif %}
 

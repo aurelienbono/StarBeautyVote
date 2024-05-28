@@ -41,6 +41,18 @@ def dashboardHome(request) :
         
         competition.delete()
         
+        # save to notification table 
+        promoter_instance = models.Promoter.objects.get(promoterId=request.session.get('userId'))
+        notification = models.NotificationPromoter ( 
+                                             notificationId        = Starbeautyvote.generate_random_string(),  
+                                             typeOfNotification    = 'deleting Of Competition',
+                                             description           = f"Your  Competition  Id  {pk} is deleted", 
+                                             created_at            = datetime.now(),
+                                             promoterId            = promoter_instance
+                                             )
+        
+        notification.save()   
+        
         
     elif 'update' in request.POST :
         pass 
@@ -54,6 +66,7 @@ def dashboardHome(request) :
     context['score'] = CompetionList.count()
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
     
     
   
@@ -115,6 +128,7 @@ def createCompetition(request):
                                              typeOfNotification    = 'Creation Of Competition',
                                              description           = f"Your  created {competititionInfo[0]} with the  {competititionInfo[4]} Category ", 
                                              created_at            = datetime.now(),
+                                             promoterId            = promoter_instance
                                              )
         
         notification.save()   
@@ -129,6 +143,7 @@ def createCompetition(request):
     context['promoterId'] = promoterId
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
     
     
   
@@ -153,13 +168,14 @@ def competitionDashboard(request,pk):
         shutil.rmtree(folderCandidate)
         candidate.delete()
         
-                # save to notification table 
-        
+        # save to notification table 
+        promoter_instance = models.Promoter.objects.get(promoterId=request.session.get('userId'))
         notification = models.NotificationPromoter ( 
                                              notificationId        = Starbeautyvote.generate_random_string(),  
-                                             typeOfNotification    = 'deleting Of Competition',
-                                             description           = f"Your  Competition  Id  {pk} is deleted", 
+                                             typeOfNotification    = 'deleting Of Candidate',
+                                             description           = f"Your  Candidate  Id  {pk} is deleted", 
                                              created_at            = datetime.now(),
+                                             promoterId            = promoter_instance
                                              )
         
         notification.save()   
@@ -379,6 +395,7 @@ def parameters(request):
     context = {} 
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
     
     
     return render(request,'pages/application/account/settings.html',context )
@@ -601,6 +618,7 @@ def pricing(request):
     context = {} 
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
     
     return render(request,'pages/application/account/pricing.html',context )
 
@@ -609,6 +627,7 @@ def accountBuilding(request):
     context = {} 
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
     
     return render(request,'pages/application/account/accountBilling.html',context )
 
