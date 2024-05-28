@@ -27,7 +27,6 @@ class Payments:
     
     def initialisePayment(amout) : 
         reference = Starbeautyvote.generate_random_string()
-        print(reference)
         url = 'https://api.notchpay.co/payments/initialize'
         headers = {
             'Authorization':api_key,
@@ -44,7 +43,6 @@ class Payments:
 
         response = requests.post(url, headers=headers, data=data)
 
-        print(response.json())
         
         response = response.json()
         return response , response["transaction"]["reference"]
@@ -66,8 +64,6 @@ class Payments:
         # Convertir les données en format JSON
         json_data = json.dumps(data)
         response = requests.post(url, headers=headers, data=json_data)
-
-        print(response.json())
         
         return response
 
