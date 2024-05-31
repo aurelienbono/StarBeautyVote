@@ -11,6 +11,7 @@ import secrets
 from .payments import Payments
 from .custum import Starbeautyvote 
 from django.db.models import Sum
+from django.core.mail import send_mail
 
 
 
@@ -419,14 +420,28 @@ def parameters(request):
 
 
 def competitionLanding(request): 
+    
+    listOfCitation = [
+        "Chaque vote compte ! Votre opinion fait la différence dans nos concours.", 
+        "Rejoignez la compétition et soyez le champion que vous êtes destiné à devenir.", 
+        "La transparence est notre priorité : chaque vote est vérifié et compté avec précision.", 
+        "Montrez votre loyauté et soutenez vos favoris en votant dès aujourd'hui !", 
+        "Compétition équitable, résultats honnêtes : c'est notre engagement envers vous.", 
+        "Faites partie de l'aventure ! Inscrivez-vous à nos compétitions et faites briller vos compétences.", 
+        "Votre voix, votre choix ! Votez pour les meilleurs et assurez une compétition juste.", 
+        "Loyauté et intégrité : participez à des concours où chaque vote est transparent.", 
+        "Exprimez votre passion et votre talent : rejoignez nos compétitions et soyez reconnu !", 
+    ]
+    
     context = {} 
     CompetionList = models.Competition.objects.all()
     
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
+    context["listOfCitation"] = listOfCitation
 
     return render(request,"pages/pages/competitionLandingPage.html",context)
-
+    
 
 def competitionDetails(request,pk): 
     
@@ -654,6 +669,33 @@ def accountBuilding(request):
 
 
 def contact(request): 
+    if request.method=="POST":
+        # SAVE DATA IN DATABASE 
+        support = models.Supports( 
+                        supportId = Starbeautyvote.generate_random_string(),
+                        fistName = request.POST['firstname'], 
+                        lastName = request.POST['lastname'], 
+                        emails  = request.POST['email'], 
+                        phone = request.POST['phone'], 
+                        subject   = request.POST['subject'], 
+                        messages = request.POST['messages'], 
+                        created_at = datetime.now(),
+                        )
+
+        support.save()
+        
+        destinataires = ['bonombelleaurelien08@gmail.com']
+        # SEND EMAIL 
+        
+        try: 
+            send_mail(request.POST['subject'], request.POST['messages'],  request.POST['email'], destinataires )
+            messages.success(request, f'{e}')
+        except Exception as e : 
+            messages.error(request, f'{e}')
+            pass
+        
+        return redirect('/contact/#sct_contact_form')
+        
     return render(request,"pages/pages/contact.html" )
 
 

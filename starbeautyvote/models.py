@@ -83,3 +83,17 @@ class NotificationCandidate(models.Model):
     created_at             = models.DateTimeField(auto_now_add=True)
     candidateId            = models.ForeignKey(Candidates, on_delete=models.CASCADE)
     id_competition         = models.ForeignKey(Competition , on_delete=models.CASCADE)
+
+
+
+class Supports(models.Model): 
+    supportId         = models.CharField(primary_key=True,max_length=50, unique=True)
+    fistName          = models.CharField(max_length=30,)
+    lastName          = models.CharField(max_length=30)
+    emails            = models.EmailField(max_length=50)
+    phone             = models.CharField(max_length=30)
+    subject           = models.CharField(max_length=30)
+    messages          = models.TextField()
+    created_at        = models.DateTimeField(auto_now_add=True)
+
+     

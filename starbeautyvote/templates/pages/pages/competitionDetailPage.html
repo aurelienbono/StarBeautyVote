@@ -18,11 +18,11 @@
             <h6 class="mb-0">{{competition.competitionName}}</h6>
           </div>
           <div class="col-md-6">
-            <nav class="nav justify-content-md-end mb-0">
+            {% comment %} <nav class="nav justify-content-md-end mb-0">
               <a href="#" class="nav-link text-sm pl-0">Overview</a>
               <a href="#" class="nav-link text-sm">Tech specs</a>
               <a href="#" class="nav-link text-sm pr-0">Setup &amp; Tips</a>
-            </nav>
+            </nav> {% endcomment %}
           </div>
         </div>
       </div>
@@ -88,9 +88,11 @@
       <div class="container">
         <div class="container no-padding">
           <div class="mb-5 text-center">
-            <h3 class=" mt-4">The main features of Purpose</h3>
+
+            <h3 class=" mt-4">Vote for your favorite candidate!</h3>
             <div class="fluid-paragraph mt-3">
-              <p class="lead lh-180">Start building fast, beautiful and modern looking websites in no time using our theme.</p>
+              <p class="lead lh-180">Your opinion counts! We invite the public to vote for their favorite candidate. Every vote is crucial and can make all the difference to the contestants. Support your favorite by voting now and help them win the competition!
+              </p>
             </div>
           </div>
           
@@ -127,9 +129,25 @@
          
           
           {% else %}  
-         <p class="h4 lh-150">
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta.
-      </p>
+          <div class="container">
+            <div class="row no-gutters align-items-md-center text-center text-md-left">
+              <div class="card hover-shadow-lg hover-scale-110 order-2 col-lg-7 ml--100">
+                <div class="card-body p-5">
+                  <h6 class="text-muted"> No candidates registered <strong> for this competition</strong></h6> 
+
+                  <p class="h4 lh-150">
+                 
+                    Please note that there are currently no candidates registered for this competition. Please check this page regularly for new entries.
+                  </p>
+                </div>
+              </div>
+         
+              <div class="col-lg-5 ml-auto">
+                <img alt="Image placeholder" src="{% static  "assets/img/theme/light/no_competition.png" %}" class="img-fluid rounded shadow">
+              </div>
+            </div>
+          </div>
+        </section>
              
           {% endif %}
           
@@ -202,7 +220,10 @@
             <div class="col-lg-6 col-xl-6 text-center">
               <div class="mb-5">
                 <h1 class="text-white">Always on time</h1>
-                <p class="lead text-white mt-2">You get all Bootstrap components fully customized. Besides, you receive another numerous plugins out of the box and ready to use.</p>
+                <p class="lead text-white mt-2">
+                  Your payment is simple and secure. We accept several payment methods, including the most popular credit cards, bank transfers and e-wallets. Our payment process is smooth and intuitive, allowing you to complete your transaction in just a few simple steps.
+
+                </p>
               </div>
               <form>
                 <div class="form-group mb-0">
@@ -227,17 +248,17 @@
           <div class="row">
             <div class="col-lg-4 mb-4 mb-lg-0">
               <div class="px-4 py-3 text-lg-center">
-                <h6 class="text-sm text-white text-uppercase ls-1">Free shipping in 48/72H</h6>
+                <h6 class="text-sm text-white text-uppercase ls-1">Support 24/7</h6>
                 <p class="text-white opacity-7">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                  Our support team is available 24/7 to answer all your questions and solve any problems related to your payments.
                 </p>
               </div>
             </div>
             <div class="col-lg-4 mb-4 mb-lg-0">
               <div class="px-4 py-3 text-lg-center">
-                <h6 class="text-sm text-white text-uppercase ls-1">Free returns</h6>
+                <h6 class="text-sm text-white text-uppercase ls-1">Confidentiality assured</h6>
                 <p class="text-white opacity-7">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                  We respect your privacy and never share your information with third parties. Your data is safe with us.
                 </p>
               </div>
             </div>

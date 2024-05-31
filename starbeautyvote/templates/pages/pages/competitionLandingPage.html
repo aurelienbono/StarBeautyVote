@@ -16,10 +16,9 @@
                 <div class="row justify-content-center align-items-center">
                   <div class="col-lg-7 text-center">
                     <h3 class="h1 text-white">You are one step away.</h3>
-                    <p class="lead text-white">Start building fast, beautiful and modern looking websites in no time using reviewed by the Bootstrap Creators.</p>
+                    <p class="lead text-white">Be part of the adventure! Sign up for our competitions and let your skills shine.</p>
                     <div class="mt-5">
-                      <a href="https://themes.getbootstrap.com/product/purpose-website-ui-kit/" class="btn btn-lg btn-white rounded-pill">Purchase now</a>
-                      <a href="#" class="btn btn-lg btn-link text-light">Learn more</a>
+                      <a href="#votesession" class="btn btn-lg btn-white rounded-pill">Join us now!</a>
                     </div>
                   </div>
                 </div>
@@ -78,7 +77,7 @@
                         <i class="fas fa-bolt"></i>
                       </div>
                       <div class="icon-text pl-4">
-                        <h5 class="ma-0 ">Rapidité
+                        <h5 class="ma-0 ">Speed
                         </h5>
                         <p class="mb-0">Benefit from ultra-fast deployment, in less than 2 hours, for immediate implementation of your online voting projects.</p>
                       </div>
@@ -107,8 +106,8 @@
         </section>
 
 
-
-        <section class="slice slice-lg">
+        {% if  CompetionList %}
+        <section class="slice slice-lg" id='votesession'>
           <div class="container no-padding">
             <div class="mb-5 text-center">
               <h3 class=" mt-4">Current competitions on InnovaVote</h3>
@@ -126,7 +125,9 @@
                       <img alt="Image placeholder" src="{% static competition.image %}" class="svg-inject" style="height: 60px; width: auto">
                       <h5 class="mt-4">{{competition.competitionName}}</h5>
                     </div>
-                    <p class="">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="">
+                      Transparency is our priority: every vote is checked and counted precisely.
+                    </p>
                   </div>
                   <div class="card-footer px-0 py-0 border-0 overflow-hidden">
                     <a href="/competitionDetails/{{competition.competitionId}}" class="btn btn-block btn-primary rounded-0">Learn more</a>
@@ -138,6 +139,34 @@
             </div>
           </div>
         </section>
+        
+        {% else %}
+        <section class="slice slice-lg">
+          <div class="container">
+            <div class="row no-gutters align-items-md-center text-center text-md-left">
+              <div class="card hover-shadow-lg hover-scale-110 order-2 col-lg-7 ml--100">
+                <div class="card-body p-5">
+                  <h6 class="text-muted">No competition <strong>available at the moment</strong></h6>
+
+                  <p class="h4 lh-150">
+                  
+                    Please note that no competitions are currently available. We invite you to check back at a later date for new competitions.
+
+                    Thank you for your understanding, and see you soon!
+                
+                  </p>
+                </div>
+              </div>
+         
+              <div class="col-lg-5 ml-auto">
+                <img alt="Image placeholder" src="{% static  "assets/img/theme/light/no_competition_1.png" %}" class="img-fluid rounded shadow">
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        
+        {% endif %}
     
 
 
@@ -175,17 +204,17 @@
           <div class="row">
             <div class="col-lg-4 mb-4 mb-lg-0">
               <div class="px-4 py-3 text-lg-center">
-                <h6 class="text-sm text-white text-uppercase ls-1">Free shipping in 48/72H</h6>
+                <h6 class="text-sm text-white text-uppercase ls-1">Support 24/7</h6>
                 <p class="text-white opacity-7">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                  Our support team is available 24/7 to answer all your questions and solve any problems related to your payments.
                 </p>
               </div>
             </div>
             <div class="col-lg-4 mb-4 mb-lg-0">
               <div class="px-4 py-3 text-lg-center">
-                <h6 class="text-sm text-white text-uppercase ls-1">Free returns</h6>
+                <h6 class="text-sm text-white text-uppercase ls-1">Confidentiality assured</h6>
                 <p class="text-white opacity-7">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod
+                  We respect your privacy and never share your information with third parties. Your data is safe with us.
                 </p>
               </div>
             </div>
