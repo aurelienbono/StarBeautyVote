@@ -59,7 +59,7 @@ def dashboardHome(request) :
     
     context = {} 
     CompetionList = models.Competition.objects.filter(id_promoter=request.session.get('userId') ).values()
-    
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
     
     
     context['CompetionList'] =  CompetionList 
@@ -67,7 +67,8 @@ def dashboardHome(request) :
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    
+    context['notificationList'] = notificationList
+    context['notificationCount']  =  notificationList.count()
     
   
 
@@ -137,6 +138,7 @@ def createCompetition(request):
         return redirect('/apps/')
     
 
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
 
     context = {} 
     promoterId = request.session.get('userId')
@@ -144,7 +146,8 @@ def createCompetition(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    
+    context['notificationList'] = notificationList
+    context['notificationCount']  =  notificationList.count()
     
   
 
@@ -197,7 +200,10 @@ def competitionDashboard(request,pk):
 
     # # get registration_fee of this competition
     competitionDetails             =  models.Competition.objects.filter(competitionId = pk).values().first()
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
+    context['notificationCount']  =  notificationList.count()
     
+    context['notificationList']  =  notificationList
     context['competitionDetails']  =  competitionDetails
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
@@ -216,7 +222,10 @@ def competitionCandidateProfile(request,pk):
     # get information about 
     context['candidates_with_votes'] = models.Votes.objects.filter(id_candidates = pk).values()
     context['total_price'] = models.Votes.objects.filter(id_candidates=pk).aggregate(total_price=Sum('priceVoter'))['total_price']
-
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
+    
+    context['notificationList']  =  notificationList
+    context['notificationCount']  =  notificationList.count()
     
   
     context['candidateDetails'] =  candidateDetails 
@@ -238,7 +247,7 @@ def condidateProfile(request):
     candidateDetails  = models.Candidates.objects.filter(candidatesId = context['idCandidate'] ).values().first()
     context['total_price'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_price=Sum('priceVoter'))['total_price']
     context['total_votes'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
-
+    
 
     context['votes_candidate_info'] = models.Votes.objects.filter(id_competition=context['idCandidate'] )
 
@@ -396,7 +405,10 @@ def parameters(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
     
+    context['notificationList']  =  notificationList
+    context['notificationCount']  =  notificationList.count()
     
     return render(request,'pages/application/account/settings.html',context )
 
@@ -619,7 +631,10 @@ def pricing(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
     
+    context['notificationCount']  =  notificationList.count()    
+    context['notificationList']  =  notificationList
     return render(request,'pages/application/account/pricing.html',context )
 
 
@@ -628,7 +643,10 @@ def accountBuilding(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
     
+    context['notificationList']  =  notificationList
+    context['notificationCount']  =  notificationList.count()
     return render(request,'pages/application/account/accountBilling.html',context )
 
 

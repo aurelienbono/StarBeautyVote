@@ -1,4 +1,25 @@
 {% load static %}
+<style>
+  .badge-notification {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    padding: 5px 5px;
+    border-radius: 30%;
+    background-color: red;
+    color: white;
+  }
+  .badge-notification-pc {
+    position: absolute;
+    top: -8px;
+    right: -1px;
+    padding: 5px 5px;
+    border-radius: 30%;
+    background-color: red;
+    color: white;
+  }
+</style>
+
 <nav class="navbar navbar-main navbar-expand-lg navbar-dark bg-primary navbar-border" id="navbar-main">
     <div class="container-fluid">
       <!-- Brand + Toggler (for mobile devices) -->
@@ -14,84 +35,43 @@
           <li class="nav-item">
             <a href="#" class="nav-link nav-link-icon" data-action="omnisearch-open" data-target="#omnisearch"><i class="far fa-search"></i></a>
           </li>
-          <li class="nav-item dropdown dropdown-animate">
-            <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
+    
+        <li class="nav-item dropdown dropdown-animate">
+          <a class="nav-link nav-link-icon position-relative" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-notification">{{notificationCount}}</span>
+          </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg dropdown-menu-arrow p-0">
               <div class="py-3 px-3">
                 <h5 class="heading h6 mb-0">Notifications</h5>
               </div>
               <div class="list-group list-group-flush">
+                
+                {% for notification in notificationList %}
+
                 <a href="#" class="list-group-item list-group-item-action">
                   <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="2 hrs ago">
                     <div>
-                      <span class="avatar bg-primary text-white rounded-circle">AM</span>
+                      <span class="avatar bg-primary text-white rounded-circle">{{ notification.typeOfNotification|slice:":2" |upper}}</span>
                     </div>
                     <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Alex Michael <small class="float-right text-muted">2 hrs ago</small></div>
+                      <div class="h6 text-sm mb-0">{{notification.typeOfNotification}} <small class="float-right text-muted">2 hrs ago</small></div>
                       <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
+                        {{notification.description}}
                       </p>
                     </div>
                   </div>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="3 hrs ago">
-                    <div>
-                      <span class="avatar bg-warning text-white rounded-circle">SW</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Sandra Wayne <small class="float-right text-muted">3 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="5 hrs ago">
-                    <div>
-                      <span class="avatar bg-info text-white rounded-circle">JM</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Jason Miller <small class="float-right text-muted">5 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="2 hrs ago">
-                    <div>
-                      <span class="avatar bg-dark text-white rounded-circle">MJ</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Mike Thomson <small class="float-right text-muted">2 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="3 hrs ago">
-                    <div>
-                      <span class="avatar bg-primary text-white rounded-circle">RN</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Richard Nixon <small class="float-right text-muted">3 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
+                {% endfor %}
+              
               </div>
               <div class="py-3 text-center">
                 <a href="#" class="link link-sm link--style-3">View all notifications</a>
               </div>
             </div>
-          </li>
+          </li> 
+
+
           <li class="nav-item dropdown dropdown-animate">
             <a class="nav-link pr-lg-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="avatar avatar-sm rounded-circle">
@@ -232,38 +212,29 @@
 
 
           <li class="nav-item dropdown dropdown-animate">
-            <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i></a>
+            <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i><span class="badge badge-notification-pc">{{notificationCount}}</span></a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg dropdown-menu-arrow p-0">
               <div class="py-3 px-3">
                 <h5 class="heading h6 mb-0">Notifications</h5>
               </div>
               <div class="list-group list-group-flush">
+                {% for notification in notificationList %}
                 <a href="#" class="list-group-item list-group-item-action">
                   <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="2 hrs ago">
                     <div>
-                      <span class="avatar bg-primary text-white rounded-circle">AM</span>
+                      <span class="avatar bg-primary text-white rounded-circle">{{ notification.typeOfNotification|slice:":2"|upper }}
+                      </span>
                     </div>
                     <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Alex Michael <small class="float-right text-muted">2 hrs ago</small></div>
+                      <div class="h6 text-sm mb-0">{{notification.typeOfNotification}}<small class="float-right text-muted">2 hrs ago</small></div>
                       <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
+                        {{notification.description}}
                       </p>
                     </div>
                   </div>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center" data-toggle="tooltip" data-placement="right" data-title="3 hrs ago">
-                    <div>
-                      <span class="avatar bg-warning text-white rounded-circle">SW</span>
-                    </div>
-                    <div class="flex-fill ml-3">
-                      <div class="h6 text-sm mb-0">Sandra Wayne <small class="float-right text-muted">3 hrs ago</small></div>
-                      <p class="text-sm lh-140 mb-0">
-                        Some quick example text to build on the card title.
-                      </p>
-                    </div>
-                  </div>
-                </a>
+                {% endfor %}
+            
        
               </div>
               <div class="py-3 text-center">
