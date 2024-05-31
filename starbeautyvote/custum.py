@@ -24,11 +24,10 @@ class Starbeautyvote :
         return new_filename
 
     def voteNumberToFinalAmount(votes) : 
-        #   5 Vote = 400 FCFA  | 4 Votes = 1 USD | 5 Votes = 1 EUR
         votes = int(votes)
-        numberOfTranches = votes // 5
-        resteOfVote = votes % 5
-        finalAmout = (numberOfTranches * 4 * 100) + (resteOfVote * 100)
+        numberOfTranches = votes // 10
+        resteOfVote = votes % 10
+        finalAmout = (numberOfTranches * 11 * 100) + (resteOfVote * 100)
         
         return finalAmout
 

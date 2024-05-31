@@ -23,10 +23,10 @@
   
       if (!isNaN(inputValue)) {
         var numberOfVote = inputValue ;
-        var numberTranche  = Math.floor(numberOfVote/5)
+        var numberTranche  = Math.floor(numberOfVote/10)
 
-        var resteOfElements = numberOfVote % 5;
-        var totalPrice = (numberTranche * 4 * 100) + (resteOfElements * 100);
+        var resteOfElements = numberOfVote % 10;
+        var totalPrice = (numberTranche * 11 * 100) + (resteOfElements * 100);
 
 
         priceElement.text("Price : " + totalPrice + " FCFA");

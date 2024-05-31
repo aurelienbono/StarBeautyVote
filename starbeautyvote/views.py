@@ -226,7 +226,9 @@ def competitionCandidateProfile(request,pk):
     
     context['notificationList']  =  notificationList
     context['notificationCount']  =  notificationList.count()
-    
+    context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
+    context['status'] = request.session.get('status')
   
     context['candidateDetails'] =  candidateDetails 
     context['score'] = candidateDetails.count()
