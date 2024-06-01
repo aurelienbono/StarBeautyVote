@@ -384,7 +384,7 @@ def candidate_register(request,pk,price) :
             return redirect('/apps/candi/profile')
         else : 
             # redirect to pay page
-            return redirect(f'/checkoutpayment/candi/{pk}/{price}')
+            return redirect(f'/checkoutpayment/candi/{pk}/{id_candidate}/{price}')
 
     
     return render(request, 'pages/application/authentication/candidate/register.html', {'competition_id': pk, 'registration_fee':price})
@@ -499,19 +499,17 @@ def competitionDetails(request,pk):
         
         transaction = models.Transaction( 
                                               transactionId = Starbeautyvote.generate_random_string(), 
-                                              candidateId = candiId, 
                                               amount = priceAmout, 
                                               payment_method = 'Mobile Money' , 
-                                              status = response_result["status"], 
-                                              created_at =response["transaction"]["created_at"] , 
-                                              updated_at =response["transaction"]["updated_at"] , 
-                                              reference_id =response["transaction"]["reference"] , 
+                                              status = 'Complete', 
+                                              created_at = datetime.now(), 
+                                              updated_at = datetime.now(), 
                                               transaction_type = "VoteTransaction", 
                                               
                                                  )
                 
         transaction.save()
-        
+
         return redirect('/successpayment/candi/')
         
     
@@ -537,26 +535,26 @@ def competitionDetails(request,pk):
 
 ## PAYMENT 
 
-def checkoutPayment(request, pk, price):
+def checkoutPayment(request, pk, candi_pk,  price):
     
     if request.method == 'POST':
         payment_mobile_money = request.POST.get('paymentMobileMoney')
         payment_credit_card = request.POST.get('paymentCreditCard')
         payment_paypal = request.POST.get('paymentPaypal')
-
+        
         selected_payments = [payment_mobile_money, payment_credit_card, payment_paypal]
         selected_count = sum(bool(payment) for payment in selected_payments)
 
+
+        
         if selected_count > 1:
     
             messages.error(request, 'Please select one payment method only!')
             redirect(f'/checkoutpayment/candi/{pk}/{price}/')
         elif payment_mobile_money:
-            # Process mobile money payment
-            # Your code for handling mobile money
 
             payment_price = request.POST.get('price')
-            payment_pk = pk
+            # payment_pk = pk
             payment_mobile_money_candidate_name= request.POST.get('candidate_name')
             payment_credit_card_candidate_phone = request.POST.get('candidate_phone')
             
@@ -576,14 +574,12 @@ def checkoutPayment(request, pk, price):
                 
                 transaction = models.Transaction( 
                                               transactionId = Starbeautyvote.generate_random_string(), 
-                                              candidateId = payment_pk, 
                                               amount = payment_price, 
                                               payment_method = 'Mobile Money' , 
-                                              status = response_result["status"], 
-                                              created_at =response["transaction"]["created_at"] , 
-                                              updated_at =response["transaction"]["updated_at"] , 
-                                              reference_id =response["transaction"]["reference"] , 
-                                              transaction_type = "VoteTransaction", 
+                                              status = "Complete", 
+                                              created_at =datetime.now(),
+                                              updated_at =datetime.now(),
+                                              transaction_type = "CompetitionFee", 
                                               
                                                  )
                 
@@ -591,7 +587,7 @@ def checkoutPayment(request, pk, price):
                 
                  # Update status payment inscription status 
                 
-                updateCandidateRegisterFee = models.Candidates.objects.get(candidatesId =payment_pk)
+                updateCandidateRegisterFee = models.Candidates.objects.get(candidatesId =candi_pk)
                 updateCandidateRegisterFee.registration_fee_status = "Paid"
                 updateCandidateRegisterFee.save()
         

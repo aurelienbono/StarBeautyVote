@@ -58,7 +58,7 @@ urlpatterns = [
     path('apps/parameters/', include('starbeautyvote.urls')),
     
     #Payment
-    path('checkoutpayment/candi/<str:pk>/', include('starbeautyvote.urls')),
+    path('checkoutpayment/candi/<str:pk>/<str:candi_pk>/', include('starbeautyvote.urls')),
     path('errorpayment/candi/', include('starbeautyvote.urls')),
     path('successpayment/candi/', include('starbeautyvote.urls')),
 
