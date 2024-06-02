@@ -1,5 +1,10 @@
+from datetime import datetime, timedelta
+from starbeautyvote import models
+from django.db.models import Sum
 import secrets
 import os 
+from django.utils import timezone
+
 
 class Starbeautyvote : 
     def __init__(self) -> None:
@@ -32,4 +37,65 @@ class Starbeautyvote :
         return finalAmout
 
 
+    def percentageCalculte(totalOfLastWeek , totalOfCurrentWeek): 
+        
+        if totalOfLastWeek == 0:
+            status = 'up'
+            percentageChange = (totalOfCurrentWeek / totalOfCurrentWeek) * 100 
+            return percentageChange, status
+        else : 
+            change = totalOfCurrentWeek - totalOfLastWeek 
+            percentageChange = (change/totalOfLastWeek) * 100 
+            
+            if totalOfLastWeek > totalOfCurrentWeek:
+                status = 'up'
+            else:
+                 status = 'down'
+                 
+            return percentageChange , status
+        
 
+
+    def get_total_price_for_week(pk ,typeOfAggr,  week='current'):
+
+        today = timezone.now()
+        start_of_current_week = today - timedelta(days=today.weekday())
+        start_of_last_week = start_of_current_week - timedelta(days=7)
+        end_of_last_week = start_of_current_week - timedelta(seconds=1)
+
+
+        if week == 'current':
+            start_date = start_of_current_week
+            end_date = today
+            
+        elif week == 'last':
+            start_date = start_of_last_week
+            end_date = end_of_last_week
+            
+        
+        else:
+            raise ValueError("Invalid week parameter. Use 'current' or 'last'.")
+
+        value = 0
+        
+        if typeOfAggr == "total_price"   : 
+            
+            value = models.Votes.objects.filter(
+                id_candidates=pk,
+                dataOfVoting__range=(start_date, end_date)
+            ).aggregate(total_price=Sum('priceVoter'))['total_price']
+        
+
+        if typeOfAggr == "total_votes" : 
+            
+            value = models.Votes.objects.filter(
+                id_candidates=pk,
+                dataOfVoting__range=(start_date, end_date)
+            ).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+            
+            
+            
+        if value is  None : 
+            return 0 
+        else : 
+            return value

@@ -172,8 +172,23 @@
                 <div class="row align-items-center">
                   <div class="col">
                     <h6 class="text-sm mb-0">Total Amount</h6>
-                    <span class="text-nowrap h6 text-muted text-sm">$3.068,90</span>
-                    <span class="badge badge-xs badge-soft-success ml-2"><i class="far fa-arrow-up"></i> 25%</span>
+                    <span class="text-nowrap h6 text-muted text-sm">FCFA  
+                      {% if total_price %} 
+                     {{total_price}}
+                      {% else %}
+                         0
+                      {% endif %}</span>
+                    
+                      
+                      {% if priceVoterCalculate_status == 'up' %} 
+                      <span class="badge badge-xs badge-soft-success ml-2"><i class="far fa-arrow-up"></i> 
+
+                      {% else %}
+                      <span class="badge badge-xs badge-soft-danger ml-2"><i class="far fa-arrow-down"></i> 
+
+                      {% endif %}  
+                      
+                      {{priceVoterCalculate}}%</span>
                   </div>
                   <div class="col-4">
                     <div style="max-width: 100px;">
@@ -185,8 +200,23 @@
                 <div class="row align-items-center">
                   <div class="col">
                     <h6 class="text-sm mb-0">Total Votes</h6>
-                    <span class="text-nowrap h6 text-muted text-sm">80</span>
-                    <span class="badge badge-xs badge-soft-info ml-2"><i class="far fa-arrow-up"></i> 17%</span>
+                    <span class="text-nowrap h6 text-muted text-sm">   {% if total_votes %} 
+                    {{total_votes}}
+                      {% else %}
+                     0
+                      {% endif %}</span>
+                    
+
+
+                      {% if numberOfVoteCalculate_status == 'up' %} 
+                      <span class="badge badge-xs badge-soft-info ml-2"><i class="far fa-arrow-up"></i> 
+
+                      {% else %}
+                      <span class="badge badge-xs badge-soft-danger ml-2"><i class="far fa-arrow-down"></i> 
+
+                      {% endif %}                      
+                      
+                      {{numberOfVoteCalculate}}%</span>
                   </div>
                   <div class="col-4">
                     <div style="max-width: 100px;">
@@ -213,7 +243,7 @@
           <div class="col-xl-8 col-md-6">
             <div class="card card-fluid">
               <div class="card-header border-0">
-                <h6 class="mb-0">My projects</h6>
+                <h6 class="mb-0">All my Votes</h6>
               </div>
               <div class="table-responsive">
                 <table class="table align-items-center">
@@ -226,6 +256,7 @@
                     </tr>
                   </thead>
                   <tbody class="list">
+                    
                     {% for info  in votes_candidate_info  %} 
             
                 

@@ -12,10 +12,13 @@ from .payments import Payments
 from .custum import Starbeautyvote 
 from django.db.models import Sum
 from django.core.mail import send_mail
-
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 # Create your views here.
+
+
 
 def landing(request): 
     return render(request,"pages/index.html")
@@ -251,9 +254,24 @@ def condidateProfile(request):
     context['total_price'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_price=Sum('priceVoter'))['total_price']
     context['total_votes'] = models.Votes.objects.filter(id_candidates=context['idCandidate']).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
     
+    
+    # percentage calculate  for price 
+    
+    current_week =  Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_price', week='current')
+    last_week =     Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_price', week='last')
+    context['priceVoterCalculate'], context['priceVoterCalculate_status'] = Starbeautyvote.percentageCalculte(last_week,current_week)
+    
+    # percentage calculate  for votes 
+    
+    current_week_vote =  Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_votes', week='current')
+    last_week_vote =     Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_votes', week='last')
+    context['numberOfVoteCalculate'], context['numberOfVoteCalculate_status'] = Starbeautyvote.percentageCalculte(last_week_vote,current_week_vote)
 
-    context['votes_candidate_info'] = models.Votes.objects.filter(id_competition=context['idCandidate'] )
+    
 
+    # candidate_instance = models.Candidates.objects.get(candidatesId=context['idCandidate'])
+    
+    context['votes_candidate_info'] = models.Votes.objects.filter(id_candidates=context['idCandidate'] ).values()
 
     context['candidateDetails'] = candidateDetails
 
@@ -421,24 +439,13 @@ def parameters(request):
 
 def competitionLanding(request): 
     
-    listOfCitation = [
-        "Chaque vote compte ! Votre opinion fait la différence dans nos concours.", 
-        "Rejoignez la compétition et soyez le champion que vous êtes destiné à devenir.", 
-        "La transparence est notre priorité : chaque vote est vérifié et compté avec précision.", 
-        "Montrez votre loyauté et soutenez vos favoris en votant dès aujourd'hui !", 
-        "Compétition équitable, résultats honnêtes : c'est notre engagement envers vous.", 
-        "Faites partie de l'aventure ! Inscrivez-vous à nos compétitions et faites briller vos compétences.", 
-        "Votre voix, votre choix ! Votez pour les meilleurs et assurez une compétition juste.", 
-        "Loyauté et intégrité : participez à des concours où chaque vote est transparent.", 
-        "Exprimez votre passion et votre talent : rejoignez nos compétitions et soyez reconnu !", 
-    ]
+
     
     context = {} 
     CompetionList = models.Competition.objects.all()
     
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
-    context["listOfCitation"] = listOfCitation
 
     return render(request,"pages/pages/competitionLandingPage.html",context)
     
