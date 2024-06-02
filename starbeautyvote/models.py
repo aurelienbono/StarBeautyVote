@@ -41,6 +41,7 @@ class Candidates(models.Model) :
     registration_fee_status     = models.CharField(max_length=20 , default='UnPaid')
     description                 = models.TextField()
     password                    = models.CharField(max_length=24)
+    created_by                  = models.CharField(max_length=24,default='Candidate') 
     id_competition              = models.ForeignKey(Competition , on_delete=models.CASCADE)
      
 

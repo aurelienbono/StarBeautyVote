@@ -37,11 +37,16 @@ class Starbeautyvote :
         return finalAmout
 
 
-    def percentageCalculte(totalOfLastWeek , totalOfCurrentWeek): 
+    def percentageCalculate(totalOfLastWeek , totalOfCurrentWeek): 
         
         if totalOfLastWeek == 0:
-            status = 'up'
-            percentageChange = (totalOfCurrentWeek / totalOfCurrentWeek) * 100 
+            
+            if totalOfCurrentWeek == 0:
+                percentageChange = 0
+                status = 'up'  # Both weeks have 0, no change
+            else:
+                percentageChange = 100  # Change from 0 to a positive number is 100%
+                status = 'up'
             return percentageChange, status
         else : 
             change = totalOfCurrentWeek - totalOfLastWeek 
@@ -53,7 +58,7 @@ class Starbeautyvote :
                  status = 'down'
                  
             return percentageChange , status
-        
+
 
 
 

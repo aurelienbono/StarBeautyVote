@@ -27,13 +27,16 @@
                 <a href="#" class="action-item ml-md-4">
                   <i class="far fa-file-export mr-2"></i>Export
                 </a>
-                <a href="#" class="action-item ml-3">
-                  <i class="far fa-cog mr-2"></i>Settings
+                <a href="#" class="action-item ml-3" data-toggle="modal" data-target="#exampleModal">
+                  <i class="far fa-cog mr-2"></i>Add Votes
                 </a>
               </div>
             </div>
           </div>
         </div>
+
+
+
         <!-- Listing -->
         <div class="card card-body p-md-5">
           <div class="row align-items-center mb-5">
@@ -150,6 +153,271 @@
         </div>
 
       </div>
+
+      <!-- First Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ADD VOTES TO A CANDIDATE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Card for Option A -->
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Add votes to a candidate</h5>
+                    <p class="card-text">Use this form to add votes to a candidate. You can specify whether votes are paid or free. This allows you to accurately reflect the contributions of voters.</p>
+                    <button type="button" class="btn btn-primary" id="selectA">Add votes</button>
+                  </div>
+                </div>
+                <!-- Card for Option B -->
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Pumping up the candidate's numbers</h5>
+                    <p class="card-text">This option allows you to manually change the number of votes for a candidate. Use this feature with caution to ensure the integrity of the voting process.</p>
+                    <button type="button" class="btn btn-primary" id="selectB">Pumping up the numbers</button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- Second Modal for Option A -->
+      <div class="modal fade" id="optionAModal" tabindex="-1" role="dialog" aria-labelledby="optionAModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="optionAModalLabel">Add votes to a candidate</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Card for Option A -->
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Free Votes</h5>
+                  <p class="card-text">Use this form to add votes to a candidate. You can specify whether votes are paid or free. This allows you to accurately reflect the contributions of voters.</p>
+                  <button type="button" class="btn btn-primary" id="selectC">Add votes</button>
+                </div>
+              </div>
+              <!-- Card for Option B -->
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Paid Votes</h5>
+                  <p class="card-text">You can add free votes to support your favorite candidate. Each free vote will be added to your candidate's total and will not be charged or deducted from the total votes cast by the public.</p>
+                  <button type="button" class="btn btn-primary" id="selectD">Add votes</button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Modal for Pumping up -->
+      <div class="modal fade" id="optionBModal" tabindex="-1" role="dialog" aria-labelledby="optionBModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title h6" id="modal_title_6">Free Votes</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                <form role="form" method="POST" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name="candidate_id" id="candidate_id_input">
+                  
+                  <div class="py-3 text-center">
+                      <a href="#" class="avatar  rounded-circle avatar-lg">
+                        <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
+                    </a>
+                    
+                      <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
+                      <p>
+                      11 Vote = 1000 FCFA  | 11 Votes = 2 USD | 11 Votes = 3 EUR
+                      </p>
+                      <div class="card">
+                        <div class="card-header py-4" id="heading-2-1">
+                            <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
+                            <span class="numberOfVote">  Price : 0 FCFA</span> </span>
+                            </h6>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Enter Your Name " required>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" name="phone" class="form-control" placeholder="Enter Your Phone Number " required>
+                      </div>
+
+                      <div class="form-group">
+                        <input type="number" name="votes" class="form-control" placeholder="Enter number of votes" required>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" name='initialPayment'  class="btn btn-primary">Pumping up</button>
+              </div>
+            </form>
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+
+       <!-- Second Modal for Free Votes -->
+       <div class="modal fade" id="optionCModal" tabindex="-1" role="dialog" aria-labelledby="optionCModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title h6" id="modal_title_6">Paid Votes</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                <form role="form" method="POST" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name="candidate_id" id="candidate_id_input">
+                  
+                  <div class="py-3 text-center">
+                      <a href="#" class="avatar  rounded-circle avatar-lg">
+                        <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
+                    </a>
+                    
+                      <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
+                      <p>
+                      11 Vote = 1000 FCFA  | 11 Votes = 2 USD | 11 Votes = 3 EUR
+                      </p>
+                      <div class="card">
+                        <div class="card-header py-4" id="heading-2-1">
+                            <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
+                            <span class="numberOfVote">  Price : 0 FCFA</span> </span>
+                            </h6>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Enter Your Name " required>
+                      </div>
+                      <div class="form-group">
+                        <input type="text" name="phone" class="form-control" placeholder="Enter Your Phone Number " required>
+                      </div>
+
+                      <div class="form-group">
+                        <input type="number" name="votes" class="form-control" placeholder="Enter number of votes" required>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" name='initialPayment'  class="btn btn-primary">Pumping up</button>
+              </div>
+            </form>
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+             <!-- Second Modal for Free Votes -->
+             <div class="modal fade" id="optionDModal" tabindex="-1" role="dialog" aria-labelledby="optionDModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+      
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title h6" id="modal_title_6">Vote For</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                      <form role="form" method="POST" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="candidate_id" id="candidate_id_input">
+                        
+                        <div class="py-3 text-center">
+                            <a href="#" class="avatar  rounded-circle avatar-lg">
+                              <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
+                          </a>
+                          
+                            <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
+                            <p>
+                            11 Vote = 1000 FCFA  | 11 Votes = 2 USD | 11 Votes = 3 EUR
+                            </p>
+                            <div class="card">
+                              <div class="card-header py-4" id="heading-2-1">
+                                  <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
+                                  <span class="numberOfVote">  Price : 0 FCFA</span> </span>
+                                  </h6>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <input type="text" name="name" class="form-control" placeholder="Enter Your Name " required>
+                            </div>
+                            <div class="form-group">
+                              <input type="text" name="phone" class="form-control" placeholder="Enter Your Phone Number " required>
+                            </div>
+      
+                            <div class="form-group">
+                              <input type="number" name="votes" class="form-control" placeholder="Enter number of votes" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" name='initialPayment'  class="btn btn-primary">Pumping up</button>
+                    </div>
+                  </form>
+                </div>
+      
+                </div>
+              </div>
+            </div>
+      
+
+<script>
+  document.getElementById('selectA').addEventListener('click', function() {
+    $('#exampleModal').modal('hide');
+    $('#optionAModal').modal('show');
+  });
+
+  document.getElementById('selectB').addEventListener('click', function() {
+    $('#exampleModal').modal('hide');
+    $('#optionBModal').modal('show');
+  });
+
+  document.getElementById('selectC').addEventListener('click', function() {
+    $('#optionAModal').modal('hide');
+    $('#optionCModal').modal('show');
+  });
+
+  document.getElementById('selectD').addEventListener('click', function() {
+    $('#optionAModal').modal('hide');
+    $('#optionDModal').modal('show');
+  });
+
+</script>
+<script src="{% static 'assets/js/scripts.js' %} "></script>
 
 
       {% endblock %}
