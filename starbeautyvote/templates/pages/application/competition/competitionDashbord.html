@@ -81,8 +81,17 @@
                   </div>
                 </div>
                 <p class="mt-3 mb-0 text-sm">
-                  <span class="badge badge-soft-success mr-2"><i class="far fa-arrow-up"></i> 25%</span>
-                  <span class="text-nowrap">Since last week</span>
+                  {% if priceVoterCalculate_status == 'up' %} 
+                  <span class="badge badge-soft-success mr-2"><i class="far fa-arrow-up"></i> 
+
+                  {% else %}
+                  <span class="badge badge-soft-danger mr-2"><i class="far fa-arrow-down"></i> 
+
+                  {% endif %} 
+                  
+
+                  </i> {{numberOfVoteCalculate}}%</span>
+                  <span class="text-nowrap">Since this week</span>
                 </p>
               </div>
             </div>
@@ -110,8 +119,16 @@
                   </div>
                 </div>
                 <p class="mt-3 mb-0 text-sm">
-                  <span class="badge badge-soft-warning mr-2"><i class="far fa-arrow-up"></i> 2,89%</span>
-                  <span class="text-nowrap">Since last week</span>
+                    {% if priceVoterCalculate_status == 'up' %} 
+                    <span class="badge badge-soft-success mr-2"><i class="far fa-arrow-up"></i> 
+
+                    {% else %}
+                    <span class="badge badge-soft-danger mr-2"><i class="far fa-arrow-down"></i> 
+
+                    {% endif %} 
+                    
+                    {{priceVoterCalculate}}%</span>
+                  <span class="text-nowrap">Since this week</span>
                 </p>
               </div>
             </div>
@@ -133,8 +150,16 @@
                   </div>
                 </div>
                 <p class="mt-3 mb-0 text-sm">
-                  <span class="badge badge-soft-danger mr-2"><i class="far fa-arrow-down"></i> 5,85%</span>
-                  <span class="text-nowrap">Since last week</span>
+
+                  {% if priceVoterCalculate_status == 'up' %} 
+                  <span class="badge badge-soft-success mr-2"><i class="far fa-arrow-up"></i> 
+
+                  {% else %}
+                  <span class="badge badge-soft-danger mr-2"><i class="far fa-arrow-down"></i> 
+
+                  {% endif %} 
+                    {{numberOfCandidateCalculate}}%</span>
+                  <span class="text-nowrap">Since this week</span>
                 </p>
               </div>
             </div>

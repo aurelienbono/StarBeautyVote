@@ -202,6 +202,26 @@ def competitionDashboard(request,pk):
     context['total_votes'] = models.Votes.objects.filter(id_competition=pk).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
     context['total_price'] = models.Votes.objects.filter(id_competition=pk).aggregate(total_price=Sum('priceVoter'))['total_price']
 
+    # percentage calculate  for price 
+    
+    current_week =  Starbeautyvote.get_total_performance_for_week(pk,'total_price',perfomance_type='competition' , week='current')
+    last_week =     Starbeautyvote.get_total_performance_for_week(pk,'total_price', perfomance_type='competition' , week='last')
+    context['priceVoterCalculate'], context['priceVoterCalculate_status'] = Starbeautyvote.percentageCalculte(last_week,current_week)
+    
+    # percentage calculate  for votes 
+    
+    current_week_vote =  Starbeautyvote.get_total_performance_for_week(pk,'total_votes',perfomance_type='competition' , week='current')
+    last_week_vote =     Starbeautyvote.get_total_performance_for_week(pk,'total_votes',perfomance_type='competition' , week='last')
+    context['numberOfVoteCalculate'], context['numberOfVoteCalculate_status'] = Starbeautyvote.percentageCalculte(last_week_vote,current_week_vote)
+    
+    # percentage calculate  for price 
+    
+    current_week_candi =  Starbeautyvote.get_total_performance_of_candidate_for_week(pk, week='current')
+    last_week_candi    =     Starbeautyvote.get_total_performance_of_candidate_for_week(pk, week='last')
+    context['numberOfCandidateCalculate'], context['numberOfCandidateCalculate_status'] = Starbeautyvote.percentageCalculte(last_week_candi,current_week_candi)
+    
+
+    
     # # get registration_fee of this competition
     competitionDetails             =  models.Competition.objects.filter(competitionId = pk).values().first()
     notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
@@ -257,14 +277,14 @@ def condidateProfile(request):
     
     # percentage calculate  for price 
     
-    current_week =  Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_price', week='current')
-    last_week =     Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_price', week='last')
+    current_week =  Starbeautyvote.get_total_performance_for_week(context['idCandidate'],'total_price', week='current')
+    last_week =     Starbeautyvote.get_total_performance_for_week(context['idCandidate'],'total_price', week='last')
     context['priceVoterCalculate'], context['priceVoterCalculate_status'] = Starbeautyvote.percentageCalculte(last_week,current_week)
     
     # percentage calculate  for votes 
     
-    current_week_vote =  Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_votes', week='current')
-    last_week_vote =     Starbeautyvote.get_total_price_for_week(context['idCandidate'],'total_votes', week='last')
+    current_week_vote =  Starbeautyvote.get_total_performance_for_week(context['idCandidate'],'total_votes', week='current')
+    last_week_vote =     Starbeautyvote.get_total_performance_for_week(context['idCandidate'],'total_votes', week='last')
     context['numberOfVoteCalculate'], context['numberOfVoteCalculate_status'] = Starbeautyvote.percentageCalculte(last_week_vote,current_week_vote)
 
     
