@@ -158,6 +158,62 @@ def createCompetition(request):
     return render(request , 'pages/application/competition/createcompetition.html',context)
 
 
+def createCandidate(request, pk): 
+    if request.method == 'POST': 
+        print(request.POST)
+        
+        media_path = models.Competition.objects.filter(competitionId=pk).values('image').first()
+        print(media_path) 
+        candidateName = ''.join(re.split("[ ]+", request.POST["fullname"])) +  datetime.now().strftime('%d-%m-%Y').replace('-','_')
+
+        savePath = os.path.join( os.path.join('StarBeautyVote', 'static'),'media',media_path['image'].split('/')[1],candidateName )
+    
+
+        print(request.FILES['image'] , candidateName ,savePath )
+                
+        # # save filename to db with path 
+        candidateUploadFile = request.FILES['image']
+        fs = FileSystemStorage(location=savePath)
+        new_name = Starbeautyvote.modify_filename(candidateUploadFile.name ,'CandidateFullImage' )
+        filename = fs.save(new_name , candidateUploadFile)
+   
+        imageFinalPath = os.path.join(savePath,new_name)
+        
+        imageFinalPathSplit = imageFinalPath.split(os.sep)[2:]
+        imageFinalPath = f'/'.join(imageFinalPathSplit)
+        
+        
+        competition_instance = models.Competition.objects.get(competitionId=pk)
+        id_candidate = Starbeautyvote.generate_random_string()
+        candidate = models.Candidates( 
+                    candidatesId       = id_candidate,  
+                    fullName           = request.POST["fullname"].capitalize() , 
+                    email              = request.POST["email"], 
+                    description        = request.POST["description"],
+                    age                = request.POST["age"],
+                    numberPhone        = request.POST["phone"],
+                    academic_level     = request.POST["academic_level"],
+                    profession         = request.POST["profession"],
+                    country            = request.POST["country"],
+                    city               = request.POST["city"],
+                    city_of_origin     = request.POST["city_of_origin"],
+                    password           = '1234567@',
+                    dataOfRegistration = datetime.now(),
+                    image              = imageFinalPath, 
+                    registration_fee_status   = 'Paid', 
+                    id_competition     = competition_instance,
+                    )
+        
+        candidate.save()
+        
+        return redirect(f"/apps/competitions/dashboard/{pk}/")
+    
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['competitionId'] =pk
+    context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
+    return render(request, 'pages/application/competition/candidatecreate.html',context)
 
 def competitionDashboard(request,pk):
     
@@ -231,7 +287,7 @@ def competitionDashboard(request,pk):
     context['competitionDetails']  =  competitionDetails
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
-    
+    context['competitionId'] = pk
     
         
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
@@ -251,7 +307,6 @@ def competitionCandidateProfile(request,pk):
     context['notificationList']  =  notificationList
     context['notificationCount']  =  notificationList.count()
     context['fullName'] = request.session.get('fullName')
-    context['status'] = request.session.get('status')
     context['status'] = request.session.get('status')
   
     context['candidateDetails'] =  candidateDetails 
@@ -417,7 +472,7 @@ def candidate_register(request,pk,price) :
         if price==0 : 
             # redirect to candidate DashBoard
             updateCandidateRegisterFee = models.Candidates.objects.get(candidatesId =id_candidate)
-            updateCandidateRegisterFee.registration_fee_status = "Pay"
+            updateCandidateRegisterFee.registration_fee_status = "Paid"
             updateCandidateRegisterFee.save()
             return redirect('/apps/candi/profile')
         else : 

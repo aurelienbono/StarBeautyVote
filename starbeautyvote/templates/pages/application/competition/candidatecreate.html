@@ -1,0 +1,186 @@
+
+{% extends "../../../base/base.html" %}
+
+{% load static %}
+
+
+      <!-- Page content -->
+      {% block title %} Create Candidate {% endblock %}
+    <!-- Content -->
+    
+    {% block content %}
+         <!-- Page content -->
+         <div class="page-content">
+            <!-- Page title -->
+            <div class="page-title">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+                  <!-- Page title + Go Back button -->
+                  <div class="d-inline-block">
+                    <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Create an applicant as a promoter</h5>
+                  </div>
+                  <!-- Additional info -->
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 order-lg-2">
+                <div class="card">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                      <div class="media">
+                        <i class="far fa-user"></i>
+                        <div class="media-body ml-3">
+                          <a href="" class="stretched-link h6 mb-1">Candidate</a>
+                          <p class="mb-0 text-sm">Details about her personal information</p>
+                        </div>
+                      </div>
+                    </div>
+       
+                 
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 order-lg-1">
+                <!-- Change avatar -->
+          
+                <div class="card">
+                  <div class="card-body">
+                    <form role="form" method="POST" action=""  enctype="multipart/form-data">
+                        {% csrf_token %} 
+                      <!-- General information -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Full name</label>
+                            <input class="form-control" required name='fullname' type="text" placeholder="John Doe">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Email address</label>
+                            <input class="form-control"required name='email'  type="email" placeholder="name@example.com">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row align-items-center">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Age</label>
+                            <input type="number" name='age' required class="form-control" data-toggle="date" placeholder="23">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Number Phone</label>
+                            <input type="text" name='phone' required class="form-control" data-toggle="date" placeholder="237 6xxxxxxxx">
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Academic Level</label>
+                            <input class="form-control"  name='academic_level' required  type="text" placeholder="BEPC">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Profession</label>
+                            <input class="form-control"required name='profession'  type="text" placeholder="Shop assistant">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Current Country</label>
+                            <input class="form-control"  name='country' required  type="text" placeholder="Cameroon">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Current City</label>
+                            <input class="form-control"required name='city'  type="text" placeholder="Douala">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">City of origin</label>
+                            <input class="form-control"  name='city_of_origin' required  type="text" placeholder="Cameroon">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <input class="form-control" required  hidden name='competition_id' value='{{competitionId}}'  type="text" placeholder="Cameroon">
+                        </div>
+                      </div>
+                    <!-- upload -->
+                        <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="form-group">
+                                    <input type="file" required name="image" id="file-2" class="custom-input-file custom-input-file--2" data-multiple-caption="{count} files selected"  />
+                                    <label for="file-2">
+                                        <i class="fa fa-upload"></i>
+                                        <span>Choose a file…</span>
+                                    </label>                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                      <!-- Description -->
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <div class="form-group">
+                              <label class="form-control-label"> Candidate  description</label>
+                              <textarea class="form-control" name='description' required placeholder="Tell us a few words about her" rows="3"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>         
+                      <hr />
+                      <div class="my-4">
+                        <div class="custom-control custom-checkbox mb-3">
+                          <input type="checkbox" required class="custom-control-input" id="check-terms">
+                          <label class="custom-control-label" for="check-terms">I agree to the <a href="#">terms and conditions</a></label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" required class="custom-control-input" id="check-privacy">
+                          <label class="custom-control-label" for="check-privacy">I agree to the <a href="#">privacy policy</a></label>
+                        </div>
+                      </div>
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span class="alert-group-icon text-">
+                            <i class="fas fa-exclamation-triangle"></i>
+
+                        </span>     
+                    NB:As a Promoter of this Competion, you create a candidate <br>
+                    - you will not be billed for the costs of participating in this competition, as you are the one who creates the profile. <br>
+                    - the participant's login information is his/her email address and a default password <b> 1234567@ </b>, which must be modified to view the competition statics. 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+ 
+                      <!-- Save changes buttons -->
+              
+                     <button type="submit" class="btn btn-sm btn-primary btn-icon rounded-pill">
+                        <span class="btn-inner--text">Create my account</span>
+                        <span class="btn-inner--icon"><i class="fas fa-long-arrow-alt-right"></i></span>
+                      </button> 
+
+
+                      <button type="button" class="btn btn-link text-muted">Cancel</button> 
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    {% endblock %}
