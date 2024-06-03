@@ -14,7 +14,76 @@
         <!-- Page title -->
         {% for  candidate in  candidateDetails %} 
         <div class="page-title">
-          <div class="row justify-content-between align-items-center">
+          {% comment %} alert message for paid vote {% endcomment %}
+
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="alert alert-group alert-success alert-dismissible fade show alert-icon" role="alert">
+                  <div class="alert-group-prepend">
+                    <span class="alert-group-icon text-success">
+                      <i class="far fa-thumbs-up"></i>
+                    </span>
+                  </div>
+                  <div class="alert-content">
+                    {{ message }}
+                  </div>
+                  <div class="alert-action">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              {% elif message.tags == 'error' %}
+                <div class="alert alert-group alert-danger alert-dismissible fade show alert-icon" role="alert">
+                  <div class="alert-group-prepend">
+                    <span class="alert-group-icon text-danger">
+                      <i class="far fa-thumbs-down"></i>
+                    </span>
+                  </div>
+                  <div class="alert-content">
+                    {{ message }}
+                  </div>
+                  <div class="alert-action">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              {% else %}
+                <div class="alert alert-group alert-info alert-dismissible fade show alert-icon" role="alert">
+                  <div class="alert-group-prepend">
+                    <span class="alert-group-icon text-info">
+                      <i class="far fa-info-circle"></i>
+                    </span>
+                  </div>
+                  <div class="alert-content">
+                    {{ message }}
+                  </div>
+                  <div class="alert-action">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          <script>
+            $(document).ready(function() {
+              setTimeout(function() {
+                $('.alert').alert('close');
+              }, 15000);  // 15000 milliseconds = 15 seconds
+            });
+          </script>
+        {% endif %}
+                
+
+
+         <div class="row justify-content-between align-items-center">
             <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
               <!-- Page title + Go Back button -->
               <div class="d-inline-block">
@@ -32,12 +101,11 @@
                 </a>
               </div>
             </div>
-          </div>
+          </div> 
+  
         </div>
 
 
-
-        <!-- Listing -->
         <div class="card card-body p-md-5">
           <div class="row align-items-center mb-5">
             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -52,6 +120,8 @@
               {% endif %}
             </div>
           </div>
+ 
+
           <div class="row mb-5">
             <div class="col-lg-6 col-md-8">
               <h6 class="">Hello, I'm {{candidate.fullName}}!</h6>
@@ -78,10 +148,10 @@
               </dl>
             </div>
             <div class="col-12 col-md-6">
-              <h5>Invoice data</h5>
+              {% comment %} <h5>Invoice data</h5> {% endcomment %}
               <dl class="row mt-4 align-items-center">
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">country</span></dt>
-                <dd class="col-sm-9"><span class="text-sm">+{{candidate.country}}</span></dd>
+                <dd class="col-sm-9"><span class="text-sm"> {{candidate.country}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">city</span></dt>
                 <dd class="col-sm-9"><span class="text-sm">{{candidate.city}}</span></dd>
                 <dt class="col-sm-3"><span class="h6 text-sm mb-0">city_of_origin</span></dt>
@@ -103,7 +173,8 @@
                     <tr>
                       <th class="px-0 bg-transparent border-top-0">Description</th>
                       <th class="px-0 bg-transparent border-top-0">Number Voted</th>
-                      <th class="px-0 bg-transparent border-top-0 text-right">Price(FCFA)</th>
+                      <th class="px-0 bg-transparent border-top-0">Price(FCFA)</th>
+                      <th class="px-0 bg-transparent border-top-0 text-right">Type Of Votes</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -114,6 +185,9 @@
                       </td>
                       <td class="px-0">
                         {{candate.numberOfVote}}
+                      </td>
+                      <td class="px-0">
+                        {{candate.priceVoter}}
                       </td>
                       <td class="px-0 text-right">
                         {{candate.priceVoter}}
@@ -232,7 +306,7 @@
 
             <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title h6" id="modal_title_6">Free Votes</h5>
+                  <h5 class="modal-title h6" id="modal_title_6">Pumping up Votes</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                   </button>
@@ -242,22 +316,25 @@
                   {% csrf_token %}
                   <input type="hidden" name="candidate_id" id="candidate_id_input">
                   
+              
+                  {% for candidate in  candidateDetails %}
                   <div class="py-3 text-center">
                       <a href="#" class="avatar  rounded-circle avatar-lg">
-                        <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
+                        <img alt="Image placeholder" src="{% static candidate.image %}" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
                     </a>
                     
                       <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
                       <p>
-                      11 Vote = 1000 FCFA  | 11 Votes = 2 USD | 11 Votes = 3 EUR
+                     {{candidate.fullName}}
                       </p>
                       <div class="card">
                         <div class="card-header py-4" id="heading-2-1">
                             <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
-                            <span class="numberOfVote">  Price : 0 FCFA</span> </span>
+                            <span class="numberOfVote"> </span> </span>
                             </h6>
                         </div>
                       </div>
+                      {% endfor %}
                       <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Enter Your Name " required>
                       </div>
@@ -282,14 +359,14 @@
       </div>
 
 
-       <!-- Second Modal for Free Votes -->
+       <!-- Second Modal for Paid Votes -->
        <div class="modal fade" id="optionCModal" tabindex="-1" role="dialog" aria-labelledby="optionCModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
 
             <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title h6" id="modal_title_6">Paid Votes</h5>
+                  <h5 class="modal-title h6" id="modal_title_6">Free Votes</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                   </button>
@@ -299,29 +376,30 @@
                   {% csrf_token %}
                   <input type="hidden" name="candidate_id" id="candidate_id_input">
                   
+
+                  {% for candidate in  candidateDetails %}
                   <div class="py-3 text-center">
                       <a href="#" class="avatar  rounded-circle avatar-lg">
-                        <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
+                        <img alt="Image placeholder" src="{% static candidate.image %}" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
                     </a>
                     
                       <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
                       <p>
-                      11 Vote = 1000 FCFA  | 11 Votes = 2 USD | 11 Votes = 3 EUR
+                     {{candidate.fullName}}
                       </p>
                       <div class="card">
                         <div class="card-header py-4" id="heading-2-1">
                             <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
-                            <span class="numberOfVote">  Price : 0 FCFA</span> </span>
+                            <span class="numberOfVote"> </span> </span>
                             </h6>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <input type="text" name="name" class="form-control" placeholder="Enter Your Name " required>
-                      </div>
-                      <div class="form-group">
-                        <input type="text" name="phone" class="form-control" placeholder="Enter Your Phone Number " required>
-                      </div>
+                      {% endfor %}
 
+                      <div class="form-group">
+                        <input type="text" name="name" class="form-control" value= "{{fullName}}" placeholder="Enter Your Name " required>
+                      </div>
+             
                       <div class="form-group">
                         <input type="number" name="votes" class="form-control" placeholder="Enter number of votes" required>
                       </div>
@@ -329,7 +407,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" name='initialPayment'  class="btn btn-primary">Pumping up</button>
+                <button type="submit"  name='freevote'  class="btn btn-primary">Vote</button>
               </div>
             </form>
           </div>
@@ -345,7 +423,7 @@
       
                   <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title h6" id="modal_title_6">Vote For</h5>
+                        <h5 class="modal-title h6" id="modal_title_6">Paid Vote </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -355,27 +433,27 @@
                         {% csrf_token %}
                         <input type="hidden" name="candidate_id" id="candidate_id_input">
                         
-                        <div class="py-3 text-center">
-                            <a href="#" class="avatar  rounded-circle avatar-lg">
-                              <img alt="Image placeholder" src="" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
-                          </a>
-                          
-                            <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
-                            <p>
-                            11 Vote = 1000 FCFA  | 11 Votes = 2 USD | 11 Votes = 3 EUR
-                            </p>
-                            <div class="card">
-                              <div class="card-header py-4" id="heading-2-1">
-                                  <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
-                                  <span class="numberOfVote">  Price : 0 FCFA</span> </span>
-                                  </h6>
-                              </div>
-                            </div>
+                      
+                  {% for candidate in  candidateDetails %}
+                  <div class="py-3 text-center">
+                      <a href="#" class="avatar  rounded-circle avatar-lg">
+                        <img alt="Image placeholder" src="{% static candidate.image %}" class="avatar  rounded-circle avatar-lg" id="modal_candidate_image" width='200' height='70'>
+                    </a>
+                    
+                      <h5 class="heading h4 mt-4" id="modal_candidate_name"></h5>
+                      <p>
+                     {{candidate.fullName}}
+                      </p>
+                      <div class="card">
+                        <div class="card-header py-4" id="heading-2-1">
+                            <h6 class="mb-0"><i class="fas fa-money-bill mr-3"></i>
+                            <span class="numberOfVote"> </span> </span>
+                            </h6>
+                        </div>
+                      </div>
+                      {% endfor %}
                             <div class="form-group">
                               <input type="text" name="name" class="form-control" placeholder="Enter Your Name " required>
-                            </div>
-                            <div class="form-group">
-                              <input type="text" name="phone" class="form-control" placeholder="Enter Your Phone Number " required>
                             </div>
       
                             <div class="form-group">
@@ -385,7 +463,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="submit" name='initialPayment'  class="btn btn-primary">Pumping up</button>
+                      <button type="submit" name='paidvote'  class="btn btn-primary">Vote</button>
                     </div>
                   </form>
                 </div>
@@ -394,6 +472,7 @@
               </div>
             </div>
       
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
   document.getElementById('selectA').addEventListener('click', function() {
@@ -416,6 +495,13 @@
     $('#optionDModal').modal('show');
   });
 
+
+
+  $(document).ready(function() {
+    setTimeout(function() {
+      $('.alert').alert('close');
+    }, 15000);  // 15000 milliseconds = 15 seconds
+  });
 </script>
 <script src="{% static 'assets/js/scripts.js' %} "></script>
 

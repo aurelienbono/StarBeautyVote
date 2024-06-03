@@ -297,6 +297,131 @@ def competitionDashboard(request,pk):
 
 def competitionCandidateProfile(request,pk): 
         
+    if "freevote" in request.POST : 
+        name  = request.POST.get('name')
+        votesNumber  = request.POST.get('votes')
+        candidate_id  = request.POST.get('candidate_id')
+        
+        
+        print(name , votesNumber, candidate_id)
+        
+        priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
+        phone_queryset  = models.Promoter.objects.filter(promoterId = request.session.get('userId')).values('numberPhone')
+        phone_numbers = [entry['numberPhone'] for entry in phone_queryset]
+        id_competition_dict = models.Candidates.objects.filter(candidatesId = pk).values('id_competition_id').first()
+        id_candidate_instance = models.Candidates.objects.get(candidatesId = pk)
+        
+        
+        if id_competition_dict:
+            id_competition_id = id_competition_dict['id_competition_id']
+            id_competition_instance = models.Competition.objects.get(competitionId = id_competition_id)
+        else:
+            id_competition_id = None 
+       
+        votes = models.Votes ( 
+                                voteId = Starbeautyvote.generate_random_string(), 
+                                id_competition = id_competition_instance, 
+                                id_candidates =id_candidate_instance , 
+                                nameVoter =name , 
+                                numberPhoneVoter =phone_numbers[0] , 
+                                numberOfVote =int(votesNumber) , 
+                                priceVoter = priceAmout, 
+                                dataOfVoting = datetime.now(),
+                                status = 'UnSuccess', 
+                                
+                        )
+        votes.save()
+      
+      
+      
+      # paid vote for promoter   
+        
+    if "paidvote" in request.POST : 
+        name  = request.POST.get('name')
+        votesNumber  = request.POST.get('votes')
+        candidate_id  = request.POST.get('candidate_id')
+        
+        priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
+        phone_queryset  = models.Promoter.objects.filter(promoterId = request.session.get('userId')).values('numberPhone')
+        phone_numbers = [entry['numberPhone'] for entry in phone_queryset]
+        id_competition_dict = models.Candidates.objects.filter(candidatesId = pk).values('id_competition_id').first()
+        id_candidate_instance = models.Candidates.objects.get(candidatesId = pk)
+        
+        if id_competition_dict:
+            id_competition_id = id_competition_dict['id_competition_id']
+            id_competition_instance = models.Competition.objects.get(competitionId = id_competition_id)
+        else:
+            id_competition_id = None 
+            
+        
+        try : 
+            response , reference = Payments.initialisePayment(priceAmout)
+      
+        except Exception as  exceptionInitPayment : 
+            print(exceptionInitPayment)
+            
+            messages.error(request, 'Transaction failed: We would like to inform you that the votes have been successfully paid. Thank you for your cooperation and trust.')
+            return redirect(f'/apps/competitions/candi/{pk}/')
+        
+        try : 
+            response_result = Payments.completePayment(reference)
+      
+        except Exception as  exceptionCompletePayment : 
+            print(exceptionCompletePayment)
+            
+            votes = models.Votes ( 
+                                voteId = Starbeautyvote.generate_random_string(), 
+                                id_competition = id_competition_instance, 
+                                id_candidates =id_candidate_instance , 
+                                nameVoter =name , 
+                                numberPhoneVoter =phone_numbers , 
+                                numberOfVote =int(votesNumber) , 
+                                priceVoter = priceAmout, 
+                                dataOfVoting = datetime.now(),
+                                status = 'UnSuccess', 
+                                
+                        )
+            votes.save()
+            
+            messages.error(request, 'Transaction failed: We would like to inform you that the votes have been successfully paid. Thank you for your cooperation and trust.')
+            return redirect(f'/apps/competitions/candi/{pk}/')
+        
+        votes = models.Votes ( 
+                                voteId = Starbeautyvote.generate_random_string(), 
+                                id_competition = id_competition_instance, 
+                                id_candidates =id_candidate_instance , 
+                                nameVoter =name , 
+                                numberPhoneVoter =phone_numbers , 
+                                numberOfVote =int(votesNumber) , 
+                                priceVoter = priceAmout, 
+                                dataOfVoting = datetime.now(),
+                                status = 'Success', 
+                                
+                        )
+        votes.save()
+        
+        transaction = models.Transaction( 
+                                              transactionId = Starbeautyvote.generate_random_string(), 
+                                              amount = priceAmout, 
+                                              payment_method = 'Mobile Money' , 
+                                              status = 'Complete', 
+                                              created_at = datetime.now(), 
+                                              updated_at = datetime.now(), 
+                                              transaction_type = "VoteTransactionByPromoter", 
+                                              
+                                                 )
+                
+        transaction.save()
+        
+        messages.success(request, 'Transcation Accept :  We would like to inform you that the votes have been successfully paid. Thank you for your cooperation and trust.')
+        return redirect(f'/apps/competitions/candi/{pk}/')
+    
+         
+    
+    if "pumpingup" in request.POST : 
+        pass 
+    
+            
     candidateDetails = models.Candidates.objects.filter(candidatesId = pk)   
     
     context = {} 
