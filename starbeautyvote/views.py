@@ -327,7 +327,10 @@ def competitionCandidateProfile(request,pk):
                                 numberOfVote =int(votesNumber) , 
                                 priceVoter = priceAmout, 
                                 dataOfVoting = datetime.now(),
-                                status = 'UnSuccess', 
+                                status = 'Success', 
+                                voted_by = 'Promoter', 
+                                reasonForVote = 'Reel', 
+                                vote_type = 'promoter_free'
                                 
                         )
         votes.save()
@@ -368,25 +371,12 @@ def competitionCandidateProfile(request,pk):
       
         except Exception as  exceptionCompletePayment : 
             print(exceptionCompletePayment)
-            
-            votes = models.Votes ( 
-                                voteId = Starbeautyvote.generate_random_string(), 
-                                id_competition = id_competition_instance, 
-                                id_candidates =id_candidate_instance , 
-                                nameVoter =name , 
-                                numberPhoneVoter =phone_numbers , 
-                                numberOfVote =int(votesNumber) , 
-                                priceVoter = priceAmout, 
-                                dataOfVoting = datetime.now(),
-                                status = 'UnSuccess', 
-                                
-                        )
-            votes.save()
+        
             
             messages.error(request, 'Transaction failed: We would like to inform you that the votes have been successfully paid. Thank you for your cooperation and trust.')
             return redirect(f'/apps/competitions/candi/{pk}/')
         
-        votes = models.Votes ( 
+        votes = models.Votes( 
                                 voteId = Starbeautyvote.generate_random_string(), 
                                 id_competition = id_competition_instance, 
                                 id_candidates =id_candidate_instance , 
@@ -395,7 +385,10 @@ def competitionCandidateProfile(request,pk):
                                 numberOfVote =int(votesNumber) , 
                                 priceVoter = priceAmout, 
                                 dataOfVoting = datetime.now(),
-                                status = 'Success', 
+                                status = 'Success',
+                                voted_by = 'Promoter', 
+                                reasonForVote = 'Reel', 
+                                vote_type = 'promoter_paid'
                                 
                         )
         votes.save()
@@ -408,7 +401,7 @@ def competitionCandidateProfile(request,pk):
                                               created_at = datetime.now(), 
                                               updated_at = datetime.now(), 
                                               transaction_type = "VoteTransactionByPromoter", 
-                                              
+                                          
                                                  )
                 
         transaction.save()
@@ -416,10 +409,43 @@ def competitionCandidateProfile(request,pk):
         messages.success(request, 'Transcation Accept :  We would like to inform you that the votes have been successfully paid. Thank you for your cooperation and trust.')
         return redirect(f'/apps/competitions/candi/{pk}/')
     
-         
-    
     if "pumpingup" in request.POST : 
-        pass 
+        name  = request.POST.get('name')
+        votesNumber  = request.POST.get('votes')
+        candidate_id  = request.POST.get('candidate_id')
+        
+        
+        print(name , votesNumber, candidate_id)
+        
+        priceAmout = Starbeautyvote.voteNumberToFinalAmount(votesNumber)
+        phone_queryset  = models.Promoter.objects.filter(promoterId = request.session.get('userId')).values('numberPhone')
+        phone_numbers = [entry['numberPhone'] for entry in phone_queryset]
+        id_competition_dict = models.Candidates.objects.filter(candidatesId = pk).values('id_competition_id').first()
+        id_candidate_instance = models.Candidates.objects.get(candidatesId = pk)
+        
+        
+        if id_competition_dict:
+            id_competition_id = id_competition_dict['id_competition_id']
+            id_competition_instance = models.Competition.objects.get(competitionId = id_competition_id)
+        else:
+            id_competition_id = None 
+       
+        votes = models.Votes ( 
+                                voteId = Starbeautyvote.generate_random_string(), 
+                                id_competition = id_competition_instance, 
+                                id_candidates =id_candidate_instance , 
+                                nameVoter =name , 
+                                numberPhoneVoter =phone_numbers[0] , 
+                                numberOfVote =int(votesNumber) , 
+                                priceVoter = priceAmout, 
+                                dataOfVoting = datetime.now(),
+                                status = 'Success',
+                                voted_by = 'Promoter', 
+                                reasonForVote = 'Pumping up', 
+                                vote_type = 'promoter_free' 
+                                
+                        )
+        votes.save()
     
             
     candidateDetails = models.Candidates.objects.filter(candidatesId = pk)   
@@ -677,19 +703,6 @@ def competitionDetails(request,pk):
         except Exception as  exceptionCompletePayment : 
             print(exceptionCompletePayment)
             
-            votes = models.Votes ( 
-                                voteId = Starbeautyvote.generate_random_string(), 
-                                id_competition = competitionId, 
-                                id_candidates =candiId , 
-                                nameVoter =name , 
-                                numberPhoneVoter =phone , 
-                                numberOfVote =int(votesNumber) , 
-                                priceVoter = priceAmout, 
-                                dataOfVoting = datetime.now(),
-                                status = 'UnSuccess', 
-                                
-                        )
-            votes.save()
             return redirect('/errorpayment/candi/', idCompetition = pk)
         
         votes = models.Votes ( 
@@ -702,6 +715,8 @@ def competitionDetails(request,pk):
                                 priceVoter = priceAmout, 
                                 dataOfVoting = datetime.now(),
                                 status = 'Success', 
+                                voted_by = 'public', 
+                                reasonForVote = 'Reel'
                                 
                         )
         votes.save()
