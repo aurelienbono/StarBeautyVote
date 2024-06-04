@@ -57,8 +57,8 @@ class Votes(models.Model) :
     dataOfVoting                = models.DateField(auto_now=True)
     status                      = models.CharField(max_length=50) 
     voted_by                    = models.CharField(max_length=15, default='public')
-    reasonForVote               = models.CharField(max_length=15, default='reel') 
-    vote_type                   = models.CharField(max_length=15, default='reel')
+    reasonForVote               = models.CharField(max_length=15, default='Reel') 
+    vote_type                   = models.CharField(max_length=15, default='Reel')
 
 
 class Transaction(models.Model):

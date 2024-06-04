@@ -454,6 +454,7 @@ def competitionCandidateProfile(request,pk):
     # get information about 
     context['candidates_with_votes'] = models.Votes.objects.filter(id_candidates = pk).values()
     context['total_price'] = models.Votes.objects.filter(id_candidates=pk).aggregate(total_price=Sum('priceVoter'))['total_price']
+    context['total_votes'] = models.Votes.objects.filter(id_candidates=pk).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
     notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
     
     context['notificationList']  =  notificationList
