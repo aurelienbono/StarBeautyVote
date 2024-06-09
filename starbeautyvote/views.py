@@ -664,8 +664,6 @@ def reset(request) :
     
 
 
-
-
 # PAGES 
 
 def landing(request): 
@@ -918,7 +916,7 @@ def accountBuilding(request):
     
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
-    if "savingnumber" in request.method =='POST' : 
+    if "savingnumber" in request.POST  : 
         print(request.POST)
         
         
@@ -937,9 +935,47 @@ def accountBuilding(request):
         typePayment.save()
     
     if "launchtransfer" in request.POST: 
-        print(request.POST)
-        pass 
+        name            = request.session.get('fullName')
+        phoneNumber   = request.POST['phoneNumber']
+        amout     = int(request.POST['amount'])
+        
+        totalAmout = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+        
+        if totalAmout >= amout : 
+            # launch payment
+            try : 
+                result, result_status = Payments.launchTransfert(Starbeautyvote.generate_random_string())
+                print(result)
+                
+                if result_status =='Accepted' : 
+                    
+                    print(result_status)
+                    
+                    
+                    
+            except Exception as e : 
+                messages.error(request, 'Dear user We have encountered an error, please revalidate the transfer. ')
+                return redirect('/apps/accountBuilding/')
+                
+            print("launch payment")
+            pass 
+        
+        else : 
+            messages.error(request, 'Dear user the money you wish to transfer does not correspond to your balance , check your balance and revalidate the transfer ')
+            return redirect('/apps/accountBuilding/')
+        
+         
     
+    
+    if "deleteModePayment" in request.POST : 
+        # print(request.POST)
+        # if request.POST['fullname'] : 
+        #     pk = request.POST.get('deleteModePayment')
+        #     typePayment_value = models.PaymentMethod.objects.get(PaymentMethodId = pk) 
+        #     typePayment_value.delete()
+        
+        pass
+        
     
     context = {} 
     context['userId'] = request.session.get('userId')

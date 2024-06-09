@@ -128,28 +128,29 @@
                     <form method='POST' action="{% url "accountBuilding" %} ">
                       {% csrf_token %}
     
-                    <div class="modal-body">
-                      <select class="custom-select" name='typeOfTransfert'>
-                        <option selected>Open this select Phone Number</option>
-    
-                        {% for mode in modePaymentList  %}
-    
-                        <option value="{{mode.typeOfMethode}}">{{mode.phoneNumber}}</option>
-                        {% endfor %}
-    
-                    </select>
-                    <br/>
-                    <div class="form-group">
-                      <label class="form-control-label">The Amount</label>
+                      <div class="modal-body">
+                        <select class="custom-select" name='phoneNumber'>
+                          <option selected>Open this select Phone Number</option>
+      
+                          {% for mode in modePaymentList  %}
+      
+                          <option value="{{mode.phoneNumber}}">{{mode.phoneNumber}}</option>
+                          {% endfor %}
+      
+                      </select>
                       <br/>
-                      <input type="text" name="amount" class="form-control form-control-emphasized" placeholder="Emphasized input">
-                  </div>
-                     
-                  </div>
-                    <div class="modal-footer">
-                        <button type="submit" name='launchtransfer'  class="btn btn-primary">Launch transfer</button>
+                      <div class="form-group">
+                        <label class="form-control-label">The Amount</label>
+                        <br/>
+                        <input type="number" name="amount" class="form-control form-control-emphasized" placeholder="Emphasized input">
                     </div>
-                  </form>
+                       
+                    </div>
+                      <div class="modal-footer">
+                          <button type="submit" name='launchtransfer'  class="btn btn-primary">Launch transfer</button>
+                          {% comment %} <button type="submit" class="btn btn-secondary"  name='launchtransfer' data-dismiss="modal">Launch transfer</button> {% endcomment %}
+                      </div>
+                    </form>
                 </div>
             </div>
         </div>

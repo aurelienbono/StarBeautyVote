@@ -1,28 +1,36 @@
-import re
+import requests
+import json
+import os
+from dotenv import load_dotenv
 
-def is_valid_phone_number(phone_number):
-    # Pattern pour les numéros valides
-    pattern = re.compile(r'^\+237 6[5-9] \d{2} \d{2} \d{2} \d{2}$')
-    
-    # Remplacer les lettres par des chiffres fictifs pour le test
-    phone_number = phone_number.replace('CD', '12').replace('EF', '34').replace('GH', '56').replace('D', '3').replace('B', '1')
+url = 'https://api.notchpay.co/transfers'
+public_key = 'pk_test.IKq08Kk8qF6hPviQikHy8Mgpn3cxz8mWwhSkyCw0djMVRdj0dVdwiRYvcIvIlllTlQd2c03Lb4MWMldEBtfZyh6JeqNwmH6r96WB1VCiuNUrXaX2Opb6PSXq00AX8'
+private_key = 'sk_test.tQsnaDNsyfcABFf30Gxj9BjS442ooSAI1DHdkcAxKU5VVjeHAzh65kw5lInnAduKs4HuRBYYtKmhWM37cF9v8wcn156GfP6dpTLQ3sEOTbtywR6tJx6eGWqmFBT2r'
 
-    return bool(pattern.match(phone_number))
 
-# Test des numéros de téléphone
-phone_numbers = [
-    "+237 6 55 CD EF GH",
-    "+237 6 56 CD EF GH",
-    "+237 6 57 CD EF GH",
-    "+237 6 58 CD EF GH",
-    "+237 6 59 0 D EF GH",
-    "+237 6 59 1 D EF GH",
-    "+237 6 59 2 D EF GH",
-    "+237 6 59 3 D EF GH",
-    "+237 6 59 4 D EF GH",
-    "+237 6 59 5 D EF GH",
-    "+237 6 9B CD EF GH"
-]
 
-for number in phone_numbers:
-    print(f"{number}: {is_valid_phone_number(number)}")
+payload = {
+    'currency': 'XAF',
+    'amount': '1325',
+    'channel': 'cm.mobile',
+    'beneficiary':
+        {
+            'number': '+237656019261', 
+            'name': 'John Doe'
+        }
+    ,
+    'reference': 'asasasecfassaqnwsfc',
+    'description': 'Account refund'
+}
+
+headers = {
+    'Authorization': public_key,
+    'Grant-Authorization': private_key,
+    'Accept': 'application/json'
+}
+
+response = requests.post(url, json=payload, headers=headers)
+
+print(response.text)
+
+print(response.json())

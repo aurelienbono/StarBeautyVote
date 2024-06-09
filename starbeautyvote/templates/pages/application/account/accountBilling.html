@@ -13,6 +13,7 @@
       <div class="page-content">
         <!-- Page title -->
         <div class="page-title">
+          
           <div class="row justify-content-between align-items-center">
             <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
               <!-- Page title + Go Back button -->
@@ -25,8 +26,74 @@
             </div>
           </div>
         </div>
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            {% if message.tags == 'success' %}
+              <div class="alert alert-group alert-success alert-dismissible fade show alert-icon" role="alert">
+                <div class="alert-group-prepend">
+                  <span class="alert-group-icon text-success">
+                    <i class="far fa-thumbs-up"></i>
+                  </span>
+                </div>
+                <div class="alert-content">
+                  {{ message }}
+                </div>
+                <div class="alert-action">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+            {% elif message.tags == 'error' %}
+              <div class="alert alert-group alert-danger alert-dismissible fade show alert-icon" role="alert">
+                <div class="alert-group-prepend">
+                  <span class="alert-group-icon text-danger">
+                    <i class="far fa-thumbs-down"></i>
+                  </span>
+                </div>
+                <div class="alert-content">
+                  {{ message }}
+                </div>
+                <div class="alert-action">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+            {% else %}
+              <div class="alert alert-group alert-info alert-dismissible fade show alert-icon" role="alert">
+                <div class="alert-group-prepend">
+                  <span class="alert-group-icon text-info">
+                    <i class="far fa-info-circle"></i>
+                  </span>
+                </div>
+                <div class="alert-content">
+                  {{ message }}
+                </div>
+                <div class="alert-action">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            setTimeout(function() {
+              $('.alert').alert('close');
+            }, 15000);  // 15000 milliseconds = 15 seconds
+          });
+        </script>
+      {% endif %}
+
         <!-- Nav -->
         <ul class="nav nav-dark nav-tabs nav-overflow">
+          
           <li class="nav-item">
             <a href="/apps/accountBuilding/" class="nav-link active">
               <i class="far fa-credit-card mr-2"></i>Cards
@@ -105,12 +172,12 @@
                             {% if mode.typeOfMethode == "orangeMoney" %} 
                             <img alt="Image placeholder" src="{% static "assets/img/icons/cards/orange.png" %}" class="mr-1" width="30">
                             {% else %} 
-                            <img alt="Image placeholder" src="{% static "assets/img/icons/cards/mtn.jpg" %}" class="mr-1" width="40">
+                            <img alt="Image placeholder" src="{% static "assets/img/icons/cards/mtn.jpg" %}" class="mr-1" width="35">
                             {% endif %}
                          {{mode.name}} ( {{mode.phoneNumber}})
                           </div>
                           <div class="col-3 actions text-right">
-                            <a href="#" class="action-item" data-toggle="tooltip" data-original-title="Remove card">
+                            <a href="#" class="action-item" data-toggle="modal" data-target="#modal-delete-account" data-id="{{ mode.PaymentMethodId }}">
                               <i class="far fa-trash-alt"></i>
                             </a>
                           </div>
@@ -297,7 +364,23 @@
                         <i class="fas fa-exclamation-circle fa-4x"></i>
                         <h5 class="heading h4 mt-4">Confirm your Transfer</h5>
                         <p>
-                          Please check the details of your transfer below and confirm to continue.                        </p>
+                          Please check the details of your transfer below and confirm to continue.   </p>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-header py-4" id="heading-2-1">
+                          <h6 class="mb-0">       <i class="far fa-check-circle"></i>
+                            <span class='numberOfAmount'>TOTAL MONET AVAILABLE: 
+                              {% if total_amount  %} 
+                              
+                              {{total_amount}} 
+                              {% else %} 
+                                0
+                              {% endif %}
+                          
+                          </span> 
+                          </h6>
+                      </div>
                     </div>
                 </div>
 
@@ -305,12 +388,12 @@
                   {% csrf_token %}
 
                 <div class="modal-body">
-                  <select class="custom-select" name='typeOfTransfert'>
+                  <select class="custom-select" name='phoneNumber'>
                     <option selected>Open this select Phone Number</option>
 
                     {% for mode in modePaymentList  %}
 
-                    <option value="{{mode.typeOfMethode}}">{{mode.phoneNumber}}</option>
+                    <option value="{{mode.phoneNumber}}">{{mode.phoneNumber}}</option>
                     {% endfor %}
 
                 </select>
@@ -318,17 +401,49 @@
                 <div class="form-group">
                   <label class="form-control-label">The Amount</label>
                   <br/>
-                  <input type="text" name="amount" class="form-control form-control-emphasized" placeholder="Emphasized input">
+                  <input type="number" name="amount" class="form-control form-control-emphasized" placeholder="Emphasized input">
               </div>
                  
               </div>
                 <div class="modal-footer">
                     <button type="submit" name='launchtransfer'  class="btn btn-primary">Launch transfer</button>
-                    {% comment %} <button type="submit" class="btn btn-secondary"  name='launchtransfer' data-dismiss="modal">Launch transfer</button> {% endcomment %}
                 </div>
               </form>
             </div>
         </div>
     </div>
 
+
+
+    <!-- Modal FOR DELETE MOBILE PAYMENT-->
+<div class="modal modal-danger fade" id="modal-delete-account" tabindex="-1" role="dialog" aria-labelledby="modal-delete-account" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form class="form-danger" method="POST" action="">
+      {% csrf_token %}
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="text-center">
+            <i class="far fa-exclamation-circle fa-3x opacity-8"></i>
+            <h5 class="text-white mt-4">Should we stop now?</h5>
+            <p class="text-sm text-sm">Your payment method will be permanently deleted</p>
+          </div>
+          <input class="form-control" name="pk" id="modal-pk" hidden type="text">
+    
+          <div class="form-group">
+            <label class="form-control-label text-white">Enter your name</label>
+            <input class="form-control" name="fullname" type="text">
+          </div>
+    
+          <div class="mt-4">
+            <button type="submit" name="deleteModePayment" class="btn btn-block btn-sm btn-white text-danger">Delete my account</button>
+            <button type="button" class="btn btn-block btn-sm btn-link text-light mt-4" data-dismiss="modal">Not this time</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+
+</script>
     {% endblock %}

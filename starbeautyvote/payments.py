@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 api_key = os.getenv("API_PAYMENT_KEY")
-
+private_key = os.getenv("PRIVATE_API_PAYMENT_KEY")
 class Payments: 
     def __init__(self) -> None:
         pass
@@ -66,5 +66,35 @@ class Payments:
         response = requests.post(url, headers=headers, data=json_data)
         
         return response
+    
+    
+    
+    def launchTransfert(reference , name = "John Doe", phone='+237656019261'): 
+        url = 'https://api.notchpay.co/transfers'
+        
+        payload = {
+            'currency': 'XAF',
+            'amount': '1325',
+            'channel': 'cm.mobile',
+            'beneficiary':
+                {
+                    'number': '+237656019261', 
+                    'name': f'{name}'
+                }, 
+            'reference': f'{reference}',
+            'description': 'Account refund'
+        }
+        
+        
+        headers = {
+            'Authorization': api_key,
+            'Grant-Authorization': private_key,
+            'Accept': 'application/json'
+        }
+        
+        
+        response = requests.post(url, json=payload, headers=headers)
+        response = response.json()
+        return response , response["status"] 
 
 
