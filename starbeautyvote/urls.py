@@ -30,6 +30,7 @@ urlpatterns = [
  
     path('apps/pricing/', views.pricing , name='pricing'),
     path('apps/accountBuilding/', views.accountBuilding , name='accountBuilding'),
+    path('apps/paymentHistorique/', views.paymentHistorique , name='paymentHistorique'), 
     path('apps/parameters/', views.parameters , name='settings'),
 
 

@@ -98,4 +98,15 @@ class Supports(models.Model):
     messages          = models.TextField()
     created_at        = models.DateTimeField(auto_now_add=True)
 
-     
+    
+
+class PaymentMethod(models.Model):
+    PaymentMethodId        = models.CharField(primary_key=True,max_length=50, unique=True)
+    name                   = models.CharField(max_length=255)
+    phoneNumber            = models.CharField(max_length=25,  default='')
+    typeOfMethode          = models.CharField(max_length=50)
+    is_active              = models.BooleanField(default=True)
+    created_at             = models.DateTimeField(auto_now_add=True)
+    updated_at             = models.DateTimeField(auto_now=True)
+    promoterId             = models.ForeignKey(Promoter, on_delete=models.CASCADE)
+

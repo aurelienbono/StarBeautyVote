@@ -74,6 +74,9 @@ def dashboardHome(request) :
     context['notificationList'] = notificationList
     context['notificationCount']  =  notificationList.count()
     
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
   
 
     return render(request ,'pages/application/home.html',context)
@@ -153,6 +156,9 @@ def createCompetition(request):
     context['notificationList'] = notificationList
     context['notificationCount']  =  notificationList.count()
     
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
   
 
     return render(request , 'pages/application/competition/createcompetition.html',context)
@@ -214,6 +220,11 @@ def createCandidate(request, pk):
     context['competitionId'] =pk
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
+    
+    
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
     return render(request, 'pages/application/competition/candidatecreate.html',context)
 
 def competitionDashboard(request,pk):
@@ -289,6 +300,9 @@ def competitionDashboard(request,pk):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['competitionId'] = pk
+    
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
     
         
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
@@ -465,6 +479,9 @@ def competitionCandidateProfile(request,pk):
     context['candidateDetails'] =  candidateDetails 
     context['score'] = candidateDetails.count()
     
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
     return render(request, "pages/application/competition/candidateProfile.html",context)
 
 
@@ -502,7 +519,7 @@ def condidateProfile(request):
     context['votes_candidate_info'] = models.Votes.objects.filter(id_candidates=context['idCandidate'] ).values()
 
     context['candidateDetails'] = candidateDetails
-
+    
     return render(request, "pages/application/candidate/profile.html", context)
 
 
@@ -648,20 +665,6 @@ def reset(request) :
 
 
 
-## SETTINGS
-
-def parameters(request):
-    context = {} 
-    context['userId'] = request.session.get('userId')
-    context['fullName'] = request.session.get('fullName')
-    context['status'] = request.session.get('status')
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationList']  =  notificationList
-    context['notificationCount']  =  notificationList.count()
-    
-    return render(request,'pages/application/account/settings.html',context )
-
 
 # PAGES 
 
@@ -753,8 +756,13 @@ def competitionDetails(request,pk):
     context['score'] = candidateDetails.count()
     context['candidateDetails'] =  candidateDetails
     context['candidates_with_votes'] =  candidates_with_votes 
+    
+    
 
     return render(request,"pages/pages/competitionDetailPage.html",context)
+
+
+
 
 
 
@@ -864,6 +872,26 @@ def successPayment(request):
     return render(request,"pages/pages/payments/successPayment.html")
 
 
+
+## SETTINGS
+
+def parameters(request):
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
+    
+    context['notificationList']  =  notificationList
+    context['notificationCount']  =  notificationList.count()
+    
+    
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
+    return render(request,'pages/application/account/settings.html',context )
+
+
 def pricing(request): 
     context = {} 
     context['userId'] = request.session.get('userId')
@@ -873,10 +901,55 @@ def pricing(request):
     
     context['notificationCount']  =  notificationList.count()    
     context['notificationList']  =  notificationList
+    
+    
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
     return render(request,'pages/application/account/pricing.html',context )
 
 
 def accountBuilding(request): 
+    
+    
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    if request.method =='POST' : 
+        print(request.POST)
+        
+        
+
+        typePayment = models.PaymentMethod( 
+                                            PaymentMethodId = Starbeautyvote.generate_random_string(),
+                                            name            = request.POST['fullName'],
+                                            typeOfMethode   = request.POST['typeOfTransfert'],
+                                            phoneNumber     = request.POST['phone'],
+                                            is_active       = 'True',
+                                            created_at      = datetime.now(),
+                                            updated_at      = datetime.now(),
+                                            promoterId      = id_promoter_instance
+                                            )
+        
+        typePayment.save()
+    
+    
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
+    
+    context['notificationList']   =  notificationList
+    context['notificationCount']  =  notificationList.count()
+    
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
+    
+    
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
+    return render(request,'pages/application/account/accountBilling.html',context )
+
+
+def paymentHistorique(request): 
     context = {} 
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
@@ -885,7 +958,12 @@ def accountBuilding(request):
     
     context['notificationList']  =  notificationList
     context['notificationCount']  =  notificationList.count()
-    return render(request,'pages/application/account/accountBilling.html',context )
+    
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    
+    return render(request,'pages/application/account/paymentHistory.html',context )
+
 
 
 

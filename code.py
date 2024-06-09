@@ -1,37 +1,28 @@
-from starbeautyvote import models
-from datetime import datetime, timedelta
-from django.db.models import Sum
+import re
 
+def is_valid_phone_number(phone_number):
+    # Pattern pour les numéros valides
+    pattern = re.compile(r'^\+237 6[5-9] \d{2} \d{2} \d{2} \d{2}$')
+    
+    # Remplacer les lettres par des chiffres fictifs pour le test
+    phone_number = phone_number.replace('CD', '12').replace('EF', '34').replace('GH', '56').replace('D', '3').replace('B', '1')
 
+    return bool(pattern.match(phone_number))
 
-def get_total_price_for_week(pk, week='current'):
-        today = datetime.now()
-        start_of_current_week = today - timedelta(days=today.weekday())
-        start_of_last_week = start_of_current_week - timedelta(days=7)
-        end_of_last_week = start_of_current_week - timedelta(seconds=1)
+# Test des numéros de téléphone
+phone_numbers = [
+    "+237 6 55 CD EF GH",
+    "+237 6 56 CD EF GH",
+    "+237 6 57 CD EF GH",
+    "+237 6 58 CD EF GH",
+    "+237 6 59 0 D EF GH",
+    "+237 6 59 1 D EF GH",
+    "+237 6 59 2 D EF GH",
+    "+237 6 59 3 D EF GH",
+    "+237 6 59 4 D EF GH",
+    "+237 6 59 5 D EF GH",
+    "+237 6 9B CD EF GH"
+]
 
-
-        if week == 'current':
-            start_date = start_of_current_week
-            end_date = today
-
-        elif week == 'last':
-            start_date = start_of_last_week
-            end_date = end_of_last_week
-        
-        else:
-            raise ValueError("Invalid week parameter. Use 'current' or 'last'.")
-
-        total_price = models.Votes.objects.filter(
-            id_candidates=pk,
-            dataOfVoting=[start_date, end_date]
-        ).aggregate(total_price=Sum('priceVoter'))['total_price']
-
-        return total_price
-
-    # # Utilisation pour la semaine en cours
-    # context['total_price_current_week'] = get_total_price_for_week(pk, week='current')
-
-    # # Utilisation pour la semaine précédente
-    # context['total_price_last_week'] = get_total_price_for_week(pk, week='last')
-
+for number in phone_numbers:
+    print(f"{number}: {is_valid_phone_number(number)}")

@@ -153,3 +153,18 @@ class Starbeautyvote :
             return 0 
         else : 
             return value
+        
+    
+    
+    def get_total_of_amount_promoter(id_promoter_instance): 
+        
+        competition_ids = models.Competition.objects.filter(id_promoter=id_promoter_instance).values_list('competitionId', flat=True)
+
+        competition_ids_list = list(competition_ids)
+        sum_total_price = 0
+        
+        for elt in competition_ids_list : 
+            total_price = models.Votes.objects.filter(id_competition=elt).aggregate(total_price=Sum('priceVoter'))['total_price']
+            sum_total_price+= total_price
+        
+        return sum_total_price

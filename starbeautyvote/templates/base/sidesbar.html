@@ -42,7 +42,14 @@
       
           <a href="#" class="btn btn-sm btn-white btn-icon rounded-pill shadow hover-translate-y-n3">
             <span class="btn-inner--icon"><i class="far fa-coins"></i></span>
-            <span class="btn-inner--text">$2.300</span>
+            
+            {% if total_amount %} 
+            <span class="btn-inner--text">FCFA {{total_amount}}</span>
+            {% else %} 
+            <span class="btn-inner--text">FCFA 0 </span>
+            
+            {% endif %}
+            
           </a>
         </div>
       </div>

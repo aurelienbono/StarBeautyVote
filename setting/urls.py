@@ -57,6 +57,7 @@ urlpatterns = [
     #Account 
     path('apps/pricing/', include('starbeautyvote.urls')),
     path('apps/accountBuilding/', include('starbeautyvote.urls')),
+    path('apps/paymentHistorique/', include('starbeautyvote.urls')),
     path('apps/parameters/', include('starbeautyvote.urls')),
     
     #Payment
