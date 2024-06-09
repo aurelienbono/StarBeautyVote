@@ -20,9 +20,6 @@ from django.utils import timezone
 
 
 
-def landing(request): 
-    return render(request,"pages/index.html")
-
 ## DASHBOARD 
 
 def dashboardHome(request) : 
@@ -76,7 +73,7 @@ def dashboardHome(request) :
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
-    
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
   
 
     return render(request ,'pages/application/home.html',context)
@@ -158,7 +155,7 @@ def createCompetition(request):
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
-    
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
   
 
     return render(request , 'pages/application/competition/createcompetition.html',context)
@@ -224,6 +221,7 @@ def createCandidate(request, pk):
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
     
     return render(request, 'pages/application/competition/candidatecreate.html',context)
 
@@ -303,7 +301,7 @@ def competitionDashboard(request,pk):
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
-    
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
         
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
 
@@ -481,6 +479,8 @@ def competitionCandidateProfile(request,pk):
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
+    
     
     return render(request, "pages/application/competition/candidateProfile.html",context)
 
@@ -668,6 +668,8 @@ def reset(request) :
 
 # PAGES 
 
+def landing(request): 
+    return render(request,"pages/index.html")
 
 def competitionLanding(request): 
     
@@ -888,6 +890,8 @@ def parameters(request):
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
+    
     
     return render(request,'pages/application/account/settings.html',context )
 
@@ -902,9 +906,10 @@ def pricing(request):
     context['notificationCount']  =  notificationList.count()    
     context['notificationList']  =  notificationList
     
-    
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
+    
     
     return render(request,'pages/application/account/pricing.html',context )
 
@@ -913,7 +918,7 @@ def accountBuilding(request):
     
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
-    if request.method =='POST' : 
+    if "savingnumber" in request.method =='POST' : 
         print(request.POST)
         
         
@@ -930,6 +935,10 @@ def accountBuilding(request):
                                             )
         
         typePayment.save()
+    
+    if "launchtransfer" in request.POST: 
+        print(request.POST)
+        pass 
     
     
     context = {} 
@@ -960,7 +969,9 @@ def paymentHistorique(request):
     context['notificationCount']  =  notificationList.count()
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
     
     return render(request,'pages/application/account/paymentHistory.html',context )
 

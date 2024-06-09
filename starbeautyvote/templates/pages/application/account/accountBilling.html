@@ -82,17 +82,17 @@
               </div>
               <div>
                 <ul class="list-group list-group-flush">
-                  {% comment %} <li class="list-group-item">
+                <li class="list-group-item">
                     <div class="row align-items-center">
-                      <div class="col-sm-4"><small class="h6 text-sm mb-3 mb-sm-0">Plan</small></div>
+                      <div class="col-sm-4"><small class="h6 text-sm mb-3 mb-sm-0">Start Transfert</small></div>
                       <div class="col-sm-5">
-                        <strong>Free</strong> plan, unlimited public repositories.
+                        Start a transfer from the platform to your personal account 
                       </div>
                       <div class="col-sm-3 text-sm-right">
-                        <a href="#" class="btn btn-sm btn-primary rounded-pill mt-3 mt-sm-0">Upgrade</a>
+                        <a href="#" class="btn btn-sm btn-primary rounded-pill mt-3 mt-sm-0" data-toggle="modal" data-target="#modal_success">Start Transfer</a>
                       </div>
                     </div>
-                  </li> {% endcomment %}
+                  </li> 
                   <li class="list-group-item">
                     <div class="row">
                       <div class="col-sm-4"><small class="h6 text-sm mb-3 mb-sm-0">Credit or debit cards</small></div>
@@ -235,7 +235,7 @@
                     
                   </div>
                   <div class="text-right">
-                    <button type="submit" class="btn btn-sm btn-primary rounded-pill">Save Number</button>
+                    <button type="submit"  name='savingnumber' class="btn btn-sm btn-primary rounded-pill">Save Number</button>
                   </div>
                 </form>
               </div> 
@@ -281,5 +281,54 @@
         </div>
       </div>
 
+
+      {% comment %} Model {% endcomment %}
+      <div class="modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6" id="modal_title_6">Transfer validation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="fas fa-exclamation-circle fa-4x"></i>
+                        <h5 class="heading h4 mt-4">Confirm your Transfer</h5>
+                        <p>
+                          Please check the details of your transfer below and confirm to continue.                        </p>
+                    </div>
+                </div>
+
+                <form method='POST' action="">
+                  {% csrf_token %}
+
+                <div class="modal-body">
+                  <select class="custom-select" name='typeOfTransfert'>
+                    <option selected>Open this select Phone Number</option>
+
+                    {% for mode in modePaymentList  %}
+
+                    <option value="{{mode.typeOfMethode}}">{{mode.phoneNumber}}</option>
+                    {% endfor %}
+
+                </select>
+                <br/>
+                <div class="form-group">
+                  <label class="form-control-label">The Amount</label>
+                  <br/>
+                  <input type="text" name="amount" class="form-control form-control-emphasized" placeholder="Emphasized input">
+              </div>
+                 
+              </div>
+                <div class="modal-footer">
+                    <button type="submit" name='launchtransfer'  class="btn btn-primary">Launch transfer</button>
+                    {% comment %} <button type="submit" class="btn btn-secondary"  name='launchtransfer' data-dismiss="modal">Launch transfer</button> {% endcomment %}
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
 
     {% endblock %}

@@ -330,7 +330,15 @@
                       <div class="card">
                         <div class="card-header py-4" id="heading-2-1">
                             <h6 class="mb-0">  <i class="far fa-check-circle"></i>
-                            <span class="numberOfVote">number Of Vote : {{total_votes}}</span> 
+                            <span class="numberOfVote">number Of Vote : 
+                              {% if total_votes  %} 
+                              
+                              {{total_votes}} 
+                              {% else %} 
+                                0
+                              {% endif %}
+                          
+                          </span> 
                             </h6>
                         </div>
                       </div>
@@ -388,7 +396,15 @@
                       <div class="card">
                         <div class="card-header py-4" id="heading-2-1">
                             <h6 class="mb-0">    <i class="far fa-check-circle"></i>
-                            <span class="numberOfVote">number Of Vote : {{total_votes}}</span> 
+                              <span class="numberOfVote">number Of Vote : 
+                                {% if total_votes  %} 
+                                
+                                {{total_votes}} 
+                                {% else %} 
+                                  0
+                                {% endif %}
+                            
+                            </span> 
                             </h6>
                         </div>
                       </div>
@@ -446,7 +462,15 @@
                       <div class="card">
                         <div class="card-header py-4" id="heading-2-1">
                             <h6 class="mb-0">    <i class="far fa-check-circle"></i>
-                            <span class="numberOfVote">number Of Vote : {{total_votes}}</span> 
+                              <span class="numberOfVote">number Of Vote : 
+                                {% if total_votes  %} 
+                                
+                                {{total_votes}} 
+                                {% else %} 
+                                  0
+                                {% endif %}
+                            
+                            </span> 
                             </h6>
                         </div>
                       </div>
