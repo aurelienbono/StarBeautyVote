@@ -15,7 +15,6 @@ from django.core.mail import send_mail
 from datetime import datetime, timedelta
 from django.utils import timezone
 
-
 # Create your views here.
 
 
@@ -454,7 +453,7 @@ def competitionCandidateProfile(request,pk):
                                 status = 'Success',
                                 voted_by = 'Promoter', 
                                 reasonForVote = 'Pumping up', 
-                                vote_type = 'promoter_free' 
+                                vote_type = 'pumpingup' 
                                 
                         )
         votes.save()
@@ -720,7 +719,8 @@ def competitionDetails(request,pk):
                                 dataOfVoting = datetime.now(),
                                 status = 'Success', 
                                 voted_by = 'public', 
-                                reasonForVote = 'Reel'
+                                reasonForVote = 'Reel', 
+                                vote_type = 'public_paid'
                                 
                         )
         votes.save()
@@ -950,6 +950,9 @@ def accountBuilding(request):
                 if result_status =='Accepted' : 
                     
                     print(result_status)
+                else : 
+                    messages.error(request, 'Dear user We have encountered an error, please revalidate the transfer. ')
+                    return redirect('/apps/accountBuilding/')
                     
                     
                     
@@ -1011,7 +1014,25 @@ def paymentHistorique(request):
     
     return render(request,'pages/application/account/paymentHistory.html',context )
 
+def orderDescription(request) : 
+    context = {} 
+    context['userId'] = request.session.get('userId')
+    context['fullName'] = request.session.get('fullName')
+    context['status'] = request.session.get('status')
+    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
+    
+    context['notificationList']  =  notificationList
+    context['notificationCount']  =  notificationList.count()
+    
+    manager = Starbeautyvote()
+    id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
+    context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(id_promoter_instance)
+    context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=id_promoter_instance).values()
+    
+    context['competition_details'] = manager.get_competition_info_promoter(id_promoter_instance)
 
+    
+    return render(request,'pages/application/account/orderDescription.html',context )
 
 
 def contact(request): 

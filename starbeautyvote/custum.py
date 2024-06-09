@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from starbeautyvote import models
-from django.db.models import Sum
+from django.db.models import Sum , Q
 import secrets
 import os 
 from django.utils import timezone
@@ -164,7 +164,41 @@ class Starbeautyvote :
         sum_total_price = 0
         
         for elt in competition_ids_list : 
-            total_price = models.Votes.objects.filter(id_competition=elt).aggregate(total_price=Sum('priceVoter'))['total_price']
+            total_price = models.Votes.objects.filter(
+                       Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
+                ).aggregate(total_price=Sum('priceVoter'))['total_price']
             sum_total_price+= total_price
         
         return sum_total_price
+    
+    
+    
+    def get_competition_info_promoter(self, id_promoter_instance): 
+    
+        competition_ids = models.Competition.objects.filter(id_promoter=id_promoter_instance).values_list('competitionId', flat=True)
+        competition_ids_list = list(competition_ids)
+        competition_details = []
+        sum_total_price = 0
+        
+        for elt in competition_ids_list : 
+            competition      = models.Votes.objects.filter(id_competition=elt)
+            total_price      = competition.aggregate(total_price=Sum('priceVoter'))['total_price']
+            total_votes      = competition.aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+            
+            total_reel_price = models.Votes.objects.filter(
+                       Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
+                ).aggregate(total_price=Sum('priceVoter'))['total_price']
+            
+            total_reel_votes = models.Votes.objects.filter(
+                       Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
+                ).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+            
+            competition_details.append({
+                'competition': elt,
+                'votes': total_votes,
+                'total_price': total_price, 
+                'total_reel_votes': total_reel_votes,
+                'total_reel_price': total_reel_price
+            })
+        
+        return competition_details
