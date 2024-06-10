@@ -157,19 +157,10 @@ class Starbeautyvote :
     
     
     def get_total_of_amount_promoter(id_promoter_instance): 
-        
-        competition_ids = models.Competition.objects.filter(id_promoter=id_promoter_instance).values_list('competitionId', flat=True)
+        promoter  = models.Promoter.objects.get(promoterId=id_promoter_instance)
 
-        competition_ids_list = list(competition_ids)
-        sum_total_price = 0
-        
-        for elt in competition_ids_list : 
-            total_price = models.Votes.objects.filter(
-                       Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
-                ).aggregate(total_price=Sum('priceVoter'))['total_price']
-            sum_total_price+= total_price
-        
-        return sum_total_price
+        balance = promoter.balance
+        return balance 
     
     
     
@@ -178,12 +169,26 @@ class Starbeautyvote :
         competition_ids = models.Competition.objects.filter(id_promoter=id_promoter_instance).values_list('competitionId', flat=True)
         competition_ids_list = list(competition_ids)
         competition_details = []
-        sum_total_price = 0
+        competition_registration_details = []
+        
         
         for elt in competition_ids_list : 
             competition      = models.Votes.objects.filter(id_competition=elt)
+            competitionName = models.Competition.objects.get(competitionId=elt)
+            competitionName = competitionName.competitionName
             total_price      = competition.aggregate(total_price=Sum('priceVoter'))['total_price']
             total_votes      = competition.aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+            
+            
+            total_registration_fee = models.Candidates.objects.filter(
+                                                                id_competition_id=elt
+                                                                      ).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee']
+
+           
+                
+            total_registration_fee_reel_lite = models.Candidates.objects.filter(
+                                                             Q(id_competition=elt) & (Q(registration_fee_type='public_paid'))
+                                                                      ).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee']
             
             total_reel_price = models.Votes.objects.filter(
                        Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
@@ -200,5 +205,12 @@ class Starbeautyvote :
                 'total_reel_votes': total_reel_votes,
                 'total_reel_price': total_reel_price
             })
-        
-        return competition_details
+            
+            competition_registration_details.append({
+                'competition': competitionName,
+                'total_registration_fee': total_registration_fee,
+                'total_registration_fee_reel': total_registration_fee_reel_lite
+            })
+
+            print("Hello ", total_registration_fee_reel_lite)
+        return competition_details, competition_registration_details

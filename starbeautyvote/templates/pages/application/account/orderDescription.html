@@ -52,7 +52,7 @@
           <div class="col-lg-8">
             <div class="card">
               <div class="card-header border-0">
-                <h6 class="mb-0">Items from Order #12537</h6>
+                <h6 class="mb-0">General statistics for all your competitions </h6>
               </div>
               <div class="table-responsive">
                 <table class="table mb-0">
@@ -82,10 +82,10 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
+          {% comment %} <div class="col-lg-4">
             <div class="card">
               <div class="card-header border-0">
-                <h6 class="mb-0">Items from Order #12537</h6>
+                <h6 class="mb-0">All funds managed</h6>
               </div>
               <div class="table-responsive">
                 <table class="table mb-0">
@@ -116,52 +116,29 @@
                 </table>
               </div>
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
         <div class="row">
+          
+         {% for competition_registration  in competition_registration_details %} 
+         
           <div class="col-lg-4">
             <div class="card card-fluid">
               <div class="card-body">
-                <h6 class="mb-4">Shipping Information</h6>
-                <address class="mb-0 text-sm">
-                  795 Folsom Ave, Suite 600<br>
-                  San Francisco, CA 94107<br><br>
-                  <abbr class="h6" title="Phone">P:</abbr> (123) 456-7890 <br>
-                  <abbr class="h6" title="Mobile">M:</abbr> (+01) 12345 67890
-                </address>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card card-fluid">
-              <div class="card-body">
-                <h6 class="mb-4">Billing Information</h6>
+                <h6 class="mb-4">competition registration details</h6>
                 <dl class="row mb-0 align-items-center">
-                  <dt class="col-sm-3 h6 text-sm">Buyer</dt>
-                  <dd class="col-sm-9 text-sm">Mike Lowrie</dd>
-                  <dt class="col-sm-3 h6 text-sm">Phone</dt>
-                  <dd class="col-sm-9 text-sm">+30-588.90.86</dd>
-                  <dt class="col-sm-3 h6 text-sm">Street</dt>
-                  <dd class="col-sm-9 text-sm">8945 Henry Ave. Mankato, MN 56001</dd>
+                  <dt class="col-sm-3 h6 text-sm">Name</dt>
+                  <dd class="col-sm-9 text-sm">{{competition_registration.competition}}</dd>
+                  <dt class="col-sm-3 h6 text-sm">Amount Total</dt>
+                  <dd class="col-sm-9 text-sm">{{competition_registration.total_registration_fee}}</dd>
+                  <dt class="col-sm-3 h6 text-sm">Amount Total reel</dt>
+                  <dd class="col-sm-9 text-sm">{{competition_registration.total_registration_fee_reel}}</dd>
                 </dl>
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
-            <div class="card card-fluid">
-              <div class="card-body">
-                <h6 class="mb-4">Delivery Information</h6>
-                <dl class="row mb-0 align-items-center">
-                  <dt class="col-sm-3 h6 text-sm">Buyer</dt>
-                  <dd class="col-sm-9 text-sm">Mike Lowrie</dd>
-                  <dt class="col-sm-3 h6 text-sm">Phone</dt>
-                  <dd class="col-sm-9 text-sm">+30-588.90.86</dd>
-                  <dt class="col-sm-3 h6 text-sm">Street</dt>
-                  <dd class="col-sm-9 text-sm">8945 Henry Ave. Mankato, MN 56001</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
+
         </div>
       </div>
     {% endblock %}
