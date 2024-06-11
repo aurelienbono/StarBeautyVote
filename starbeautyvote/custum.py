@@ -170,33 +170,39 @@ class Starbeautyvote :
         competition_ids_list = list(competition_ids)
         competition_details = []
         competition_registration_details = []
+        all_competition_all_details = []
         
+        total_votes_price = 0 
+        total_registration_fee_price = 0
+        total_reel_price_ = 0      
+        total_transfer_price = models.Transfer.objects.filter(promoterId=id_promoter_instance
+                                                                      ).aggregate(amount=Sum('amount'))['amount']
         
         for elt in competition_ids_list : 
             competition      = models.Votes.objects.filter(id_competition=elt)
             competitionName = models.Competition.objects.get(competitionId=elt)
             competitionName = competitionName.competitionName
-            total_price      = competition.aggregate(total_price=Sum('priceVoter'))['total_price']
-            total_votes      = competition.aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+            total_price      = competition.aggregate(total_price=Sum('priceVoter'))['total_price'] or 0
+            total_votes      = competition.aggregate(total_votes=Sum('numberOfVote'))['total_votes'] or 0
             
             
             total_registration_fee = models.Candidates.objects.filter(
                                                                 id_competition_id=elt
-                                                                      ).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee']
+                                                                      ).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee'] or 0
 
            
                 
             total_registration_fee_reel_lite = models.Candidates.objects.filter(
                                                              Q(id_competition=elt) & (Q(registration_fee_type='public_paid'))
-                                                                      ).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee']
+                                                                      ).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee'] or 0
             
             total_reel_price = models.Votes.objects.filter(
                        Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
-                ).aggregate(total_price=Sum('priceVoter'))['total_price']
+                ).aggregate(total_price=Sum('priceVoter'))['total_price'] or 0
             
             total_reel_votes = models.Votes.objects.filter(
                        Q(id_competition=elt) & (Q(vote_type='public_paid') | Q(vote_type='promoter_paid'))
-                ).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
+                ).aggregate(total_votes=Sum('numberOfVote'))['total_votes'] or 0
             
             competition_details.append({
                 'competition': elt,
@@ -211,6 +217,22 @@ class Starbeautyvote :
                 'total_registration_fee': total_registration_fee,
                 'total_registration_fee_reel': total_registration_fee_reel_lite
             })
+            
+            
+            total_reel_price_ += int(total_reel_price)
+            total_registration_fee_price += int(total_registration_fee_reel_lite)
+            
+            
 
-            print("Hello ", total_registration_fee_reel_lite)
-        return competition_details, competition_registration_details
+        
+        all_competition_all_details.append({
+                'total votes price': total_reel_price_ ,
+                'total transfer price': total_transfer_price,
+                'total registration fee': total_registration_fee_price, 
+                'total Amount': total_reel_price_ + total_registration_fee_price, 
+                'Current amount': (total_reel_price_ + total_registration_fee_price) - total_transfer_price
+            })
+        
+        
+        
+        return competition_details, competition_registration_details , all_competition_all_details

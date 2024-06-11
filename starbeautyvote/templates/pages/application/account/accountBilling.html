@@ -349,7 +349,6 @@
       </div>
 
 
-      {% comment %} Model {% endcomment %}
       <div class="modal fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -359,10 +358,11 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                {% if modePaymentList %}
                 <div class="modal-body">
                     <div class="py-3 text-center">
-                        <i class="fas fa-exclamation-circle fa-4x"></i>
-                        <h5 class="heading h4 mt-4">Confirm your Transfer</h5>
+                      <i class="fas fa-check-circle fa-4x" style="color: green;"></i>
+                      <h5 class="heading h4 mt-4">Confirm your Transfer</h5>
                         <p>
                           Please check the details of your transfer below and confirm to continue.   </p>
                     </div>
@@ -386,7 +386,8 @@
 
                 <form method='POST' action="">
                   {% csrf_token %}
-
+                  
+              
                 <div class="modal-body">
                   <select class="custom-select" name='phoneNumber'>
                     <option selected>Open this select Phone Number</option>
@@ -408,6 +409,20 @@
                 <div class="modal-footer">
                     <button type="submit" name='launchtransfer'  class="btn btn-primary">Launch transfer</button>
                 </div>
+             {% else %} 
+                <div class="modal-body">
+                  <div class="py-3 text-center">
+                      <i class="fas fa-exclamation-circle fa-4x"></i>
+                      <h5 class="heading h4 mt-4">Add a Payment Method</h5>
+                      <p>
+                     No payment methods available. Please add a payment method first.  </p>
+                  </div>
+               
+            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div> 
+            {% endif %} 
               </form>
             </div>
         </div>

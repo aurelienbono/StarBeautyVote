@@ -986,11 +986,38 @@ def accountBuilding(request):
             # launch payment
             try : 
                 result, result_status = Payments.launchTransfert(Starbeautyvote.generate_random_string())
-                print(result)
-                
                 if result_status =='Accepted' : 
+                    try:
+                        promoter = models.Promoter.objects.get(promoterId=request.session.get('userId'))
+                        promoter.balance  -= int(amout)
+                        promoter.save()
+                        print("Promoter  ok")
+                        transaction = models.Transaction( 
+                                              transactionId = Starbeautyvote.generate_random_string(), 
+                                              amount = amout, 
+                                              payment_method = 'Mobile Money' , 
+                                              status = 'Complete', 
+                                              created_at = datetime.now(), 
+                                              updated_at = datetime.now(), 
+                                              transaction_type = "PromoterTransfer", 
+                                              
+                                                 )
+                        transaction.save()
+                        
+                        transfer = models.Transfer( 
+                                                      transferId = Starbeautyvote.generate_random_string(), 
+                                                      promoterId = promoter,
+                                                      amount = int(amout),
+                                                      transfer_date = datetime.now(), 
+                                                      status = "COMPLETED", 
+                                                      bank_account = phoneNumber
+                                                      )
+                        transfer.save()
+                        
                     
-                    print(result_status)
+                    except models.Promoter.DoesNotExist:
+                        # Managing the case where the promoter does not exist
+                        print("Promoter not found")
                 else : 
                     messages.error(request, 'Dear user We have encountered an error, please revalidate the transfer. ')
                     return redirect('/apps/accountBuilding/')
@@ -1053,6 +1080,8 @@ def paymentHistorique(request):
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
     context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=request.session.get('userId')).values()
     
+    
+    context['transfertHistorique'] = models.Transfer.objects.filter(promoterId = request.session.get('userId')).values()
     return render(request,'pages/application/account/paymentHistory.html',context )
 
 def orderDescription(request) : 
@@ -1069,7 +1098,7 @@ def orderDescription(request) :
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
     context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=request.session.get('userId')).values()
     
-    context['competition_details'], context['competition_registration_details'] = manager.get_competition_info_promoter(request.session.get('userId'))
+    context['competition_details'], context['competition_registration_details'], context['all_competition_all_details'] = manager.get_competition_info_promoter(request.session.get('userId'))
 
     context['range'] =list( range(10))
     return render(request,'pages/application/account/orderDescription.html',context )

@@ -82,7 +82,7 @@
               </div>
             </div>
           </div>
-          {% comment %} <div class="col-lg-4">
+         <div class="col-lg-4">
             <div class="card">
               <div class="card-header border-0">
                 <h6 class="mb-0">All funds managed</h6>
@@ -96,27 +96,19 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Grand Total :</td>
-                      <td>$1641</td>
-                    </tr>
-                    <tr>
-                      <td>Shipping Charge :</td>
-                      <td>$23</td>
-                    </tr>
-                    <tr>
-                      <td>Estimated Tax : </td>
-                      <td>$19.22</td>
-                    </tr>
-                    <tr>
-                      <th>Total :</th>
-                      <th>$1683.22</th>
-                    </tr>
+                    {% for competition_details in all_competition_all_details %}
+                    {% for key, value in competition_details.items %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td><strong> FCFA {% if  value  %} {{ value }} {% else %} 0 {% endif %}</strong> </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
                   </tbody>
                 </table>
               </div>
             </div>
-          </div> {% endcomment %}
+          </div> 
         </div>
         <div class="row">
           
