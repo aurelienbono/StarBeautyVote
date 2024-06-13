@@ -3,11 +3,12 @@ import json
 from .custum import Starbeautyvote 
 import os
 from dotenv import load_dotenv
+from decouple import config
 
 
 load_dotenv()
-api_key = os.getenv("API_PAYMENT_KEY")
-private_key = os.getenv("PRIVATE_API_PAYMENT_KEY")
+api_key = config("API_PAYMENT_KEY")
+private_key = config("PRIVATE_API_PAYMENT_KEY")
 class Payments: 
     def __init__(self) -> None:
         pass
