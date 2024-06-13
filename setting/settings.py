@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os 
 from dotenv import load_dotenv
+import dj_database_url 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,7 +84,7 @@ DATABASES = {
     }
 }
 
-
+DATABASES['default'] = dj_database_url.parse('postgres://starbeautyvote_database_ns1e_user:KfzibZ8LqSCDpmp4uYcFt1madus12nuU@dpg-cplihb08fa8c73aa2h5g-a.oregon-postgres.render.com/starbeautyvote_database_ns1e')
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
