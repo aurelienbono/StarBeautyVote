@@ -14,7 +14,7 @@ from pathlib import Path
 import os 
 from dotenv import load_dotenv
 import dj_database_url 
-
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=8x28y=i)bbj(dls3(=7nio-7(5q)640=^a7@_8cvbltpo!mes'
+SECRET_KEY = os.getenv('SETTING_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS', '') else []
 
 
 # Application definition
@@ -84,7 +84,7 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] = dj_database_url.parse('postgres://starbeautyvote_database_ns1e_user:KfzibZ8LqSCDpmp4uYcFt1madus12nuU@dpg-cplihb08fa8c73aa2h5g-a.oregon-postgres.render.com/starbeautyvote_database_ns1e')
+DATABASES['default'] = dj_database_url.parse(os.getenv("DATABASE_URL"))
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -140,5 +140,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False  
 EMAIL_USE_TLS = True  # Ou False si votre serveur SMTP ne prend pas en charge TLS
-EMAIL_HOST_USER = 'bonombelleaurelien08@gmail.com'
-EMAIL_HOST_PASSWORD = 'ygnj mgvs dbtg vegl'
+EMAIL_HOST_USER =  os.getenv("EMAIL_HOST_USER") 
+EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD") 
