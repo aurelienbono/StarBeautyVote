@@ -30,7 +30,7 @@ SECRET_KEY = config('SETTING_DJANGO_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-
+ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
 
 # Application definition
 
