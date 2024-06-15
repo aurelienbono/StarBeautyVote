@@ -1,33 +1,12 @@
 {% load static %}
-<!DOCTYPE html>
 
-<html lang="en">
-
-
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Purpose Application UI is the following chapter we've finished in order to create a complete and robust solution next to the already known Purpose Website UI.">
-  <meta name="author" content="Webpixels">
-  <title>Purpose – Application UI Kit</title>
-  <!-- Favicon -->
-  <link rel="icon" href="{% static 'assets/img/brand/favicon.png' %} " type="image/png">
-  <!-- Font Awesome 5 -->
-  <link rel="stylesheet" href="{% static 'assets/libs/%40fortawesome/fontawesome-pro/css/all.min.css' %}"><!-- Page CSS -->
-  <link rel="stylesheet" href="{% static 'assets/libs/swiper/dist/css/swiper.min.css' %}">
-  <!-- Purpose CSS -->
-  <link rel="stylesheet" href="{% static 'assets/css/purpose.css' %} " id="stylesheet">
-</head>
-
-<body>
- 
 
   <nav class="navbar navbar-main navbar-expand-lg navbar-dark bg-gradient-dark navbar-border py-3" id="navbar-main">
     <div class="container px-lg-0">
       <!-- Logo -->
       <a class="navbar-brand mr-lg-5" href="/">
-        <img alt="Image placeholder" src="{% static 'assets/img/brand/white.png' %}" id="navbar-logo">
+        <span id="navbar-logo-text">StarBeautyVote</span>
+        {% comment %} <img alt="Image placeholder" src="{% static 'assets/img/brand/white.png' %}" id="navbar-logo"> {% endcomment %}
       </a>
       <!-- Navbar collapse trigger -->
       <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbar-main-collapse" aria-controls="navbar-main-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,9 +25,9 @@
         </ul>
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
           
-          <li class="nav-item d-lg-none d-xl-block">
+          {% comment %} <li class="nav-item d-lg-none d-xl-block">
             <a class="nav-link" href="" target="_blank">Advertising</a>
-          </li>
+          </li> {% endcomment %}
           <li class="nav-item active">
             <a class="nav-link" href="/contact" >Contact</a>
           </li>
