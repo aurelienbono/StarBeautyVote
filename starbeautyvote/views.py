@@ -47,7 +47,7 @@ def dashboardHome(request) :
                                              notificationId        = Starbeautyvote.generate_random_string(),  
                                              typeOfNotification    = 'deleting Of Competition',
                                              description           = f"Your  Competition  Id  {pk} is deleted", 
-                                             created_at            = datetime.now(),
+                                             created_at            = timezone.now(),
                                              promoterId            = promoter_instance
                                              )
         
@@ -130,7 +130,7 @@ def createCompetition(request):
                                              notificationId        = Starbeautyvote.generate_random_string(),  
                                              typeOfNotification    = 'Creation Of Competition',
                                              description           = f"Your  created {competititionInfo[0]} with the  {competititionInfo[4]} Category ", 
-                                             created_at            = datetime.now(),
+                                             created_at            = timezone.now(),
                                              promoterId            = promoter_instance
                                              )
         
@@ -246,7 +246,7 @@ def competitionDashboard(request,pk):
                                              notificationId        = Starbeautyvote.generate_random_string(),  
                                              typeOfNotification    = 'deleting Of Candidate',
                                              description           = f"Your  Candidate  Id  {pk} is deleted", 
-                                             created_at            = datetime.now(),
+                                             created_at            = timezone.now(),
                                              promoterId            = promoter_instance
                                              )
         
