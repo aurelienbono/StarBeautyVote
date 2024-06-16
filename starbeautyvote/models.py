@@ -1,5 +1,4 @@
 from django.db import models
-import uuid
 # Create your models here.
 
 
@@ -107,18 +106,18 @@ class Transfer(models.Model):
 
   
     
-class NotificationPromoter(models.Model): 
-    notificationId         = models.CharField(primary_key=True,max_length=50, unique=True)
-    typeOfNotification     = models.CharField(max_length=10, default='PENDING')
-    description            = models.TextField()
-    created_at             = models.DateTimeField(auto_now_add=True)
-    promoterId             = models.ForeignKey(Promoter, on_delete=models.CASCADE)
+# class NotificationPromoter(models.Model): 
+#     notificationId         = models.CharField(primary_key=True,max_length=50, unique=True)
+#     typeOfNotification     = models.CharField(max_length=10, default='PENDING')
+#     description            = models.TextField()
+#     created_at             = models.DateTimeField(auto_now_add=True)
+#     promoterId             = models.ForeignKey(Promoter, on_delete=models.CASCADE)
     
-class NotificationCandidate(models.Model): 
-    notificationId         = models.CharField(primary_key=True,max_length=50, unique=True)
-    typeOfNotification     = models.CharField(max_length=10, default='PENDING')
-    description            = models.TextField()
-    created_at             = models.DateTimeField(auto_now_add=True)
-    candidateId            = models.ForeignKey(Candidates, on_delete=models.CASCADE)
-    id_competition         = models.ForeignKey(Competition , on_delete=models.CASCADE)
+# class NotificationCandidate(models.Model): 
+#     notificationId         = models.CharField(primary_key=True,max_length=50, unique=True)
+#     typeOfNotification     = models.CharField(max_length=10, default='PENDING')
+#     description            = models.TextField()
+#     created_at             = models.DateTimeField(auto_now_add=True)
+#     candidateId            = models.ForeignKey(Candidates, on_delete=models.CASCADE)
+#     id_competition         = models.ForeignKey(Competition , on_delete=models.CASCADE)
 

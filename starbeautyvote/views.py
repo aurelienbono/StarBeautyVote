@@ -41,17 +41,7 @@ def dashboardHome(request) :
         
         competition.delete()
         
-        # save to notification table 
-        promoter_instance = models.Promoter.objects.get(promoterId=request.session.get('userId'))
-        notification = models.NotificationPromoter ( 
-                                             notificationId        = Starbeautyvote.generate_random_string(),  
-                                             typeOfNotification    = 'deleting Of Competition',
-                                             description           = f"Your  Competition  Id  {pk} is deleted", 
-                                             created_at            = timezone.now(),
-                                             promoterId            = promoter_instance
-                                             )
         
-        notification.save()   
         
         
     elif 'update' in request.POST :
@@ -59,16 +49,13 @@ def dashboardHome(request) :
     
     context = {} 
     CompetionList = models.Competition.objects.filter(id_promoter=request.session.get('userId') ).values()
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    
+  
     context['CompetionList'] =  CompetionList 
     context['score'] = CompetionList.count()
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    context['notificationList'] = notificationList
-    context['notificationCount']  =  notificationList.count()
+
     
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
     context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=request.session.get('userId')).values()
@@ -124,23 +111,12 @@ def createCompetition(request):
                     )
         competitition.save()
         
-        # save to notification table 
-        
-        notification = models.NotificationPromoter ( 
-                                             notificationId        = Starbeautyvote.generate_random_string(),  
-                                             typeOfNotification    = 'Creation Of Competition',
-                                             description           = f"Your  created {competititionInfo[0]} with the  {competititionInfo[4]} Category ", 
-                                             created_at            = timezone.now(),
-                                             promoterId            = promoter_instance
-                                             )
-        
-        notification.save()   
+         
         
         
         return redirect('/apps/')
     
 
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
 
     context = {} 
     promoterId = request.session.get('userId')
@@ -148,8 +124,7 @@ def createCompetition(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    context['notificationList'] = notificationList
-    context['notificationCount']  =  notificationList.count()
+
     
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
     context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=request.session.get('userId')).values()
@@ -240,18 +215,7 @@ def competitionDashboard(request,pk):
         shutil.rmtree(folderCandidate)
         candidate.delete()
         
-        # save to notification table 
-        promoter_instance = models.Promoter.objects.get(promoterId=request.session.get('userId'))
-        notification = models.NotificationPromoter ( 
-                                             notificationId        = Starbeautyvote.generate_random_string(),  
-                                             typeOfNotification    = 'deleting Of Candidate',
-                                             description           = f"Your  Candidate  Id  {pk} is deleted", 
-                                             created_at            = timezone.now(),
-                                             promoterId            = promoter_instance
-                                             )
-        
-        notification.save()   
-        
+     
     #get all candidate of this competition
     all_candidate   = models.Candidates.objects.filter(id_competition = pk).values()
     count           = all_candidate.count()
@@ -289,10 +253,7 @@ def competitionDashboard(request,pk):
     
     # # get registration_fee of this competition
     competitionDetails             =  models.Competition.objects.filter(competitionId = pk).values().first()
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    context['notificationCount']  =  notificationList.count()
-    
-    context['notificationList']  =  notificationList
+
     context['competitionDetails']  =  competitionDetails
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
@@ -480,10 +441,7 @@ def competitionCandidateProfile(request,pk):
     context['candidates_with_votes'] = models.Votes.objects.filter(id_candidates = pk).values()
     context['total_price'] = models.Votes.objects.filter(id_candidates=pk).aggregate(total_price=Sum('priceVoter'))['total_price']
     context['total_votes'] = models.Votes.objects.filter(id_candidates=pk).aggregate(total_votes=Sum('numberOfVote'))['total_votes']
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationList']  =  notificationList
-    context['notificationCount']  =  notificationList.count()
+
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
   
@@ -923,10 +881,7 @@ def parameters(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationList']  =  notificationList
-    context['notificationCount']  =  notificationList.count()
+
     
     
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
@@ -941,11 +896,7 @@ def pricing(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationCount']  =  notificationList.count()    
-    context['notificationList']  =  notificationList
-    
+
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
     context['modePaymentList']  = models.PaymentMethod.objects.filter(promoterId=request.session.get('userId')).values()
     
@@ -1052,10 +1003,7 @@ def accountBuilding(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationList']   =  notificationList
-    context['notificationCount']  =  notificationList.count()
+ 
     
     
     
@@ -1070,10 +1018,7 @@ def paymentHistorique(request):
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationList']  =  notificationList
-    context['notificationCount']  =  notificationList.count()
+
     
     id_promoter_instance = models.Promoter.objects.get(promoterId = request.session.get('userId'))
     
@@ -1089,10 +1034,7 @@ def orderDescription(request) :
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
     context['status'] = request.session.get('status')
-    notificationList = models.NotificationPromoter.objects.filter(promoterId=request.session.get('userId') ).values()
-    
-    context['notificationList']  =  notificationList
-    context['notificationCount']  =  notificationList.count()
+
     
     manager = Starbeautyvote()
     context['total_amount'] = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
