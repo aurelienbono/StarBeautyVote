@@ -2,3 +2,6 @@
 db.sqlite3
 starbeautyvote/migrations
 starbeautyvote/__pycache__
+setting/__pycache__
+todo.md 
+.gitignore 
