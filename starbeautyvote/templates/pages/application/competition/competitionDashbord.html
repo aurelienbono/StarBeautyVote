@@ -25,16 +25,51 @@
            
             <div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
               <div class="actions actions-dark d-inline-block">
+                <a href="" class="action-item ml-3" data-toggle="modal" data-target="#exampleModalShare">
+                  <i class="far fa-globe"></i> <b>Competition Link </b>
+                </a>
+               
                <a href="#" class="action-item ml-3" data-toggle="modal" data-target="#exampleModal">
                   <i class="far fa-share mr-2"></i>Candidate Registration.
                 </a> 
-                {% comment %} <a href="#" class="action-item ml-md-4">
-                  <i class="far fa-file-export mr-2"></i>Export Competions
-                </a> {% endcomment %}
+               
                 <a href="/apps/candi/create/{{competitionId}}" class="action-item ml-3">
                   <i class="far fa-user-plus"></i> <b>Create </b>
                 </a>
-                <!-- Modal -->
+                <!-- Modal  for Competition Link Share--> 
+                <div class="modal fade" id="exampleModalShare" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Share the Competition link for Votes</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <div class="form-group">
+                                  <div class="input-group input-group-merge">
+                                      <div class="input-group-prepend">
+                                          <span class="input-group-text">
+                                              <a id="copyLink" href="#" data-toggle="tooltip" data-placement="top" title="Copy Link">
+                                                  <i class="far fa-copy"></i>
+                                              </a>
+                                          </span>
+                                      </div>
+                                      <input type="text" id="linkToCopy" value="{{ base_url }}/competitionDetails/{{competitionDetails.competitionId}}" class="form-control form-control-muted" placeholder="Muted input">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" > <a style="color:white" href="/competitionDetails/{{competitionDetails.competitionId}}">Open Competition </a> 
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+                <!-- Modal  for Candidate Link Share--> 
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
@@ -46,20 +81,32 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <div class="form-group">
-                        <input type="text" value="http://127.0.0.1:8000/auths/candi/register/{{competitionDetails.competitionId}}/{{competitionDetails.registration_fee}}" class="form-control form-control-muted" placeholder="Muted input">
+                
+                    <div class="form-group">
+                        <div class="input-group input-group-merge">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                  <a id="copyLink" href="#" data-toggle="tooltip" data-placement="top" title="Copy Link">
+                                      <i class="far fa-copy"></i>
+                                  </a>
+                              </span>
+                          </div>
+                          <input type="text" id="linkToCopy" value="{{ base_url }}/auths/candi/register/{{competitionDetails.competitionId}}/{{competitionDetails.registration_fee}}" class="form-control form-control-muted" placeholder="Muted input">
+                      </div>
                     </div>
+                  
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary"> <a style="color:white" href="/auths/candi/register/{{competitionDetails.competitionId}}/{{competitionDetails.registration_fee}}">Copy&Share Link </a> 
+                      <button type="button" class="btn btn-primary" > <a style="color:white" href="/auths/candi/register/{{competitionDetails.competitionId}}/{{competitionDetails.registration_fee}}">Share Link </a> 
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
+
               
-           
+              {{ base_url }}
               </div>  
             </div>
           </div>
@@ -73,7 +120,7 @@
                   <div class="col">
                     <h6 class="text-muted mb-1">Voting Awards</h6>
 
-                    <span class="h3 font-weight-bold mb-0 ">  {% if total_price %} FCFA {{total_price}}   {% else %}FCFA 0 {% endif %} </span>
+                    <span class="h3 font-weight-bold mb-0 ">  {% if total_price %}   <small>FCFA {{total_price}} </small>   {% else %} <small>FCFA 0   </small>{% endif %} </span>
                   </div>
                   
                 </div>
@@ -87,7 +134,7 @@
                 <div class="row">
                   <div class="col">
                     <h6 class="text-muted mb-1"> Votes</h6>
-                    <span class="h3 font-weight-bold mb-0 "> {% if total_votes %} {{total_votes}} {% else %}  0   {% endif %}</span>
+                    <span class="h3 font-weight-bold mb-0 "> {% if total_votes %} <small> {{total_votes}}  </small>  {% else %}  <small> 0  </small>    {% endif %}</span>
                   </div>
                   <div class="col-auto">
                     <div class="progress-circle progress-sm" id="progress-circle-2" data-progress="60" data-text="60%" data-color="dark"></div>
@@ -103,7 +150,7 @@
                 <div class="row">
                   <div class="col">
                     <h6 class="text-muted mb-1"> Candidate</h6>
-                    <span class="h3 font-weight-bold mb-0 ">{% if count_candidate %} {{count_candidate}}   {% else %} 0  {% endif %}  </span>
+                    <span class="h3 font-weight-bold mb-0 ">{% if count_candidate %}  <small>{{count_candidate}}   </small> {% else %} 0  {% endif %}  </span>
                   </div>
                   <div class="col-auto">
                     <div class="progress-circle progress-sm" id="progress-circle-3" data-progress="80" data-text="80%" data-color="danger"></div>
@@ -118,8 +165,8 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    <h6 class="text-muted mb-1">Admission fee</h6>
-                    <span class="h3 font-weight-bold mb-0 ">{% if total_registration_fee %} {{total_registration_fee}}   {% else %} 0  {% endif %} </span>
+                    <h6 class="text-muted mb-1"> <small>Admission fee </small> </h6>
+                    <span class="h3 font-weight-bold mb-0 ">{% if total_registration_fee %} <small>{{total_registration_fee}}   </small>   {% else %} 0  {% endif %} </span>
                   </div>
                   <div class="col-auto">
                     <div class="progress-circle progress-sm" id="progress-circle-4" data-progress="20" data-text="20%" data-color="success"></div>
@@ -223,4 +270,30 @@
         
         {% endif %}
       </div>
+
+
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var copyIcon = document.getElementById('copyLink');
+        
+            copyIcon.addEventListener('click', function(event) {
+                event.preventDefault();
+        
+                var linkToCopy = document.getElementById('linkToCopy');
+        
+                linkToCopy.select();
+                linkToCopy.setSelectionRange(0, 99999); 
+        
+                document.execCommand('copy');
+        
+                copyIcon.setAttribute('data-original-title', 'Copied!');
+                $(copyIcon).tooltip('show');
+                setTimeout(function() {
+                    copyIcon.setAttribute('data-original-title', 'Copy Link');
+                    $(copyIcon).tooltip('show');
+                }, 1000); 
+            });
+        });
+        </script>
     {% endblock %}
