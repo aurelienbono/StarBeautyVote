@@ -264,6 +264,7 @@ def competitionDashboard(request,pk):
     
     context['total_registration_fee'] = models.Candidates.objects.filter(id_competition_id=pk).aggregate(total_registration_fee=Sum('registration_fee_paid'))['total_registration_fee']
 
+    context["base_url"] = request.build_absolute_uri('/')[:-1]
     
     return render(request,'pages/application/competition/competitionDashbord.html',context) 
 
