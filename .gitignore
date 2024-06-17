@@ -4,3 +4,4 @@ starbeautyvote/migrations
 starbeautyvote/__pycache__
 todo.md
 .gitignore
+starbeautyvote/static/media
