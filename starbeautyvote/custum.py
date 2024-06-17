@@ -176,7 +176,7 @@ class Starbeautyvote :
         total_registration_fee_price = 0
         total_reel_price_ = 0      
         total_transfer_price = models.Transfer.objects.filter(promoterId=id_promoter_instance
-                                                                      ).aggregate(amount=Sum('amount'))['amount']
+                                                                      ).aggregate(amount=Sum('amount'))['amount'] or 0
         
         for elt in competition_ids_list : 
             competition      = models.Votes.objects.filter(id_competition=elt)

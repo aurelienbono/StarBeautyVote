@@ -933,8 +933,9 @@ def accountBuilding(request):
         
         totalAmout = Starbeautyvote.get_total_of_amount_promoter(request.session.get('userId'))
         
-        if totalAmout >= amout : 
+        if 400 <= amout <= totalAmout:
             # launch payment
+            
             try : 
                 result, result_status = Payments.launchTransfert(Starbeautyvote.generate_random_string())
                 if result_status =='Accepted' : 
@@ -968,7 +969,8 @@ def accountBuilding(request):
                     
                     except models.Promoter.DoesNotExist:
                         # Managing the case where the promoter does not exist
-                        print("Promoter not found")
+                        print("Promoter not found") 
+
                 else : 
                     messages.error(request, 'Dear user We have encountered an error, please revalidate the transfer. ')
                     return redirect('/apps/accountBuilding/')
