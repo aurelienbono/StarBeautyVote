@@ -14,7 +14,8 @@ from django.db.models import Sum
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+import csv
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -271,7 +272,24 @@ def competitionDashboard(request,pk):
 
 
 def competitionCandidateProfile(request,pk): 
+    
+    if 'Download_csv' in  request.POST : 
+        candidates_with_votes = models.Votes.objects.filter(id_candidates = pk).values()
         
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="starbeautyvote_competitions.csv"'
+        writer = csv.writer(response)
+        
+        writer.writerow(['voteId', 'numberOfVote', 'priceVoter', 'vote_type'])
+        for candidate in candidates_with_votes:
+            writer.writerow([candidate['voteId'], candidate['numberOfVote'], candidate['priceVoter'], candidate['vote_type']])
+            
+            
+        print("Download ok")
+        
+        return response
+    
+    
     if "freevote" in request.POST : 
         name  = request.POST.get('name')
         votesNumber  = request.POST.get('votes')
@@ -310,7 +328,7 @@ def competitionCandidateProfile(request,pk):
                         )
         votes.save()
       
-      
+    
       
       # paid vote for promoter   
         
@@ -1017,6 +1035,23 @@ def accountBuilding(request):
 
 
 def paymentHistorique(request): 
+    
+    if 'Download_csv' in  request.POST : 
+        transfertHistorique = models.Transfer.objects.filter(promoterId = request.session.get('userId')).values()
+        
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="starbeautyvote_Transfer.csv"'
+        writer = csv.writer(response)
+        
+        writer.writerow(['transferId', 'promoterId', 'amount', 'transfer_date','status','bank_account'])
+        for transfert in transfertHistorique:
+            writer.writerow([transfert['transferId'], transfert['promoterId'], transfert['amount'], transfert['transfer_date'], transfert['status'], transfert['bank_account']])
+            
+            
+        print("Download ok")
+        
+        return response
+    
     context = {} 
     context['userId'] = request.session.get('userId')
     context['fullName'] = request.session.get('fullName')
@@ -1031,6 +1066,8 @@ def paymentHistorique(request):
     
     context['transfertHistorique'] = models.Transfer.objects.filter(promoterId = request.session.get('userId')).values()
     return render(request,'pages/application/account/paymentHistory.html',context )
+
+
 
 def orderDescription(request) : 
     context = {} 

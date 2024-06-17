@@ -97,30 +97,18 @@
                   </div>
                   <div class="col text-right">
                     <div class="actions"><a href="#" class="action-item mr-3" data-action="search-open" data-target="#actions-search"><i class="far fa-search"></i></a>
-                      <div class="dropdown mr-3">
-                        <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="far fa-filter"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="#">
-                            <i class="far fa-sort-amount-down"></i>Newest
-                          </a>
-                          <a class="dropdown-item" href="#">
-                            <i class="far fa-sort-alpha-down"></i>From A-Z
-                          </a>
-                          <a class="dropdown-item" href="#">
-                            <i class="far fa-sort-alpha-up"></i>From Z-A
-                          </a>
-                        </div>
-                      </div>
+                    
                       <div class="dropdown" data-toggle="dropdown">
                         <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <i class="far fa-ellipsis-h"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                          <a href="#" class="dropdown-item">Refresh</a>
-                          <a href="#" class="dropdown-item">Manage Widgets</a>
-                          <a href="#" class="dropdown-item">Settings</a>
+                          <form class="mt-4" role="form" method="POST" action="">
+                            {% csrf_token %} 
+                          <button type="submit" name='Download_csv' class="btn btn-sm">Download csv</button>
+                          {% comment %} <a href="#" class="btn btn-sm btn-link text-dark font-weight-bold">Print invoice</a> {% endcomment %}
+                          </form> 
+                         
                         </div>
                       </div>
                     </div>

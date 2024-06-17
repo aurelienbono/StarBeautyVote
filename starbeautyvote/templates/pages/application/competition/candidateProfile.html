@@ -171,7 +171,7 @@
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th class="px-0 bg-transparent border-top-0">Description</th>
+                      <th class="px-0 bg-transparent border-top-0">VotesId</th>
                       <th class="px-0 bg-transparent border-top-0">Number Voted</th>
                       <th class="px-0 bg-transparent border-top-0">Price(FCFA)</th>
                       <th class="px-0 bg-transparent border-top-0 text-right">Type Of Votes</th>
@@ -215,8 +215,11 @@
                       </div>
                     </div>
                     <div class="col-md-6 order-md-1">
-                      <button type="button" class="btn btn-sm btn-primary">Download</button>
+                      <form class="mt-4" role="form" method="POST" action="">
+                        {% csrf_token %} 
+                      <button type="submit" name='Download_csv' class="btn btn-sm btn-primary">Download</button>
                       {% comment %} <a href="#" class="btn btn-sm btn-link text-dark font-weight-bold">Print invoice</a> {% endcomment %}
+                      </form> 
                     </div>
                   </div>
                 </div>
