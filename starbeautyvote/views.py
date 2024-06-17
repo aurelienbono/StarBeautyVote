@@ -985,7 +985,7 @@ def accountBuilding(request):
             pass 
         
         else : 
-            messages.error(request, 'Dear user the money you wish to transfer does not correspond to your balance , check your balance and revalidate the transfer ')
+            messages.error(request, 'The amount you wish to transfer is below the minimum required to complete a transaction. Please check your balance and carry out a new validation for transfers of 400 FCFA or more.')
             return redirect('/apps/accountBuilding/')
         
          

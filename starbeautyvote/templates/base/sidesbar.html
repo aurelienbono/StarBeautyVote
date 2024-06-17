@@ -195,9 +195,17 @@
       <div class="card-body">
         <h5 class="text-white">Hello, Friend!</h5>
         <p class="text-white mb-4">
-          Why not start using Purpose Application UI Kit and create something amazing today?
+          {% if modePaymentList %} 
+          
+          Discover our brand new features on the platform! 🌟 Explore now for an enriched, smoother experience. Take advantage today!
         </p>
-        <a href=" " class="btn btn-sm btn-block btn-white rounded-pill" target="_blank">Get started</a>
+          
+          {% else %}
+          To take full advantage of our application, don't forget to add a cash withdrawal option now! It's quick and easy. 
+        </p>
+        <a href="/apps/accountBuilding/" class="btn btn-sm btn-block btn-white rounded-pill" target="_blank">Add Payment Method</a>
+          {% endif %}
+        
       </div>
     </div>
   </div>
